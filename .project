@@ -2,9 +2,6 @@
 <projectDescription>
 	<name>loserStar-Jfinal</name>
 	<comment></comment>
-	<projects>
-		<project>loserStarUtils</project>
-	</projects>
 	<buildSpec>
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>

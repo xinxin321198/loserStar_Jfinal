@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.loserstar.config.annotation.Controller;
@@ -61,5 +62,24 @@ public class TestController extends BaseController {
 			e.printStackTrace();
 		}
 		renderText(LoserStarJsonUtil.toJsonDeep(result));
+	}
+	
+	/**
+	 * 查看系统信息和工程配置信息
+	 */
+	public void systemInfo() {
+		VResult result= new VResult();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("systemInfo", System.getProperties());
+			map.put("projectProperties", PropKit.getProp().getProperties());
+			map.put("contextPath", getRequest().getContextPath());
+			result.ok("成功");
+			result.setData(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			renderJson(result);
+		}
 	}
 }

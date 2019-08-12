@@ -20,24 +20,29 @@ import com.loserstar.config.handler.GlobalHandler;
 import com.loserstar.config.interceptor.ParamPkgInterceptor;
 import com.loserstar.config.plugin.ControllerPlugin;
 import com.loserstar.utils.proerties.LoserStarPropertiesUtil;
+import com.loserstar.utils.system.LoserStarSystemUtil;
 
 public class JfinalConfig extends JFinalConfig {
-
+	final String propertiesFileNameString = "init-cs.properties";//加载的配置文件
+	
+	
+	private static Properties properties;//原生方式拿到的配置全局缓存
+	public static Properties getProperties() {
+		return properties;
+	}
 	
 	@Override
 	public void configConstant(Constants me) {
-		
 		//jfinal的方法获取配置文件
-		Prop prop =  PropKit.use("init-cs.properties");
+		Prop prop =  PropKit.use(propertiesFileNameString);
 		String jfinal_jdbc_url_test = prop.get("ht313db.jdbcUrl");
 		System.out.println("jfinal工具加载配置："+jfinal_jdbc_url_test);
-		
 		//原生的方式，通过class路径获取配置文件
-		String classPath = JFinalConfig.class.getResource("/").getPath();
-		System.out.println(classPath);
-		Properties properties = LoserStarPropertiesUtil.getProperties(classPath+"init-cs.properties");
-		String native_jdbc_url_test = properties.getProperty("ht313db.jdbcUrl");
-		System.out.println("原生的方式获取配置："+native_jdbc_url_test);
+		properties = LoserStarPropertiesUtil.getProperties(JFinalConfig.class.getResource("/").getPath()+propertiesFileNameString);
+		System.out.println("原生的方式获取配置：");
+		LoserStarPropertiesUtil.printPropertiesInfo(properties);//打印配置信息
+		System.out.println("系统信息");
+		LoserStarSystemUtil.printSystemInfo();
 		
 		// log.info("configConstant 设置字符集");
 		me.setEncoding("UTF-8");
