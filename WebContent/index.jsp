@@ -7,6 +7,7 @@
 <title>loserStar index</title>
 </head>
 <body>
+    <a href="../login/loginOut.do">注销</a>
 this is LoserStarJfinal!!!!
 </body>
 </html>
