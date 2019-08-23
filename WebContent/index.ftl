@@ -1,3 +1,4 @@
+<#setting classic_compatible=true>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,9 @@
     <title>this freemarker!!</title>
 </head>
 <body>
+	<a href="../login/loginOut.do">注销</a>
     this freemarker page!!!
     ${name}
+    当前登录用户：${userid}
 </body>
 </html>

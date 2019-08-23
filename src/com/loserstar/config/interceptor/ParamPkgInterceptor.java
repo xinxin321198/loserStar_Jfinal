@@ -21,38 +21,53 @@ public class ParamPkgInterceptor implements Interceptor {
 	@Override
 	public void intercept(Invocation ai) {
 		BaseController controller = (BaseController) ai.getController();
-		Class<?> controllerClass = controller.getClass();
-		Class<?> superControllerClass = controllerClass.getSuperclass();
+		String action = ai.getControllerKey();
+		String methodName = ai.getMethodName(); 
+		Object userid = controller.getRequest().getSession().getAttribute("userid");
+		//校验需要登录的controller（如果seesion里没有用户，并且请求的是如下链接或方法，则跳到登录页）
+ 		if(userid == null &&
+ 				(
+ 						action.contains("index")||
+ 						(action.contains("test")&&methodName.contains("testDb2"))
+ 						)
+ 				) {
+ 			//未登录，重定向到登录页
+ 			controller.redirect("/login/loginPage.do");
+ 		}else {
+ 			Class<?> controllerClass = controller.getClass();
+ 			Class<?> superControllerClass = controllerClass.getSuperclass();
+ 			
+ 			Field[] fields = controllerClass.getDeclaredFields();
+ 			Field[] parentFields = superControllerClass.getDeclaredFields();
+ 			log.debug("*********************** 封装参数值到 controller 全局变量  start ***********************");
+ 			
+ 			// 封装controller变量值
+ 			for (Field field : fields) {
+ 				setControllerFieldValue(controller, field);
+ 			}
+ 			
+ 			// 封装baseController变量值
+ 			for (Field field : parentFields) {
+ 				setControllerFieldValue(controller, field);
+ 			}
+ 			log.debug("*********************** 封装参数值到 controller 全局变量  end ***********************");
+ 			
+ 			ai.invoke();
+ 			
+ 			log.debug("*********************** 设置全局变量值到 request start ***********************");
+ 			// 封装controller变量值
+ 			for (Field field : fields) {
+ 				setRequestValue(controller, field);
+ 			}
+ 			
+ 			// 封装baseController变量值
+ 			for (Field field : parentFields) {
+ 				setRequestValue(controller, field);
+ 			}
+ 			log.debug("*********************** 设置全局变量值到 request end ***********************");
+ 		}
 		
-		Field[] fields = controllerClass.getDeclaredFields();
-		Field[] parentFields = superControllerClass.getDeclaredFields();
-		log.debug("*********************** 封装参数值到 controller 全局变量  start ***********************");
 		
-		// 封装controller变量值
-		for (Field field : fields) {
-			setControllerFieldValue(controller, field);
-		}
-		
-		// 封装baseController变量值
-		for (Field field : parentFields) {
-			setControllerFieldValue(controller, field);
-		}
-		log.debug("*********************** 封装参数值到 controller 全局变量  end ***********************");
-		
-		ai.invoke();
-		
-		log.debug("*********************** 设置全局变量值到 request start ***********************");
-		// 封装controller变量值
-		for (Field field : fields) {
-			setRequestValue(controller, field);
-		}
-		
-		// 封装baseController变量值
-		for (Field field : parentFields) {
-			setRequestValue(controller, field);
-		}
-		
-		log.debug("*********************** 设置全局变量值到 request end ***********************");
 	}
 	
 

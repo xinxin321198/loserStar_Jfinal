@@ -23,7 +23,7 @@ import com.loserstar.utils.json.LoserStarJsonUtil;
 /**
  * author: loserStar
  * date: 2019年5月17日下午12:10:27
- * remarks:
+ * remarks:此controller不需要登录，用来测试工程是否正常
  */
 @Controller(controllerKey= {"/test"})
 public class TestController extends BaseController {
@@ -31,7 +31,15 @@ public class TestController extends BaseController {
 	/**
 	 * 测试数据库连接
 	 */
-	public void index() {
+	public void testDb() {
+		List<Record> list =  Db.find("select * from DOC_GER_LIST");
+		renderJson(list);
+	}
+	
+	/**
+	 * 测试数据库连接
+	 */
+	public void testDb2() {
 		List<Record> list =  Db.find("select * from DOC_GER_LIST");
 		renderJson(list);
 	}
@@ -39,8 +47,8 @@ public class TestController extends BaseController {
 	/**
 	 * 测试freemarker渲染
 	 */
-	public void indexPage() {
-		setAttr("name", "loserStar");
+	public void index() {
+		setAttr("name", "这是通过test/index.do进入的页面（test不需要登录）");
 		renderFreeMarker("/index.ftl");
 	}
 	
