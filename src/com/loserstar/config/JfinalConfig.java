@@ -1,6 +1,7 @@
 package com.loserstar.config;
 
-import java.util.Properties;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -8,7 +9,6 @@ import com.jfinal.config.Interceptors;
 import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
-import com.jfinal.kit.Prop;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.CaseInsensitiveContainerFactory;
@@ -19,29 +19,42 @@ import com.jfinal.template.Engine;
 import com.loserstar.config.handler.GlobalHandler;
 import com.loserstar.config.interceptor.ParamPkgInterceptor;
 import com.loserstar.config.plugin.ControllerPlugin;
-import com.loserstar.utils.proerties.LoserStarPropertiesUtil;
+import com.loserstar.entity._MappingKit;
 import com.loserstar.utils.system.LoserStarSystemUtil;
 
 public class JfinalConfig extends JFinalConfig {
-	final String propertiesFileNameString = "init-cs.properties";//加载的配置文件
+	final String propertiesFileNameString_test = "init-cs.properties";//加载的配置文件
+	final String propertiesFileNameString_product = "init-cs.properties";//加载的配置文件
 	
 	
-	private static Properties properties;//原生方式拿到的配置全局缓存
+/*	private static Properties properties;//原生方式拿到的配置全局缓存
 	public static Properties getProperties() {
 		return properties;
-	}
+	}*/
 	
 	@Override
 	public void configConstant(Constants me) {
+		String serverName = "";
+		try {
+			serverName = Inet4Address.getLocalHost().getHostName();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 		//jfinal的方法获取配置文件
-		Prop prop =  PropKit.use(propertiesFileNameString);
-		String jfinal_jdbc_url_test = prop.get("ht313db.jdbcUrl");
+		if (serverName.equalsIgnoreCase("c1ep1vm14.hongta.com")||serverName.equalsIgnoreCase("HTWXQYH")) {
+			PropKit.use(propertiesFileNameString_product);
+		}else {
+			PropKit.use(propertiesFileNameString_test);
+		}
+		String jfinal_jdbc_url_test = prop.get("jdbcUrl");
 		System.out.println("jfinal工具加载配置："+jfinal_jdbc_url_test);
-		//原生的方式，通过class路径获取配置文件
-		properties = LoserStarPropertiesUtil.getProperties(JFinalConfig.class.getResource("/").getPath()+propertiesFileNameString);
+		
+		
+		//原生的方式，通过class路径获取配置文件,这鬼方式在was上好像是有问题的，不用了
+/*		properties = LoserStarPropertiesUtil.getProperties(JFinalConfig.class.getResource("/").getPath()+propertiesFileNameString);
 		System.out.println("原生的方式获取配置：");
 		LoserStarPropertiesUtil.printPropertiesInfo(properties);//打印配置信息
-		System.out.println("系统信息");
+*/		System.out.println("系统信息");
 		LoserStarSystemUtil.printSystemInfo();
 		
 		// log.info("configConstant 设置字符集");
@@ -79,16 +92,17 @@ public class JfinalConfig extends JFinalConfig {
 	@Override
 	public void configPlugin(Plugins me) {
 		
-		DruidPlugin druidPlugin = new DruidPlugin(PropKit.get("ht313db.jdbcUrl"),
-				PropKit.get("ht313db.userName"),
-				PropKit.get("ht313db.passWord"));
-		druidPlugin.setDriverClass(PropKit.get("ht313db.driverClass"));
+		DruidPlugin druidPlugin = new DruidPlugin(PropKit.get("jdbcUrl"),
+				PropKit.get("userName"),
+				PropKit.get("passWord"));
+		druidPlugin.setDriverClass(PropKit.get("driverClass"));
 		druidPlugin.set(1, 1, 2);
 		me.add(druidPlugin);
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
 		me.add(arp);
 		arp.setDialect(new AnsiSqlDialect());
 		arp.setContainerFactory(new CaseInsensitiveContainerFactory(true));
+		_MappingKit.mapping(arp);
 	}
 
 	@Override

@@ -1,0 +1,21 @@
+Table: da_account
+-----------+-------------+------+-----+---------+---------
+ Field     | Type        | Null | Key | Default | Remarks 
+-----------+-------------+------+-----+---------+---------
+ id        | BIGINT(19)  | NO   | PRI |         | 主键id    
+ user_id   | BIGINT(19)  | NO   |     |         | user id 
+ full_name | VARCHAR(64) | YES  |     |         | 全名      
+ mobile    | VARCHAR(64) | YES  |     |         | 手机号码    
+ address   | VARCHAR(64) | YES  |     |         | 地址      
+ comment   | VARCHAR(64) | YES  |     |         | 备注      
+-----------+-------------+------+-----+---------+---------
+
+Table: sys_users
+-----------+-------------+------+-----+---------+---------
+ Field     | Type        | Null | Key | Default | Remarks 
+-----------+-------------+------+-----+---------+---------
+ id        | VARCHAR(50) | NO   | PRI |         | 主键id    
+ user_name | VARCHAR(64) | YES  |     |         | 用户名     
+ password  | VARCHAR(64) | YES  |     |         | 密码      
+-----------+-------------+------+-----+---------+---------
+

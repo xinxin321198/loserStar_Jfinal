@@ -1,0 +1,27 @@
+CREATE TABLE `da_account` (
+	`id` BIGINT(32) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+	`user_id` BIGINT(32) NOT NULL COMMENT 'user id',
+	`full_name` VARCHAR(64) NULL DEFAULT NULL COMMENT '全名' COLLATE 'utf8_bin',
+	`mobile` VARCHAR(64) NULL DEFAULT NULL COMMENT '手机号码' COLLATE 'utf8_bin',
+	`address` VARCHAR(64) NULL DEFAULT NULL COMMENT '地址' COLLATE 'utf8_bin',
+	`comment` VARCHAR(64) NULL DEFAULT NULL COMMENT '备注' COLLATE 'utf8_bin',
+	PRIMARY KEY (`id`)
+)
+COMMENT='用户信息表'
+COLLATE='utf8_bin'
+ENGINE=InnoDB
+AUTO_INCREMENT=3
+;
+
+
+
+CREATE TABLE `sys_users` (
+	`id` VARCHAR(50) NOT NULL COMMENT '主键id' COLLATE 'utf8_bin',
+	`user_name` VARCHAR(64) NULL DEFAULT NULL COMMENT '用户名' COLLATE 'utf8_bin',
+	`password` VARCHAR(64) NULL DEFAULT NULL COMMENT '密码' COLLATE 'utf8_bin',
+	PRIMARY KEY (`id`)
+)
+COMMENT='用户表'
+COLLATE='utf8_bin'
+ENGINE=InnoDB
+;
