@@ -42,9 +42,9 @@ public class JfinalConfig extends JFinalConfig {
 		}
 		//jfinal的方法获取配置文件
 		if (serverName.equalsIgnoreCase("c1ep1vm14.hongta.com")||serverName.equalsIgnoreCase("HTWXQYH")) {
-			PropKit.use(propertiesFileNameString_product);
+			prop = PropKit.use(propertiesFileNameString_product);
 		}else {
-			PropKit.use(propertiesFileNameString_test);
+			prop = PropKit.use(propertiesFileNameString_test);
 		}
 		String jfinal_jdbc_url_test = prop.get("jdbcUrl");
 		System.out.println("jfinal工具加载配置："+jfinal_jdbc_url_test);
