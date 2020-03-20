@@ -1,5 +1,8 @@
 /**
  * version:20181210
+ * author：loserStar
+ * github:https://github.com/xinxin321198/loserStarJsUtils
+ * emial:362527240@qq.com
  */
 var loserStarJsUtils = {};
 
@@ -56,6 +59,104 @@ loserStarJsUtils.BorwserVersion = function(){
 	}else{
 		return isIE;
 	}
+}
+
+/**
+ * crhome6以上的版本
+ */
+loserStarJsUtils.Chrome6NewVersion = function(){
+    var flag = true;
+    browserType = loserStarJsUtils.checkBrowserType();
+    if (browserType != 'Chrome6+') {
+        flag = false;
+    }
+    return flag;
+}
+
+/**
+ * 检查浏览器类型
+ */
+loserStarJsUtils.checkBrowserType =function(){
+    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    var isOpera = userAgent.indexOf('Opera') > -1;
+    if (isOpera) {
+      return 'Opera';
+    }
+  
+    if (userAgent.indexOf('Firefox') > -1) {
+      return 'FF';
+    }
+  
+    if (userAgent.indexOf('Chrome') > -1) {
+      if (loserStarJsUtils.getChromeVersion() < 60) {
+        return 'Chrome6-';
+      } else {
+        return 'Chrome6+';
+      }
+    }
+  
+    if (userAgent.indexOf('Safari') > -1) {
+      return 'Safari';
+    }
+  
+    if (!!window.ActiveXObject || 'ActiveXObject' in window) {
+      return 'IE10+';
+    }
+  
+    if (
+      userAgent.indexOf('compatible') > -1 &&
+      userAgent.indexOf('MSIE') > -1 &&
+      !isOpera
+    ) {
+      return 'IE10-';
+    }
+  
+    return '';
+  }
+  
+  /**
+   * 检查chrome浏览器的版本
+   */
+  loserStarJsUtils.getChromeVersion = function(){
+    var arr = navigator.userAgent.split(' ');
+    var chromeVersion = '';
+    for (var i = 0; i < arr.length; i++) {
+      if (/chrome/i.test(arr[i])) chromeVersion = arr[i];
+    }
+    if (chromeVersion) {
+      return Number(chromeVersion.split('/')[1].split('.')[0]);
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * flash是否打开
+   */
+  loserStarJsUtils.isFlashOpen = function(){
+    var rtn = true;
+    var isIE = !-[1,];
+    if (isIE) {
+        try {
+            var swf1 = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+        }
+        catch (e) {
+            rtn = false;
+        }
+    }
+    else {
+        try {
+            var swf2 = navigator.plugins['Shockwave Flash'];
+            if (swf2 == undefined) {
+                rtn = false;
+            }
+        } catch (e) {
+ 
+        }
+    };
+  if(rtn==false){
+       alert("您未开启Flash！");
+    }else{ }
 }
 
 /**
@@ -235,13 +336,53 @@ loserStarJsUtils.setSelectedForSelect = function (selector,value) {
 }
 
 /**
+ * 获取某个radio元素的选中的值
+ * @param {*} elementName name名称
+ */
+loserStarJsUtils.getSelectedForRadio = function(elementName){
+  return $("input[name='"+elementName+"']:checked").val();
+}
+
+/**
  * 让某个radio元素的值选中，基于jquery
- * @param {*} name radio的name
+ * @param {*} elementName radio的name
  * @param {*} value 
  */
-loserStarJsUtils.setSelectedForRadio = function(name,value){
-	$("input[name='"+name+"'][value="+value+"]").attr("checked",true); 
+loserStarJsUtils.setSelectedForRadio = function(elementName,value){
+	$("input[name='"+elementName+"'][value="+value+"]").attr("checked",true); 
 }
+
+/**
+ * 让某个radio元素的值选中，针对jquery mobile的组件的方法,因为jqueryMobile需要调用一个刷新方法
+ */
+loserStarJsUtils.setSelectedForRadio_forJqueryMobile = function(name,value){
+	$("input[name='"+name+"'][value='"+value+"'] ").attr("checked",true).checkboxradio("refresh");
+}
+
+loserStarJsUtils.disabledForRadio = function(name){
+  $("input[name=" + name + "]").each(function () {
+    $(this).attr("disabled", true);    ;
+  });
+}
+
+loserStarJsUtils.enabledForRadio = function(name){
+  $("input[name=" + name + "]").each(function () {
+    $(this).attr("disabled", false);
+  });
+}
+loserStarJsUtils.disabledForRadio_forJqueryMobile = function(name){
+  $("input[name=" + name + "]").each(function () {
+    $(this).attr("disabled", true).checkboxradio( "refresh" );    ;
+  });
+}
+
+loserStarJsUtils.enabledForRadio_forJqueryMobile = function(name){
+  $("input[name=" + name + "]").each(function () {
+    $(this).attr("disabled", false).checkboxradio( "refresh" );
+  });
+}
+
+
 /**
  * 得到select元素选中项的text
  * @param {*} selector 
@@ -261,9 +402,11 @@ loserStarJsUtils.getSelectedValueForSelect1 = function (selector){
  * 得到seelct元素选中项的value(第二种方式，基于jquery自动取值的)
  * @param {*} selector 
  */
-loserStarJsUtils.getSelectedValueForSelect1 = function (selector){
+loserStarJsUtils.getSelectedValueForSelect2 = function (selector){
    return $(selector).val();
 }
+
+
 
 /**
  * textarea自动高度
@@ -286,4 +429,146 @@ loserStarJsUtils.setInputDateDefault = function(selector){
     var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
     //完成赋值
     $(selector).val(today);
+}
+
+/**
+ * 弹出提示框
+ */
+loserStarJsUtils.showMsg = function(text, position) {
+    var div = $('<div></div>');
+    // div.addClass('show_msg');
+    // .show_msg {
+    // 	width:100%;
+    // 	text-align:center;
+    // 	position:fixed;
+    // 	left:0;
+    // 	z-index:999;
+    // }
+    div.css("width","100%");
+    div.css("text-align","center");
+    div.css("position","fixed");
+    div.css("left","0");
+    div.css("z-index","999");
+
+    if (position == 'top') {
+        div.css('top', '10%');
+    } else if (position == 'center') {
+        div.css('top', '');
+        div.css('top', '50%');
+    } else {
+        div.css('top', '95%');
+    }
+
+    var span = $('<span></span>');
+    // span.addClass('show_span');
+    // .show_span {
+    // 	display:inline-block;
+    // 	padding:10px 20px;
+    // 	line-height:0.35rem;
+    // 	background:rgba(0,0,0,0.8);
+    // 	border-radius:50px;
+    // 	color:#fff;
+    // 	font-size:20px;
+    // }
+    span.css("display","inline-block");
+    span.css("padding","10px 20px");
+    span.css("line-height","0.35rem");
+    span.css("background","rgba(0,0,0,0.8)");
+    span.css("border-radius","50px");
+    span.css("color","#fff");
+    span.css("font-size","20px");
+    span.text(text);
+
+    div.append(span);
+    $('body').append(div);
+    div.hide();
+    div.fadeIn(1000);
+    div.fadeOut(1000);
+};
+
+/**
+ * 获取url参数
+ * @param name
+ * @returns
+ */
+loserStarJsUtils.GetQueryString = function(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg); //search,查询？后面的参数，并匹配正则
+    if (r != null) return unescape(r[2]);
+    return null;
+}
+
+/**
+ * 获取选中的checkbox的值,基于jquery选择器,传入元素的name
+ */
+loserStarJsUtils.getSelectedForCheckbox = function(elementName){
+  var selectedList = [];
+  for(var i=0;i<$("input[name='"+elementName+"']:checked").length;i++){
+    selectedList[i]= $("input[name='"+elementName+"']:checked")[i].value;
+  }
+  return selectedList;
+}
+
+/**
+ * 获取选中的checkbox的值,以某个字符分隔，传入元素的name
+ */
+loserStarJsUtils.getSelectedStrForCheckbox = function(elementName,splitChar){
+    var selectedList = loserStarJsUtils.getSelectedForCheckbox(elementName);
+    var str = "";
+    for(var i=0;i<selectedList.length;i++){
+      str+=selectedList[i];
+      if(i<(selectedList.length-1)){
+      str+=splitChar;
+      }
+    }
+    return str;
+}
+
+/**
+ * 传入想要选中的值的集合，让这些值相等的checkbox选中
+ * @param {*} elmentName 元素的name
+ * @param {*} list 要选中的值的列表
+ */
+loserStarJsUtils.setSelectedForCheckbox = function(elmentName,valueList){
+  var checkBoxList = $("input[name='"+elmentName+"']");
+    for (var i = 0; i < valueList.length; i++) {
+        checkBoxList.each(function() {
+            if (this.value == valueList[i]) {
+                this.setAttribute("checked", "checked");
+            }
+        });
+    }
+}
+
+/**
+ * 传入想要选中的值的集合，让这些值相等的checkbox选中(针对jquery mobile)
+ * @param {*} elmentName 元素的name
+ * @param {*} list 要选中的值的列表
+ */
+loserStarJsUtils.setSelectedForCheckbox_forJqueryMobile = function(elmentName,valueList){
+  loserStarJsUtils.setSelectedForCheckbox(elmentName,valueList);
+  $("input[name='"+elmentName+"']").checkboxradio("refresh");
+}
+
+loserStarJsUtils.disabledForCheckbox = function(name){
+  $("input[name=" + name + "]").each(function () {
+    $(this).attr("disabled", true);    ;
+  });
+}
+
+loserStarJsUtils.enabledForCheckbox = function(name){
+  $("input[name=" + name + "]").each(function () {
+    $(this).attr("disabled", false);
+  });
+}
+loserStarJsUtils.disabledForCheckbox_forJqueryMobile = function(name){
+  $("input[name=" + name + "]").each(function () {
+    $(this).attr("disabled", true).checkboxradio( "refresh" );    ;
+  });
+}
+
+loserStarJsUtils.enabledForCheckbox_forJqueryMobile = function(name){
+  $("input[name=" + name + "]").each(function () {
+    $(this).attr("disabled", false).checkboxradio( "refresh" );
+  });
 }
