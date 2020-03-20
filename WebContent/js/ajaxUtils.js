@@ -2,28 +2,32 @@
  * post提交json字符串数据
  * Content-Type: application/json
  */
-function postJson(url,data,dataType,callBack){
+function postJson(url,data,dataType,callBack,isAsync){
+        if(!isAsync){isAsync = true;}
 	$.ajax({ 
         type:"POST", 
         url:url, 
         dataType:dataType,      
         contentType:"application/json; charset=utf-8",               
         data:JSON.stringify(data), 
-        success:callBack
+        success:callBack,
+        async:isAsync
      }); 
 }
 /**
  * post提交json对象
  * Content-Type: application/x-www-form-urlencoded
  */
-function postObj(url,data,dataType,callBack){
+function postObj(url,data,dataType,callBack,isAsync){
+        if(!isAsync){isAsync = true;}
 	$.ajax({ 
         type:"POST", 
         url:url, 
         dataType:dataType,      
         contentType:"application/x-www-form-urlencoded; charset=utf-8",               
         data:data, 
-        success:callBack
+        success:callBack,
+        async:isAsync
      }); 
 }
 
