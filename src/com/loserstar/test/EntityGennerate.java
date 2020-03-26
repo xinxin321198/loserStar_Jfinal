@@ -10,6 +10,8 @@ package com.loserstar.test;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
@@ -18,6 +20,7 @@ import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
 import com.jfinal.plugin.activerecord.dialect.OracleDialect;
 import com.jfinal.plugin.activerecord.dialect.SqlServerDialect;
 import com.jfinal.plugin.activerecord.generator.Generator;
+import com.loserstar.config.generator.LoserStarMetaBuilderDB2;
 import com.loserstar.utils.db.jfinal.base.imp.BaseService.DBType;
 
 /**
@@ -64,8 +67,9 @@ public class EntityGennerate {
 		// model 文件保存路径 (MappingKit 与 DataDictionary 文件默认保存路径)
 		String modelOutputDir = baseModelOutputDir + "/..";
 		// 创建生成器
-			Generator generator = new Generator(PurchaseDBConfig.start(), baseModelPackageName, baseModelOutputDir, modelPackageName, modelOutputDir);
-			
+		DataSource dataSource = PurchaseDBConfig.start();
+			Generator generator = new Generator(dataSource, baseModelPackageName, baseModelOutputDir, modelPackageName, modelOutputDir);
+			generator.setMetaBuilder(new LoserStarMetaBuilderDB2(dataSource));
 			// 设置是否在 Model 中生成 dao 对象
 			generator.setGenerateDaoInModel(false);
 			
