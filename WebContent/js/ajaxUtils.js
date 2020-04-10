@@ -3,7 +3,7 @@
  * Content-Type: application/json
  */
 function postJson(url,data,dataType,callBack,isAsync){
-        if(!isAsync){isAsync = true;}
+        if(undefined==isAsync||null==isAsync){isAsync = true;}
 	$.ajax({ 
         type:"POST", 
         url:url, 
@@ -19,7 +19,7 @@ function postJson(url,data,dataType,callBack,isAsync){
  * Content-Type: application/x-www-form-urlencoded
  */
 function postObj(url,data,dataType,callBack,isAsync){
-        if(!isAsync){isAsync = true;}
+        if(undefined==isAsync||null==isAsync){isAsync = true;}
 	$.ajax({ 
         type:"POST", 
         url:url, 

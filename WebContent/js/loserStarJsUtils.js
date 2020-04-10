@@ -171,6 +171,29 @@ loserStarJsUtils.getMousePos = function(event) {
     //alert('x: ' + x + '\ny: ' + y);
     return { 'x': x, 'y': y };
 }
+
+/**
+ * 检测数据是否有值，有返回true，没有返回false
+ * @param {*} o 
+ */
+loserStarJsUtils.checkObj = function(o){
+  var flag = true;
+  if(o ==undefined||o==null){
+      flag = false;
+  }else{
+      if(o instanceof String){
+          if(o==''){
+              flag = false;
+          }
+      }else if(o instanceof Array){
+          if(o.length<=0){
+              flag = false;
+          }
+      }
+  }
+  return flag;
+}
+
 /**
  * 替换所有匹配的字符串
  */
@@ -572,3 +595,10 @@ loserStarJsUtils.enabledForCheckbox_forJqueryMobile = function(name){
     $(this).attr("disabled", false).checkboxradio( "refresh" );
   });
 }
+
+
+
+loserStarJsUtils.copyObj = function(o){
+	return JSON.parse(JSON.stringify(o));
+}
+
