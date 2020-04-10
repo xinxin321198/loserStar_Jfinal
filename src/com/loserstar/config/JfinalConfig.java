@@ -101,7 +101,7 @@ public class JfinalConfig extends JFinalConfig {
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
 		me.add(arp);
 		arp.setDialect(new AnsiSqlDialect());
-		arp.setContainerFactory(new CaseInsensitiveContainerFactory(true));
+		arp.setContainerFactory(new CaseInsensitiveContainerFactory(true));//ture是小写，false大写
 		_MappingKit.mapping(arp);
 	}
 
