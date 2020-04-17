@@ -22,10 +22,12 @@ public class GlobalHandler extends Handler {
 		if (target.endsWith(".do")) {
 			target = target.substring(0, target.length() - 3);  
 		}
+		
+		//这里要注意：iv-user是单点使用的。userid获取到值就设到seesion里，这种方式在有独立登录的工程非常危险
 		if(StrKit.notBlank(request.getHeader("iv-user"))) {
 			request.getSession().setAttribute("userid", request.getHeader("iv-user"));
 		}else if(StrKit.notBlank(request.getParameter("userid"))){
-			request.getSession().setAttribute("userid", request.getParameter("userid"));
+//			request.getSession().setAttribute("userid", request.getParameter("userid"));
 		}
 
 		//log.info("设置Header");

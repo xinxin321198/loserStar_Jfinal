@@ -19,6 +19,7 @@ import com.jfinal.template.Engine;
 import com.loserstar.config.handler.GlobalHandler;
 import com.loserstar.config.interceptor.ParamPkgInterceptor;
 import com.loserstar.config.plugin.ControllerPlugin;
+import com.loserstar.constants.DsConstans;
 import com.loserstar.entity._MappingKit;
 import com.loserstar.utils.system.LoserStarSystemUtil;
 
@@ -98,7 +99,7 @@ public class JfinalConfig extends JFinalConfig {
 		druidPlugin.setDriverClass(PropKit.get("driverClass"));
 		druidPlugin.set(1, 1, 2);
 		me.add(druidPlugin);
-		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+		ActiveRecordPlugin arp = new ActiveRecordPlugin(DsConstans.dataSourceName.ht313db,druidPlugin);
 		me.add(arp);
 		arp.setDialect(new AnsiSqlDialect());
 		arp.setContainerFactory(new CaseInsensitiveContainerFactory(true));//ture是小写，false大写
