@@ -3,6 +3,8 @@ package com.loserstar.config;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -75,6 +77,10 @@ public class JfinalConfig extends JFinalConfig {
 //		me.setViewType(ViewType.FREE_MARKER);
 		//设置上传文件大小200 M=209715200 b
 		me.setMaxPostSize(209715200);
+		
+		
+		//fastjson全局配置，是否取消循环引用的检测,如果取消该配置，则代码上要注意不能循环引用，否则会造成内存溢出
+		JSON.DEFAULT_GENERATE_FEATURE |= SerializerFeature.DisableCircularReferenceDetect.getMask();
 	}
 
 	@Override
@@ -103,7 +109,7 @@ public class JfinalConfig extends JFinalConfig {
 		me.add(arp);
 		arp.setDialect(new AnsiSqlDialect());
 		arp.setContainerFactory(new CaseInsensitiveContainerFactory(true));//ture是小写，false大写
-		_MappingKit.mapping(arp);
+//		_MappingKit.mapping(arp);
 	}
 
 	@Override
