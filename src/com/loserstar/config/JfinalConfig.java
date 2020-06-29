@@ -1,8 +1,5 @@
 package com.loserstar.config;
 
-import java.net.Inet4Address;
-import java.net.UnknownHostException;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.jfinal.config.Constants;
@@ -22,7 +19,6 @@ import com.loserstar.config.handler.GlobalHandler;
 import com.loserstar.config.interceptor.ParamPkgInterceptor;
 import com.loserstar.config.plugin.ControllerPlugin;
 import com.loserstar.constants.DsConstans;
-import com.loserstar.entity._MappingKit;
 import com.loserstar.utils.system.LoserStarSystemUtil;
 
 public class JfinalConfig extends JFinalConfig {
@@ -37,20 +33,24 @@ public class JfinalConfig extends JFinalConfig {
 	
 	@Override
 	public void configConstant(Constants me) {
-		String serverName = "";
-		try {
-			serverName = Inet4Address.getLocalHost().getHostName();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		//jfinal的方法获取配置文件
-		if (serverName.equalsIgnoreCase("c1ep1vm14.hongta.com")||serverName.equalsIgnoreCase("HTWXQYH")) {
-			prop = PropKit.use(propertiesFileNameString_product);
-		}else {
-			prop = PropKit.use(propertiesFileNameString_test);
-		}
-		String jfinal_jdbc_url_test = prop.get("jdbcUrl");
-		System.out.println("jfinal工具加载配置："+jfinal_jdbc_url_test);
+		//看情况是否使用判断服务器名称加载配置文件的方法
+		/*		String serverName = "";
+				try {
+					serverName = Inet4Address.getLocalHost().getHostName();
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+				//jfinal的方法获取配置文件
+				if (serverName.equalsIgnoreCase("c1ep1vm14.hongta.com")||serverName.equalsIgnoreCase("HTWXQYH")) {
+					prop = PropKit.use(propertiesFileNameString_product);
+				}else {
+					prop = PropKit.use(propertiesFileNameString_test);
+				}*/
+		
+		//手动直接指定加载哪个配置文件
+		PropKit.use(propertiesFileNameString_test);
+		String jfinal_jdbc_url = prop.get("jdbcUrl");
+		System.out.println("jfinal工具加载配置："+jfinal_jdbc_url);
 		
 		
 		//原生的方式，通过class路径获取配置文件,这鬼方式在was上好像是有问题的，不用了

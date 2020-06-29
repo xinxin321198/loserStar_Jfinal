@@ -24,7 +24,7 @@ import com.jfinal.plugin.activerecord.generator.TableMeta;
 /**
  * author: loserStar
  * date: 2020年3月26日上午11:51:23
- * remarks:这个是为了适应DB2生成实体而创建的。因为DB2生成的实体，set时候都是大写，很恶心，扩展一下代码生成器，让其生成的实体里的属性都是小写，便于操作
+ * remarks:这鬼jfinal自己的生成器，默认会把DB2的字段名搞成大写了，所以要自己重写一下这个方法，让字段名小写
  */
 public class LoserStarMetaBuilderDB2 extends MetaBuilder {
 

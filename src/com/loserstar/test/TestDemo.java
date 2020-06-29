@@ -35,5 +35,4 @@ public class TestDemo {
 			System.out.println(record.getStr("shtxt"));
 		}
 	}
-
 }

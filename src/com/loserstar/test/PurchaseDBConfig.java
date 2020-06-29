@@ -19,14 +19,14 @@ public class PurchaseDBConfig {
 	public static final boolean isTest = true;//false为生产，true为测试机
 	
 	//测试机
-//	private static final String jdbcUrl_test="jdbc:db2://10.96.66.23:50000/HT313DB";
-//	private static final String user_test="db2inst1";
-//	private static final String password_test="init1234";
-//	private static final String driverClass_test="com.ibm.db2.jcc.DB2Driver";
-	private static final String jdbcUrl_test="jdbc:mysql://localhost:3306/dataagg";
-	private static final String user_test="root";
-	private static final String password_test="root";
-	private static final String driverClass_test="com.mysql.jdbc.Driver";
+	private static final String jdbcUrl_test="jdbc:db2://10.96.66.23:50000/HT313DB";
+	private static final String user_test="db2inst1";
+	private static final String password_test="init1234";
+	private static final String driverClass_test="com.ibm.db2.jcc.DB2Driver";
+//	private static final String jdbcUrl_test="jdbc:mysql://localhost:3306/dataagg";
+//	private static final String user_test="root";
+//	private static final String password_test="root";
+//	private static final String driverClass_test="com.mysql.jdbc.Driver";
 	//生产
 	private static final String jdbcUrl_product="jdbc:db2://10.96.66.23:50000/HT313DB";
 	private static final String user_product="db2inst1";
