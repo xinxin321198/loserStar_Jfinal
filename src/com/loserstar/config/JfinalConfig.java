@@ -48,7 +48,7 @@ public class JfinalConfig extends JFinalConfig {
 				}*/
 		
 		//手动直接指定加载哪个配置文件
-		PropKit.use(propertiesFileNameString_test);
+		prop = PropKit.use(propertiesFileNameString_test);
 		String jfinal_jdbc_url = prop.get("jdbcUrl");
 		System.out.println("jfinal工具加载配置："+jfinal_jdbc_url);
 		
