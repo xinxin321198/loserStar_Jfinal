@@ -8,6 +8,7 @@ import com.jfinal.config.Interceptors;
 import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
+import com.jfinal.ext.handler.UrlSkipHandler;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.CaseInsensitiveContainerFactory;
@@ -88,6 +89,7 @@ public class JfinalConfig extends JFinalConfig {
 		// me.add(new ContextPathHandler("base_path"));
 		// log.info("configHandler 全局配置处理器，主要是记录日志和request域值处理");
 		me.add(new GlobalHandler());
+		me.add(new UrlSkipHandler(".*/services.*",false));//用于过滤掉webservice，否则生成服务端都会报错
 	}
 
 	@Override

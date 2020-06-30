@@ -44,7 +44,12 @@ public abstract class BaseController extends Controller {
 	@SuppressWarnings("unused")
 	protected String uploadFile(String path, String fileParamName,boolean isNewFileName,String newFileName) throws Exception {
 		String realpath = getRequest().getSession().getServletContext().getRealPath("upload"); // 获取默认上传目录，upload目录所在的绝对路径
-		UploadFile uploadFile = getFile(fileParamName);
+		UploadFile uploadFile = null;
+		if (fileParamName!=null&&!fileParamName.equals("")) {
+			uploadFile = getFile(fileParamName);
+		}else {
+			uploadFile = getFile();
+		}
 		File file = new File(path);
 		if (!file.exists()) {
 			file.mkdirs();

@@ -2,11 +2,14 @@ package com.loserstar.test;
 
 import java.util.List;
 
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import com.loserstar.bpm.RestAPI;
 import com.loserstar.sap.jco.SapService;
 import com.loserstar.sap.jco.SapService.SapVo;
 import com.loserstar.utils.json.LoserStarJsonUtil;
@@ -14,11 +17,18 @@ import com.loserstar.utils.json.LoserStarJsonUtil;
 public class JunitTestService {
 	private SapService sapService = new SapService();
 	
+	/**
+	 * 前置方法，加载配置文件，连接数据库
+	 */
 	@Before
 	public void startDb() {
+		PropKit.use("init-cs.properties");
 		PurchaseDBConfig.start();
 	}
 	
+	/**
+	 * 查询数据库demo
+	 */
 	@Test
 	public void test1() {
 		List<Record> list = Db.find("select * from erp_org where OT='O' order by objid desc");
@@ -27,9 +37,30 @@ public class JunitTestService {
 		}
 	}
 	
+	/**
+	 * 调用sap rfc的demo
+	 */
 	@Test
 	public void testRfc() {
 		List<SapVo> sapVoList =sapService.get("Z_ERPHR_P033_01",null);
 		System.out.println(LoserStarJsonUtil.toJson(sapVoList));
+	}
+	
+	/**
+	 * 启动bpm流程demo
+	 */
+	@Test
+	public void testBpm() {
+		try {
+			RestAPI restAPI = new RestAPI();
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("startUser", "01009938")
+			.put("userList", new String[] {"05001386"})
+			.put("msgTittle", "开发人员测试");
+			 String piid = restAPI.runFlow("25.e15e7f72-8d04-4004-8ee6-8150dd8ab457", "2066.e84b2876-79fa-4b06-8ad5-6e89d910c29c", jsonObject);
+			 System.out.println(piid);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
