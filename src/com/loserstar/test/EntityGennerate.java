@@ -11,6 +11,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +35,7 @@ import com.loserstar.utils.date.LoserStarDateUtils;
 import com.loserstar.utils.db.jfinal.base.imp.BaseService.DBType;
 import com.loserstar.utils.file.LoserStarFileUtil;
 import com.loserstar.utils.freemarker.LoserStarFreemarkerUtil;
+import com.loserstar.utils.json.LoserStarJsonUtil;
 
 /**
  * author: loserStar
@@ -48,9 +50,12 @@ public class EntityGennerate {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		gengEntity();
-		genDao();
+		DataSource dataSource = PurchaseDBConfig.start();
+		gengEntity(dataSource);
+		genDao(dataSource);
 		genConstants();
+		genJqwidgetsTableField(dataSource);
+		genDictJs();
 	}
 	//要生成的表名（作废的第一套表）
 	/*private static String[] gennerateTableNames =  {
@@ -88,8 +93,8 @@ public class EntityGennerate {
 			};*/
 	
 	private static String[] gennerateTableNames =  {
-			"IN_BATCH"
-			/*"MASTER_FACTORY",
+			"IN_BATCH",
+			"MASTER_FACTORY",
 			"MASTER_GOODS_LOCA",
 			"MASTER_WARE_HOUSE",
 			"MASTER_LIFNR",
@@ -114,11 +119,11 @@ public class EntityGennerate {
 			"PLAN_COMPUTE",
 			"MASTER_WORKSHOP",
 			"SYS_FILE",
-			"SYS_FILE_META"*/
+			"SYS_FILE_META"
 	};
 	
 	
-	public static void gengEntity() {
+	public static void gengEntity(DataSource dataSource) {
 		
 		//查询表的sql（不同数据库的语句不同，自行调整）
 		String queryTablesSql = "";
@@ -142,7 +147,6 @@ public class EntityGennerate {
 		// model 文件保存路径 (MappingKit 与 DataDictionary 文件默认保存路径)
 		String modelOutputDir = baseModelOutputDir + "/..";
 		// 创建生成器
-		DataSource dataSource = PurchaseDBConfig.start();
 		Generator generator = new Generator(dataSource, baseModelPackageName, baseModelOutputDir, modelPackageName, modelOutputDir);
 		generator.setMetaBuilder(new LoserStarMetaBuilderDB2(dataSource));
 		// 设置是否在 Model 中生成 dao 对象
@@ -181,9 +185,8 @@ public class EntityGennerate {
 		generator.generate();
 	}
 
-	public static void genDao() {
+	public static void genDao(DataSource dataSource) {
 		try {
-			DataSource dataSource = PurchaseDBConfig.start();
 			Connection conn = dataSource.getConnection();
 			//要生成的表名
 			List<String> gennerateTableNameList =Arrays.asList(gennerateTableNames);
@@ -241,9 +244,11 @@ public class EntityGennerate {
 
 	}
 
+	/**
+	 * 生成字典常量（后端使用）
+	 */
 	public static void genConstants() {
 				try {
-					DataSource dataSource = PurchaseDBConfig.start();
 					Map<String, Object> data = new HashMap<String, Object>();
 					List<Map<String, Object>> mapList = new ArrayList<Map<String,Object>>();
 					List<Record> typeList = Db.find("SELECT TYPE FROM ZTSW.SYS_DICT GROUP BY TYPE");
@@ -264,4 +269,93 @@ public class EntityGennerate {
 				}
 
 	}
+	
+	/**
+	 * 生成每张表对应的前端js数据源字段
+	 */
+	public static void genJqwidgetsTableField(DataSource dataSource) {
+		try {
+			Connection conn = dataSource.getConnection();
+			Map<String, Object> data = new HashMap<String, Object>();
+			List<Map<String, Object>> mapList = new ArrayList<Map<String,Object>>();
+			//要生成的表名
+			List<String> gennerateTableNameList =Arrays.asList(gennerateTableNames);
+			for (String tableName : gennerateTableNameList) {
+				Statement stm = conn.createStatement();
+				DatabaseMetaData dbMetaData = conn.getMetaData();
+				 ResultSet resultSet = dbMetaData.getTables(null, "%", "%", new String[] { tableName });
+		            while (resultSet.next()) {
+		                String remarkes = resultSet.getString("REMARKS");
+		                System.out.println(tableName+"="+remarkes);
+		            }
+				ResultSet primaryKeyResultSet = dbMetaData.getPrimaryKeys(null,null,tableName);  
+				String primaryKeyColumnName = "";
+				while(primaryKeyResultSet.next()){  
+				    primaryKeyColumnName = primaryKeyResultSet.getString("COLUMN_NAME"); 
+//				    System.out.println(primaryKeyColumnName);
+				} 
+				
+				List<Map<String, Object>> fiedList = new ArrayList<Map<String,Object>>();
+				ResultSet rs = stm.executeQuery("select * from " + tableName + " where 1 = 2");
+				ResultSetMetaData rsmd = rs.getMetaData();
+				System.out.println("字段：");
+				for (int i=1; i<=rsmd.getColumnCount(); i++) {
+//					System.out.println(rsmd.getColumnName(i)+" "+rsmd.getColumnTypeName(i));
+					Map<String, Object> fieldMap = new HashMap<String, Object>();
+					fieldMap.put("name", rsmd.getColumnName(i).toLowerCase());
+					String jsType = "string";
+					if(rsmd.getColumnTypeName(i).equalsIgnoreCase("DOUBLE")||rsmd.getColumnTypeName(i).equalsIgnoreCase("DECIMAL")||rsmd.getColumnTypeName(i).equalsIgnoreCase("BIGINT")||rsmd.getColumnTypeName(i).equalsIgnoreCase("INTEGER")) {
+						jsType = "number";
+					}else if(rsmd.getColumnTypeName(i).equalsIgnoreCase("TIMESTAMP")||rsmd.getColumnTypeName(i).equalsIgnoreCase("TIME")||rsmd.getColumnTypeName(i).equalsIgnoreCase("DATE")) {
+						jsType = "date";
+					}
+					fieldMap.put("type",jsType);
+					fiedList.add(fieldMap);
+				}
+				
+				Record tableInfo = Db.findFirst("select * from sysibm.systables where type='T' and NAME='"+tableName+"'  ORDER BY NAME ASC");
+				Map<String, Object> tableMap = new HashMap<String, Object>();
+				System.out.println(tableName);
+				tableMap.put("tableRemarks", tableInfo.get("REMARKS"));
+				tableMap.put("tableName", tableName.toLowerCase());
+				tableMap.put("fieldList", fiedList);
+				mapList.add(tableMap);
+			}
+			data.put("data", mapList);
+			String genPath = PathKit.getWebRootPath()+File.separator+"js"+File.separator+"tableField"+File.separator+"tableField.js";
+			System.out.println(genPath);
+			System.out.println(LoserStarJsonUtil.toJson(mapList));
+			String string = LoserStarFreemarkerUtil.runForFileSystem(LoserStarFreemarkerUtil.class.getResource("/").getPath(), "tableFieldJsTemp.ftl", data);
+			LoserStarFileUtil.WriteStringToFilePath(string,genPath , false);
+			System.out.println("生成tableField.js:"+genPath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 生成字典常量（前端使用）
+	 */
+	public static void genDictJs() {
+		try {
+			Map<String, Object> data = new HashMap<String, Object>();
+			List<Map<String, Object>> mapList = new ArrayList<Map<String,Object>>();
+			List<Record> typeList = Db.find("SELECT TYPE FROM ZTSW.SYS_DICT GROUP BY TYPE");
+			for (Record record : typeList) {
+				List<Record> dictList = Db.find("select * from ZTSW.SYS_DICT where type='"+record.getStr("type")+"'");
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("type", record.get("type"));
+				map.put("list", dictList);
+				mapList.add(map);
+			}
+			data.put("data", mapList);
+			String string = LoserStarFreemarkerUtil.runForFileSystem(LoserStarFreemarkerUtil.class.getResource("/").getPath(), "dictJsTemp.ftl", data);
+			String genPath = PathKit.getWebRootPath()+File.separator+"js"+File.separator+"dict"+File.separator+"dict.js";
+			System.out.println(genPath);
+			LoserStarFileUtil.PrintWriterToFile(genPath, string, false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+}
 }
