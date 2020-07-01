@@ -9,6 +9,7 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.CaseInsensitiveContainerFactory;
 import com.jfinal.plugin.activerecord.dialect.AnsiSqlDialect;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.loserstar.config.JfinalConfig;
 
 /**
  * 
@@ -52,7 +53,7 @@ public class PurchaseDBConfig {
 				DruidPlugin dp  = new DruidPlugin(connectionStr, PurchaseDBConfig.getUser(),PurchaseDBConfig.getPassword());
 				dp.setDriverClass(PurchaseDBConfig.getDriverclass());*/
 		//改为直接从配置文件读取配置
-		PropKit.use("init-cs.properties");
+		PropKit.use(JfinalConfig.propertiesFileNameString_test);
 		String connectionStr = PropKit.get("jdbcUrl");
 		DruidPlugin dp  = new DruidPlugin(connectionStr, PropKit.get("userName"),PropKit.get("passWord"));
 		dp.setDriverClass(PropKit.get("driverClass"));

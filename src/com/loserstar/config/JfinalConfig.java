@@ -23,8 +23,8 @@ import com.loserstar.constants.DsConstans;
 import com.loserstar.utils.system.LoserStarSystemUtil;
 
 public class JfinalConfig extends JFinalConfig {
-	final String propertiesFileNameString_test = "init-cs.properties";//加载的配置文件
-	final String propertiesFileNameString_product = "init-cs.properties";//加载的配置文件
+	public static final String propertiesFileNameString_test = "init-cs.properties";//加载的配置文件
+	public static final String propertiesFileNameString_product = "init-cs.properties";//加载的配置文件
 	
 	
 /*	private static Properties properties;//原生方式拿到的配置全局缓存
