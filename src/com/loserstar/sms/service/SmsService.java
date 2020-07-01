@@ -23,7 +23,8 @@ import com.loserstar.utils.date.LoserStarDateUtils;
 /**
  * author: loserStar
  * date: 2020年3月23日下午5:55:15
- * remarks:
+ * remarks:红塔集团短信webservice接口
+ * wsdl地址：http://10.96.45.32:28888/Service/WebService.asmx?wsdl
  */
 public class SmsService {
 

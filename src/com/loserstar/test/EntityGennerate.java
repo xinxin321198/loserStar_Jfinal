@@ -57,69 +57,9 @@ public class EntityGennerate {
 		genJqwidgetsTableField(dataSource);
 		genDictJs();
 	}
-	//要生成的表名（作废的第一套表）
-	/*private static String[] gennerateTableNames =  {
-			"ZTSWPZ_BWART",
-			"ZTSWPZ_LGORT",
-			"ZTSWPZ_LIFNR",
-			"ZTSWPZ_MATKL",
-			"ZTSWPZ_MEINS",
-			"ZTSWPZ_MIGO_INSMK",
-			"ZTSWPZ_SHKZG",
-			"ZTSWPZ_SOBKZ",
-			"ZTSWPZ_TRANS_STOCK_TYPE",
-			"ZTSWPZ_WERKS",
-			"ZTSW_BATCH",
-			"ZTSW_BUS_TYPE",
-			"ZTSW_ERPTABLES",
-			"ZTSW_GENERATE",
-			"ZTSW_GOODS_LOCA",
-			"ZTSW_MARA",
-			"ZTSW_MARD",
-			"ZTSW_MARM",
-			"ZTSW_MATKL_WH",
-			"ZTSW_MKPF",
-			"ZTSW_MSEG",
-			"ZTSW_ORDERLISTTABLE",
-			"ZTSW_TRAYS_H",
-			"ZTSW_TRAYS_H",
-			"ZTSW_TRAYS_I",
-			"ZTSW_TRAYS_REP",
-			"ZTSW_WAREHOUSE",
-			"ZTSW_RK_FIRST",
-			"ZTSW_TRAY_H",
-			"ZTSW_HOUSE",
-			"ZTSW_HOUSE_FLOOR"
-			};*/
 	
 	private static String[] gennerateTableNames =  {
-			"IN_BATCH",
-			"MASTER_FACTORY",
-			"MASTER_GOODS_LOCA",
-			"MASTER_WARE_HOUSE",
-			"MASTER_LIFNR",
-			"MASTER_MARA",
-			"MASTER_MARA_AREA",
-			"MASTER_MARA_GROUP",
-			"MASTER_STORAGE_AREA",
-			"TASK_BILL_D",
-			"TASK_BILL_H",
-			"TASK_BILL_I",
-			"PLAN_H",
-			"PLAN_D",
-			"SYS_DICT",
-			"MOVE_VOUCHER_H",
-			"MOVE_VOUCHER_I",
-			"MASTER_BUS_TYPE",
-			"MOVE_HISTORY",
-			"MASTER_UNIT",
-			"STOCK_CURRENT",
-			"STOCK_DISK_H",
-			"STOCK_DISK_D",
-			"PLAN_COMPUTE",
-			"MASTER_WORKSHOP",
-			"SYS_FILE",
-			"SYS_FILE_META"
+			"IN_BATCH"
 	};
 	
 	

@@ -22,7 +22,6 @@ public class JunitTestService {
 	 */
 	@Before
 	public void startDb() {
-		PropKit.use("init-cs.properties");
 		PurchaseDBConfig.start();
 	}
 	
@@ -57,7 +56,7 @@ public class JunitTestService {
 			jsonObject.put("startUser", "01009938")
 			.put("userList", new String[] {"05001386"})
 			.put("msgTittle", "开发人员测试");
-			 String piid = restAPI.runFlow("25.e15e7f72-8d04-4004-8ee6-8150dd8ab457", "2066.e84b2876-79fa-4b06-8ad5-6e89d910c29c", jsonObject);
+			 String piid = restAPI.runFlow("", "", jsonObject);
 			 System.out.println(piid);
 		}catch (Exception e) {
 			e.printStackTrace();
