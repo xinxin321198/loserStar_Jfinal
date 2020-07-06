@@ -8,6 +8,7 @@
 package com.loserstar.test;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -60,6 +61,13 @@ public class EntityGennerate {
 	
 	private static String[] gennerateTableNames =  {
 			"IN_BATCH"
+	};
+	
+	/**
+	 * 生成jqwidgets使用的前端字段定义（通过反射生成，需要类的全包路径）
+	 */
+	private static String[] gennerateVoNames =  {
+			"com.loserstar.entity.vo.TestVo"
 	};
 	
 	
@@ -296,6 +304,53 @@ public class EntityGennerate {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-}
+	}
+	
+	/**
+	 * 利用反射，生成每个vo对应的前端字段定义js
+	 */
+	public static void genVoField() {
+		try {
+			Map<String, Object> data = new HashMap<String, Object>();
+			List<Map<String, Object>> mapList = new ArrayList<Map<String,Object>>();
+			
+			for (int i = 0; i < gennerateVoNames.length; i++) {
+				Class DiskGroup_class = Class.forName(gennerateVoNames[i]);
+				String voName = DiskGroup_class.getSimpleName();
+				Field[] fieldArray = DiskGroup_class.getDeclaredFields();  
+				List<Map<String, Object>> fiedList = new ArrayList<Map<String,Object>>();
+				for(Field f : fieldArray){  
+					Map<String, Object> fieldMap = new HashMap<String, Object>();
+					fieldMap.put("name", f.getName());
+					String jsType = "string";
+					if(f.getType().getSimpleName().equalsIgnoreCase("float")||
+							f.getType().getSimpleName().equalsIgnoreCase("Double")||
+							f.getType().getSimpleName().equalsIgnoreCase("BigDecimal")||
+							f.getType().getSimpleName().equalsIgnoreCase("int")||
+							f.getType().getSimpleName().equalsIgnoreCase("Integer")) {
+						jsType = "number";
+					}else if(f.getType().getSimpleName().equalsIgnoreCase("Date")) {
+						jsType = "date";
+					}
+					fieldMap.put("type",jsType);
+					fiedList.add(fieldMap);
+				}
+				Map<String, Object> tableMap = new HashMap<String, Object>();
+				tableMap.put("voName", voName);
+				tableMap.put("fieldList", fiedList);
+				mapList.add(tableMap);
+			}
+			
+			
+			data.put("data", mapList);
+			String genPath = PathKit.getWebRootPath()+File.separator+"js"+File.separator+"voField"+File.separator+"voField.js";
+			System.out.println(genPath);
+			System.out.println(LoserStarJsonUtil.toJson(mapList));
+			String string = LoserStarFreemarkerUtil.runForFileSystem(LoserStarFreemarkerUtil.class.getResource("/").getPath(), "voFieldJsTemp.ftl", data);
+			LoserStarFileUtil.PrintWriterToFile(genPath, string, false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
