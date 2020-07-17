@@ -22,7 +22,7 @@ public class JunitTestService {
 	 */
 	@Before
 	public void startDb() {
-		PurchaseDBConfig.start();
+		GenCodeDBConfig_local.start();
 	}
 	
 	/**

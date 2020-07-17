@@ -7,18 +7,17 @@
  */
 package com.loserstar.test;
 
-import com.jfinal.kit.PropKit;
+import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.loserstar.bpm.RestAPI;
 
 import bpm.rest.client.BPMClientException;
 import bpm.rest.client.authentication.AuthenticationTokenHandlerException;
-
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * author: loserStar
@@ -32,7 +31,7 @@ public class TestDemo {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		PurchaseDBConfig.start();
+		GenCodeDBConfig_local.start();
 		test1();
 		testBpm();
 	}

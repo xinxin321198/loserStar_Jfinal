@@ -1,5 +1,5 @@
 <#setting classic_compatible=true>
-package com.kaen.constants;
+package ${packgeName};
 /**
  * 本文件通过代码生成器自动生成，请勿直接修改本文件，因为每次生成都会覆盖此文件
  * date:${.now}
