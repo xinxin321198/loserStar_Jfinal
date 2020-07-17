@@ -101,13 +101,13 @@ public class JfinalConfig extends JFinalConfig {
 	@Override
 	public void configPlugin(Plugins me) {
 		
-		DruidPlugin druidPlugin = new DruidPlugin(PropKit.get("jdbcUrl"),
-				PropKit.get("userName"),
-				PropKit.get("passWord"));
-		druidPlugin.setDriverClass(PropKit.get("driverClass"));
+		DruidPlugin druidPlugin = new DruidPlugin(PropKit.get("local.jdbcUrl"),
+				PropKit.get("local.userName"),
+				PropKit.get("local.passWord"));
+		druidPlugin.setDriverClass(PropKit.get("local.driverClass"));
 		druidPlugin.set(1, 1, 2);
 		me.add(druidPlugin);
-		ActiveRecordPlugin arp = new ActiveRecordPlugin(DsConstans.dataSourceName.ht313db,druidPlugin);
+		ActiveRecordPlugin arp = new ActiveRecordPlugin(DsConstans.dataSourceName.local,druidPlugin);
 		me.add(arp);
 		arp.setDialect(new AnsiSqlDialect());
 		arp.setContainerFactory(new CaseInsensitiveContainerFactory(true));//ture是小写，false大写
