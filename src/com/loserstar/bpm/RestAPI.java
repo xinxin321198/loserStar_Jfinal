@@ -4,6 +4,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.jfinal.kit.PropKit;
+import com.loserstar.ldap.LDAPSearcher;
+import com.loserstar.ldap.LDAPUser;
 
 import bpm.rest.client.BPMClient;
 import bpm.rest.client.BPMClientException;
@@ -20,6 +22,8 @@ import bpm.rest.client.authentication.was.WASAuthenticationTokenHandler;
 public class RestAPI {
 	
 	public static BPMClient bpmClient;
+	private static LDAPUser user;
+	private static AuthenticationTokenHandler handler;
     
 	/**
 	 * 初始化BPM RestApi Client
@@ -62,5 +66,34 @@ public class RestAPI {
 		JSONObject data = ob.getJSONObject("data");
 		return data.getString("piid");
 	}
+	
+	  public Boolean finishTask(String userId, int taskId, org.json.JSONObject params)
+			    throws Exception
+			  {
+			    Boolean bflag = Boolean.valueOf(false);
+
+			    if ((handler == null) || (!handler.getUserid().equals(userId)))
+			    {
+			      if ((user == null) || (!user.getUserId().equals(userId))) {
+			        user = LDAPSearcher.searchBPMUser(userId);
+			      }
+			      handler = new WASAuthenticationTokenHandler(user.getUserId(), user.getPassword());
+			    }
+
+			    BPMClient bpmClient = new BPMClientImpl(PropKit.get("bpm.hostname"), PropKit.getInt("bpm.port"), handler);
+			    bpmClient.assignTask(taskId);
+			    org.json.JSONObject ob = bpmClient.finishTask(taskId, params);
+
+			    int status = ob.getInt("status");
+			    org.json.JSONObject data = ob.getJSONObject("data");
+
+			    if ((status == 200) && (data != null)) {
+			      bflag = Boolean.valueOf(true);
+			    }
+			    else {
+			      throw new IllegalArgumentException(ob.toString());
+			    }
+			    return bflag;
+			  }
 }
 
