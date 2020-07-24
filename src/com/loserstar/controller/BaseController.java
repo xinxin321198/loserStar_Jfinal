@@ -6,8 +6,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import com.jfinal.core.Controller;
+import com.jfinal.upload.MultipartRequest;
 import com.jfinal.upload.UploadFile;
 import com.loserstar.config.redner.MyFileRender;
 import com.loserstar.utils.file.LoserStarFileUtil;
@@ -49,6 +51,74 @@ public abstract class BaseController extends Controller {
 			uploadFile = getFile(fileParamName);
 		}else {
 			uploadFile = getFile();
+		}
+		File file = new File(path);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		String os = System.getProperty("os.name");
+		String sourceEncode = "utf-8";
+		String targetEncode = System.getProperty("file.encoding");
+		if (os.equalsIgnoreCase("AIX")) {
+			sourceEncode = "GBK";
+		}
+
+		String sourceFilename = uploadFile.getFileName();
+		String filename = sourceFilename;
+		if (isNewFileName) {
+			if (newFileName==null||newFileName.equals("")) {
+				filename = LoserStarFileUtil.generateUUIDFileName(filename);
+			}else {
+				filename = newFileName;
+			}
+		}
+		String fileUrl = path + filename;
+		path += filename;
+
+		path = new String(path.getBytes(sourceEncode), targetEncode);
+		InputStream stream = new FileInputStream(uploadFile.getFile());
+		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(path)));
+		byte[] imgBufTemp = new byte[102401];
+		int length;
+		while ((length = stream.read(imgBufTemp)) != -1) {
+			bos.write(imgBufTemp, 0, length);
+		}
+		bos.flush();
+		bos.close();
+		stream.close();
+
+		realpath = realpath + "/" + filename; // 拼接文件路径
+		File f = new File(realpath);
+		if (f.exists()) {// 删除文件
+			f.delete();
+		}
+		return sourceFilename;
+	}
+	
+	
+	/**
+	 * 
+	 * @param path 上传目录
+	 * @param fileParamName 二进制文件数据的参数名称
+	 * @param isNewFileName 是否重命名保存到硬盘上的文件名（防止文件覆盖）
+	 * @param newFileName 保存到硬盘上重命名的文件名，如果不存则以uuid自动生成
+	 * @param MultipartRequest 通过MultipartRequest（cos组件）获取文件，不使用jfinal自带的
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unused")
+	protected String uploadFile2(String path, String fileParamName,boolean isNewFileName,String newFileName,MultipartRequest mRequest) throws Exception {
+		String realpath = mRequest.getSession().getServletContext().getRealPath("upload"); // 获取默认上传目录，upload目录所在的绝对路径
+		List<UploadFile> uploadFiles = mRequest.getFiles();
+		UploadFile uploadFile = null;
+		if (fileParamName!=null&&!fileParamName.equals("")) {
+			for (UploadFile uploadFileTemp : uploadFiles) {
+				if (uploadFile.getParameterName().equals(fileParamName)) {
+					uploadFile = uploadFileTemp;
+				}
+			}
+		}else {
+			uploadFile = uploadFiles.size() > 0 ? uploadFiles.get(0) : null;
 		}
 		File file = new File(path);
 		if (!file.exists()) {
