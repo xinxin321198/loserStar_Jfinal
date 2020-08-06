@@ -27,9 +27,8 @@ public class ParamPkgInterceptor implements Interceptor {
 		//校验需要登录的controller（如果seesion里没有用户，并且请求的是如下链接或方法，则跳到登录页）
  		if(userid == null &&
  				(
- 						action.contains("index")||
- 						(action.contains("test")&&methodName.contains("testDb2"))
- 						)
+ 						action.contains("index")
+ 				)
  				) {
  			//未登录，重定向到登录页
  			controller.redirect("/login/loginPage.do");

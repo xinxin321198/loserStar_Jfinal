@@ -12,6 +12,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -41,6 +43,37 @@ public class LoserStarMetaBuilderDB2 extends MetaBuilder {
 		Statement stm = conn.createStatement();
 		ResultSet rs = stm.executeQuery(sql);
 		ResultSetMetaData rsmd = rs.getMetaData();
+		int columnCount = rsmd.getColumnCount();
+		
+		
+		Map<String, ColumnMeta> columnMetaMap = new HashMap<String, ColumnMeta>();
+		if (true) {
+			ResultSet colMetaRs = null;
+			try {
+				if(tableMeta.name.contains(".")){
+					colMetaRs = dbMeta.getColumns(conn.getCatalog(), tableMeta.name.split("\\.")[0], tableMeta.name.split("\\.")[1], null);
+				}
+				else{
+					colMetaRs = dbMeta.getColumns(conn.getCatalog(), null, tableMeta.name, null);
+				}
+				
+				
+				while (colMetaRs.next()) {
+					ColumnMeta columnMeta = new ColumnMeta();
+					columnMeta.name = colMetaRs.getString("COLUMN_NAME");
+					columnMeta.remarks = colMetaRs.getString("REMARKS");
+					columnMetaMap.put(columnMeta.name, columnMeta);
+				}
+			} catch (Exception e) {
+				System.out.println("无法生成 REMARKS");
+			} finally {
+				if (colMetaRs != null) {
+					colMetaRs.close();
+				}
+			}
+		}
+		
+		
 		
 		for (int i=1; i<=rsmd.getColumnCount(); i++) {
 			ColumnMeta cm = new ColumnMeta();
@@ -84,7 +117,12 @@ public class LoserStarMetaBuilderDB2 extends MetaBuilder {
 			
 			// 构造字段对应的属性名 attrName
 			cm.attrName = buildAttrName(cm.name);
-			
+			//lxx:这里要用大写字段名去匹配，否则匹配不对应字段的备注
+			if (columnMetaMap.containsKey(cm.name.toUpperCase())) {
+				cm.remarks = columnMetaMap.get(cm.name.toUpperCase()).remarks;
+			}else if(columnMetaMap.containsKey(cm.name.toLowerCase())) {
+				cm.remarks = columnMetaMap.get(cm.name.toLowerCase()).remarks;
+			}
 			tableMeta.columnMetas.add(cm);
 		}
 		

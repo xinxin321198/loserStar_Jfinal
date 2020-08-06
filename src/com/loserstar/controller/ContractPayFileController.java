@@ -44,7 +44,7 @@ public class ContractPayFileController extends BaseController {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String urlStr = "http://127.0.0.1:8080/ExtWebService/contractPayFile/fileUpload.do?fileId="+LoserStarIdGenUtil.uuidTimeLong();
+		String urlStr = "http://127.0.0.1:8080/ExtWebService/contractPayFile/fileUpload.do?fileId="+LoserStarIdGenUtil.uuidLong();
 		File file = new File("D:\\printDiskGroup.txt");
 		String result = "";
 		String BOUNDARY = "letv"; // 边界标识 随机生成

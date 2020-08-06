@@ -8,7 +8,23 @@ Table: da_account
  mobile    | VARCHAR(64) | YES  |     |         | 手机号码    
  address   | VARCHAR(64) | YES  |     |         | 地址      
  comment   | VARCHAR(64) | YES  |     |         | 备注      
+ del       | VARCHAR(10) | NO   |     | 0       |         
 -----------+-------------+------+-----+---------+---------
+
+Table: sys_dict
+----------------+--------------+------+-----+---------+---------
+ Field          | Type         | Null | Key | Default | Remarks 
+----------------+--------------+------+-----+---------+---------
+ dict_id        | VARCHAR(100) | NO   | PRI |         | 主键      
+ dict_value     | VARCHAR(100) | YES  |     |         | 值       
+ dict_name      | VARCHAR(100) | YES  |     |         | 名称      
+ dict_type      | VARCHAR(100) | YES  |     |         | 类型      
+ dict_remarks   | VARCHAR(100) | YES  |     |         | 备注      
+ dict_c_name    | VARCHAR(100) | YES  |     |         | java后端使用的常量名称
+ dict_css_style | VARCHAR(100) | YES  |     |         | 前端附加的样式 
+ dict_sort      | INT(10)      | YES  |     | 0       | 排序码     
+ del            | VARCHAR(10)  | NO   |     | 0       | 删除标志    
+----------------+--------------+------+-----+---------+---------
 
 Table: sys_users
 -----------+-------------+------+-----+---------+---------
@@ -17,5 +33,6 @@ Table: sys_users
  id        | VARCHAR(50) | NO   | PRI |         | 主键id    
  user_name | VARCHAR(64) | YES  |     |         | 用户名     
  password  | VARCHAR(64) | YES  |     |         | 密码      
+ del       | VARCHAR(10) | NO   |     | 0       |         
 -----------+-------------+------+-----+---------+---------
 

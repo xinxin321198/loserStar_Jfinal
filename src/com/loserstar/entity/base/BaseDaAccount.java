@@ -9,58 +9,103 @@ import com.jfinal.plugin.activerecord.IBean;
 @SuppressWarnings({"serial", "unchecked"})
 public abstract class BaseDaAccount<M extends BaseDaAccount<M>> extends Model<M> implements IBean {
 
+	/**
+	 * 主键id
+	 */
 	public M setId(java.lang.Long id) {
 		set("id", id);
 		return (M)this;
 	}
 	
+	/**
+	 * 主键id
+	 */
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
+	/**
+	 * user id
+	 */
 	public M setUserId(java.lang.Long userId) {
 		set("user_id", userId);
 		return (M)this;
 	}
 	
+	/**
+	 * user id
+	 */
 	public java.lang.Long getUserId() {
 		return getLong("user_id");
 	}
 
+	/**
+	 * 全名
+	 */
 	public M setFullName(java.lang.String fullName) {
 		set("full_name", fullName);
 		return (M)this;
 	}
 	
+	/**
+	 * 全名
+	 */
 	public java.lang.String getFullName() {
 		return getStr("full_name");
 	}
 
+	/**
+	 * 手机号码
+	 */
 	public M setMobile(java.lang.String mobile) {
 		set("mobile", mobile);
 		return (M)this;
 	}
 	
+	/**
+	 * 手机号码
+	 */
 	public java.lang.String getMobile() {
 		return getStr("mobile");
 	}
 
+	/**
+	 * 地址
+	 */
 	public M setAddress(java.lang.String address) {
 		set("address", address);
 		return (M)this;
 	}
 	
+	/**
+	 * 地址
+	 */
 	public java.lang.String getAddress() {
 		return getStr("address");
 	}
 
+	/**
+	 * 备注
+	 */
 	public M setComment(java.lang.String comment) {
 		set("comment", comment);
 		return (M)this;
 	}
 	
+	/**
+	 * 备注
+	 */
 	public java.lang.String getComment() {
 		return getStr("comment");
+	}
+
+	public M setDel(java.lang.String del) {
+		set("del", del);
+		return (M)this;
+	}
+	
+	public java.lang.String getDel() {
+		return getStr("del");
 	}
 
 }

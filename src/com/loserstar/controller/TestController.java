@@ -17,6 +17,10 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.loserstar.config.annotation.Controller;
+import com.loserstar.constants.DsConstans;
+import com.loserstar.dao.SysDictDao;
+import com.loserstar.entity.SysDict;
+import com.loserstar.utils.db.jfinal.base.imp.WhereHelper;
 import com.loserstar.utils.db.jfinal.vo.VResult;
 import com.loserstar.utils.json.LoserStarJsonUtil;
 
@@ -28,11 +32,12 @@ import com.loserstar.utils.json.LoserStarJsonUtil;
 @Controller(controllerKey= {"/test"})
 public class TestController extends BaseController {
 
+	private SysDictDao sysDictDao = new SysDictDao(DsConstans.dataSourceName.local);
 	/**
 	 * 测试数据库连接
 	 */
-	public void testDb() {
-		List<Record> list =  Db.find("select * from DOC_GER_LIST");
+	public void testDb1() {
+		List<Record> list =  Db.find("select * from sys_users");
 		renderJson(list);
 	}
 	
@@ -40,7 +45,28 @@ public class TestController extends BaseController {
 	 * 测试数据库连接
 	 */
 	public void testDb2() {
-		List<Record> list =  Db.find("select * from DOC_GER_LIST");
+		List<Record> list =  Db.find("select * from "+SysDictDao.TABLE_NAME+"");
+		renderJson(list);
+	}
+	/**
+	 * 测试数据库连接
+	 */
+	public void testDb3() {
+		List<Record> list =  sysDictDao.getList(new WhereHelper());
+		renderJson(list);
+	}
+	/**
+	 * 测试数据库连接
+	 */
+	public void testDb4() {
+		List<SysDict> list =  SysDict.dao.find("select * from "+SysDict.TABLE_NAME+" where "+sysDictDao.getSoftDelWhere());
+		renderJson(list);
+	}
+	/**
+	 * 测试数据库连接
+	 */
+	public void testDb5() {
+		List<SysDict> list =  sysDictDao.getList(new WhereHelper(), SysDict.class);
 		renderJson(list);
 	}
 	

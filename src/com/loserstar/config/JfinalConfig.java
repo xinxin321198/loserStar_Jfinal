@@ -20,6 +20,7 @@ import com.loserstar.config.handler.GlobalHandler;
 import com.loserstar.config.interceptor.ParamPkgInterceptor;
 import com.loserstar.config.plugin.ControllerPlugin;
 import com.loserstar.constants.DsConstans;
+import com.loserstar.entity._MappingKit;
 import com.loserstar.utils.system.LoserStarSystemUtil;
 
 public class JfinalConfig extends JFinalConfig {
@@ -50,7 +51,7 @@ public class JfinalConfig extends JFinalConfig {
 		
 		//手动直接指定加载哪个配置文件
 		prop = PropKit.use(propertiesFileNameString_test);
-		String jfinal_jdbc_url = prop.get("jdbcUrl");
+		String jfinal_jdbc_url = prop.get("local.jdbcUrl");
 		System.out.println("jfinal工具加载配置："+jfinal_jdbc_url);
 		
 		
@@ -111,7 +112,7 @@ public class JfinalConfig extends JFinalConfig {
 		me.add(arp);
 		arp.setDialect(new AnsiSqlDialect());
 		arp.setContainerFactory(new CaseInsensitiveContainerFactory(true));//ture是小写，false大写
-//		_MappingKit.mapping(arp);
+		_MappingKit.mapping(arp);
 	}
 
 	@Override

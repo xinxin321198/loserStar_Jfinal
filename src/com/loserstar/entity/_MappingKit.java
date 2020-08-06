@@ -17,6 +17,7 @@ public class _MappingKit {
 	
 	public static void mapping(ActiveRecordPlugin arp) {
 		arp.addMapping("da_account", "id", DaAccount.class);
+		arp.addMapping("sys_dict", "dict_id", SysDict.class);
 		arp.addMapping("sys_users", "id", SysUsers.class);
 	}
 }

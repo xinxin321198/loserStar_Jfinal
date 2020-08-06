@@ -6,9 +6,9 @@
  */
 var dict ={}
 <#list data as map>
-dict.${map.type} = [
+dict.${map.dict_type} = [
     <#list map.list as dict>
-    {value:"${dict.value}",name:"${dict.name}",css_style:"${dict.css_style}"}<#if dict_index!=(map.list?size-1)>,</#if>
+    {value:"${dict.dict_value}",name:"${dict.dict_name}",css_style:"${dict.dict_css_style}"}<#if dict_index!=(map.list?size-1)>,</#if>
     </#list>
 ];
 </#list>

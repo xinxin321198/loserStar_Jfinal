@@ -7,12 +7,12 @@ package ${packgeName};
  */
 public class DictConstants {
     <#list data as map>
-    public static class ${map.type}{
+    public static class ${map.dict_type}{
         <#list map.list as dict>
         /**
-    	 * ${dict.name}
+    	 * ${dict.dict_name}
     	 */
-		public static final String ${dict.c_name} = "${dict.value}";//${dict.remarks}
+		public static final String ${dict.dict_c_name} = "${dict.dict_value}";//${dict.dict_remarks}
         </#list>
 	}
     </#list>
