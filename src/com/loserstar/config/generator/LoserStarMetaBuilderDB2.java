@@ -58,8 +58,24 @@ public class LoserStarMetaBuilderDB2 extends MetaBuilder {
 							continue ;
 						}*/
 			
+			//拿出表的元数据所有字段值看看，不同数据库存储的不一样
+			Map<String, Object> map = new HashMap<String, Object>();
+			ResultSetMetaData meta = rs.getMetaData();
+			int colNum = meta.getColumnCount();
+			for (int i = 1; i <= colNum; i++) {
+				String name = meta.getColumnLabel(i); // i+1
+				Object value = rs.getObject(i);
+				map.put(name, value);
+			}
+			
 			TableMeta tableMeta = new TableMeta();
-			tableMeta.name = rs.getString("TABLE_SCHEM")+"."+tableName;
+			//db2可以获取到
+			String schemas = rs.getString("TABLE_SCHEM");
+			if (schemas==null||schemas.equals("")) {
+				//MYSQL获取的字段不一样
+				schemas = rs.getString("TABLE_CAT");
+			}
+			tableMeta.name = schemas+"."+tableName;
 			tableMeta.remarks = rs.getString("REMARKS");
 			
 			tableMeta.modelName = buildModelName(tableName);

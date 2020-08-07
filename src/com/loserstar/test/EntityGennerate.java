@@ -165,7 +165,7 @@ public class EntityGennerate {
 		if (dbtype==DBType.db2) {
 			generator.setDialect(new AnsiSqlDialect());
 		}else if(dbtype==DBType.mysql) {
-			generator.setDialect(new MysqlDialect());
+			generator.setDialect(new AnsiSqlDialect());//mysql也用这个，否则通过带schemas的表名，拼出来的sql语法错误
 		}else if(dbtype==DBType.oracle) {
 			generator.setDialect(new OracleDialect());
 		}else if(dbtype==DBType.sqlserver) {

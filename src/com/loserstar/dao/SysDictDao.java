@@ -5,8 +5,8 @@ import com.loserstar.utils.db.jfinal.base.imp.BaseService;
 /**
  * 本文件代码生成器自动生成，本文件若已存在，则不会被覆盖，需要覆盖请删除本文件后重新生成
  * author: autoGenerate
- * date: 2020-8-6 10:51:14
- * remarks:
+ * date: 2020-8-7 15:17:32
+ * remarks:字典表
  */
 public class SysDictDao extends BaseService {
 	public static final String TABLE_NAME = "loserstar.sys_dict";
