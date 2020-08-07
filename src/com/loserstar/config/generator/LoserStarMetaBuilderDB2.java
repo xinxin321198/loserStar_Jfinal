@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -36,7 +37,72 @@ public class LoserStarMetaBuilderDB2 extends MetaBuilder {
 	public LoserStarMetaBuilderDB2(DataSource dataSource) {
 		super(dataSource);
 	}
-
+	@Override
+	protected void buildTableNames(List<TableMeta> ret) throws SQLException {
+		ResultSet rs = getTablesResultSet();
+		while (rs.next()) {
+			String tableName = rs.getString("TABLE_NAME");
+			
+			if (excludedTables.contains(tableName)) {
+				System.out.println("Skip table :" + tableName);
+				continue ;
+			}
+			if (isSkipTable(tableName)) {
+				System.out.println("Skip table :" + tableName);
+				continue ;
+			}
+			
+			// jfinal 4.3 新增过滤 table 机制
+			/*			if (filterPredicate != null && filterPredicate.test(tableName)) {
+							System.out.println("Skip table :" + tableName);
+							continue ;
+						}*/
+			
+			TableMeta tableMeta = new TableMeta();
+			tableMeta.name = rs.getString("TABLE_SCHEM")+"."+tableName;
+			tableMeta.remarks = rs.getString("REMARKS");
+			
+			tableMeta.modelName = buildModelName(tableName);
+			tableMeta.baseModelName = buildBaseModelName(tableMeta.modelName);
+			ret.add(tableMeta);
+		}
+		rs.close();
+	}
+	@Override
+	protected void buildPrimaryKey(TableMeta tableMeta) throws SQLException {
+		ResultSet rs =null;
+		if(tableMeta.name.contains(".")){
+			rs=dbMeta.getPrimaryKeys(conn.getCatalog(), tableMeta.name.split("\\.")[0], tableMeta.name.split("\\.")[1]);
+		}
+		else{
+			rs=dbMeta.getPrimaryKeys(conn.getCatalog(), null, tableMeta.name);
+		}
+		
+		
+		String primaryKey = "";
+		int index = 0;
+		while (rs.next()) {
+			String cn = rs.getString("COLUMN_NAME");
+			
+			// 避免 oracle 驱动的 bug 生成重复主键，如：ID,ID
+			if (primaryKey.equals(cn)) {
+				continue ;
+			}
+			
+			if (index++ > 0) {
+				primaryKey += ",";
+			}
+			primaryKey += cn;
+		}
+		
+		// 无主键的 table 将在后续的 removeNoPrimaryKeyTable() 中被移除，不再抛出异常
+		// if (StrKit.isBlank(primaryKey)) {
+			// throw new RuntimeException("primaryKey of table \"" + tableMeta.name + "\" required by active record pattern");
+		// }
+		
+		tableMeta.primaryKey = primaryKey;
+		rs.close();
+	}
 	@Override
 	protected void buildColumnMetas(TableMeta tableMeta) throws SQLException {
 		String sql = dialect.forTableBuilderDoBuild(tableMeta.name);
