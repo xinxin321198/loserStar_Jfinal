@@ -1,17 +1,16 @@
 package com.loserstar.test;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.loserstar.bpm.RestAPI;
 import com.loserstar.sap.jco.SapService;
-import com.loserstar.sap.jco.SapService.SapVo;
 import com.loserstar.utils.json.LoserStarJsonUtil;
 
 public class JunitTestService {
@@ -41,8 +40,8 @@ public class JunitTestService {
 	 */
 	@Test
 	public void testRfc() {
-		List<SapVo> sapVoList =sapService.get("Z_ERPHR_P033_01",null);
-		System.out.println(LoserStarJsonUtil.toJson(sapVoList));
+		Record r =sapService.callRfc("Z_ERPHR_P033_01",new HashMap());
+		System.out.println(LoserStarJsonUtil.toJson(r));
 	}
 	
 	/**
