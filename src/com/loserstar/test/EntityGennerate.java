@@ -129,33 +129,24 @@ public class EntityGennerate {
 		// 创建生成器
 		Generator generator = new Generator(dataSource, baseModelPackageName, baseModelOutputDir, modelPackageName, modelOutputDir);
 		generator.setMetaBuilder(new LoserStarMetaBuilderDB2(dataSource));
-		if (baseModelTemplate!=null&&!baseModelTemplate.equals("")) {
-			generator.setBaseModelTemplate(baseModelTemplate);
-		}
-		if (modelTemplate!=null&&!modelTemplate.equals("")) {
-			generator.setModelTemplate(modelTemplate);
-		}
 		// 设置是否在 Model 中生成 dao 对象
 		generator.setGenerateDaoInModel(false);
 		//查询表的sql（不同数据库的语句不同，自行调整）
-		String queryTablesSql = "";
-		if (dbtype==DBType.db2) {
-			queryTablesSql = "select name as table_name,creator as schemas from sysibm.systables where type='T'  ORDER BY table_name ASC";
-		}else if(dbtype==DBType.mysql) {
-			queryTablesSql = "SELECT table_name,table_schema as `schemas` FROM information_schema.TABLES  ORDER BY table_name ASC";
-		}else {
-			System.out.println("未知的数据库类型");
-			return;
-		}
+		String queryTablesSql = getTableMetaSql(dbtype, null);
 		List<Record> tableList = Db.use(dataSouceName).find(queryTablesSql);
 		for (Record table : tableList) {
 //						System.out.println("generator.addExcludedTable(\""+record.get("name")+"\");");
 			//排除掉不在我打算生成的列表里的表名
 			String tableName = table.getStr("table_name");
-			if ("PERSONTEST".equalsIgnoreCase(tableName)) {
-				System.out.println("123");
+			//这里有BUG（不同的schemas，有多张同名的表，那么如果排除了该表，就叫该表名的表都不会生成实体）
+			boolean isContains = false;//是否包含在我要生成的表列表中
+			for (String genTableName : gennerateTableNameList) {
+				String singleGenTableName = (genTableName.contains(".")? genTableName.split("\\.")[1]:genTableName);
+				if (singleGenTableName.equals(tableName)) {
+					isContains = true;
+				}
 			}
-			if ((!gennerateTableNameList.contains( table.getStr("schemas").trim()+"."+tableName))) {
+			if (!isContains) {
 				generator.addExcludedTable(tableName);
 			}
 		}
@@ -177,7 +168,7 @@ public class EntityGennerate {
 		generator.setGenerateDaoInModel(true);
 		//设置 BaseModel 是否生成链式 setter 方法
 		generator.setGenerateChainSetter(true);
-		// 配置是否生成备注( 此版本貌似没有)（扩展了代码生成器和模板，可以生成备注了）
+		// 配置是否生成备注( 此版本貌似没有)
 //		generator.setGenerateRemarks(true);
 	
 		// 生成
@@ -198,18 +189,19 @@ public class EntityGennerate {
 			Connection conn = dataSource.getConnection();
 			//要生成的表名
 			List<String> gennerateTableNameList =Arrays.asList(genTableArray);
-			for (String tableName : gennerateTableNameList) {
-				tableName = (tableName.contains(".")? tableName.split("\\.")[1]:tableName);
+			for (String tableName1 : gennerateTableNameList) {
+				String schemasTableName = tableName1;
+				String singleTableName = (tableName1.contains(".")? tableName1.split("\\.")[1]:tableName1);
 				Statement stm = conn.createStatement();
 				DatabaseMetaData dbMetaData = conn.getMetaData();
-				 ResultSet resultSet = dbMetaData.getTables(null, "%", "%", new String[] { tableName });
+				 ResultSet resultSet = dbMetaData.getTables(null, "%", "%", new String[] { singleTableName });
 		            while (resultSet.next()) {
 		                String remarkes = resultSet.getString("REMARKS");
-		                System.out.println(tableName+"="+remarkes);
+		                System.out.println(singleTableName+"="+remarkes);
 		            }
 //				System.out.println("表名begin----------："+tableName);
 //				System.out.println("主键：");
-				ResultSet primaryKeyResultSet = dbMetaData.getPrimaryKeys(null,null,tableName);  
+				ResultSet primaryKeyResultSet = dbMetaData.getPrimaryKeys(null,null,singleTableName);  
 				String primaryKeyColumnName = "";
 				while(primaryKeyResultSet.next()){  
 				    primaryKeyColumnName = primaryKeyResultSet.getString("COLUMN_NAME"); 
@@ -223,25 +215,20 @@ public class EntityGennerate {
 									System.out.println(rsmd.getColumnName(i));
 								}*/
 //				System.out.println("表名end----------："+tableName);
-				
-				String queryTablesSql = "";
-				if (dbtype==DBType.db2) {
-					queryTablesSql = "select name as table_name,creator as schemas,remarks as remarks from sysibm.systables where type='T' and NAME='"+(tableName.contains(".")? tableName.split("\\.")[1]:tableName)+"' ORDER BY table_name ASC";
-				}else if(dbtype==DBType.mysql) {
-					queryTablesSql = "SELECT table_name,table_schema as `schemas`,table_comment as remarks FROM information_schema.TABLES where table_name='"+tableName+"' ORDER BY table_name ASC";
-				}else {
-					System.out.println("未知的数据库类型");
-					return;
-				}
+				/*				if (tableName.equals("SYS_FILE")) {
+									System.out.println("234");
+								}
+				*/				String queryTablesSql = getTableMetaSql(dbtype, schemasTableName);
+
 				Record tableInfo = Db.use(dataSouceName).findFirst(queryTablesSql);
 				Map<String, Object> data = new HashMap<String, Object>();
-				System.out.println(tableName);
+				System.out.println(singleTableName);
 				if (tableInfo.get("REMARKS")==null||tableInfo.get("REMARKS").equals("")) {
-					throw new Exception(tableName+"---还没有设置备注");
+					throw new Exception(schemasTableName+"---还没有设置备注");
 				}
 				data.put("tableRemarks", tableInfo.get("REMARKS"));
 				String className = "";
-				String[] tableNameArray = tableName.split("_");
+				String[] tableNameArray = singleTableName.split("_");
 				for (int i = 0; i < tableNameArray.length; i++) {
 					String tmpName=tableNameArray[i];
 					if(tmpName.contains(".")){
@@ -252,7 +239,7 @@ public class EntityGennerate {
 				className+="Dao";
 				data.put("packgeName",packgeName);
 				data.put("className", className);
-				data.put("tableName", (tableName.contains(".")? tableName.split("\\.")[1]:tableName));
+				data.put("tableName", singleTableName);
 				data.put("primaryKey", primaryKeyColumnName);
 				data.put("schemas", tableInfo.get("schemas").toString().trim());
 				data.put("genDate", LoserStarDateUtils.format(new Date()));
@@ -319,15 +306,17 @@ public class EntityGennerate {
 			List<Map<String, Object>> mapList = new ArrayList<Map<String,Object>>();
 			//要生成的表名
 			List<String> gennerateTableNameList =Arrays.asList(genTableArray);
-			for (String tableName : gennerateTableNameList) {
+			for (String tableName1 : gennerateTableNameList) {
+				String schemasTableName = tableName1;
+				String singleTableName = (tableName1.contains(".")? tableName1.split("\\.")[1]:tableName1);
 				Statement stm = conn.createStatement();
 				DatabaseMetaData dbMetaData = conn.getMetaData();
-				 ResultSet resultSet = dbMetaData.getTables(null, "%", "%", new String[] { tableName });
+				 ResultSet resultSet = dbMetaData.getTables(null, "%", "%", new String[] { singleTableName });
 		            while (resultSet.next()) {
 		                String remarkes = resultSet.getString("dict_remarks");
-		                System.out.println(tableName+"="+remarkes);
+		                System.out.println(singleTableName+"="+remarkes);
 		            }
-				ResultSet primaryKeyResultSet = dbMetaData.getPrimaryKeys(null,null,tableName.toLowerCase().split("\\.")[1]);  
+				ResultSet primaryKeyResultSet = dbMetaData.getPrimaryKeys(null,null,singleTableName);  
 				while(primaryKeyResultSet.next()){  
 					//主键
 //					String primaryKeyColumnName = primaryKeyResultSet.getString("COLUMN_NAME"); 
@@ -335,7 +324,7 @@ public class EntityGennerate {
 				} 
 				
 				List<Map<String, Object>> fiedList = new ArrayList<Map<String,Object>>();
-				ResultSet rs = stm.executeQuery("select * from " + tableName + " where 1 = 2");
+				ResultSet rs = stm.executeQuery("select * from " + schemasTableName + " where 1 = 2");
 				ResultSetMetaData rsmd = rs.getMetaData();
 //				System.out.println("字段：");
 				for (int i=1; i<=rsmd.getColumnCount(); i++) {
@@ -352,24 +341,15 @@ public class EntityGennerate {
 					fiedList.add(fieldMap);
 				}
 				
-				String queryTablesSql = "";
-				String querTableName = (tableName.contains(".")? tableName.split("\\.")[1]:tableName);
-				if (dbtype==DBType.db2) {
-					queryTablesSql = "select name as table_name,creator as schemas,remarks as remarks from sysibm.systables where type='T' and NAME='"+querTableName+"' ORDER BY table_name ASC";
-				}else if(dbtype==DBType.mysql) {
-					queryTablesSql = "SELECT table_name,table_schema as `schemas`,table_comment as remarks FROM information_schema.TABLES where table_name='"+querTableName+"' ORDER BY table_name ASC";
-				}else {
-					System.out.println("未知的数据库类型");
-					return;
-				}
+				String queryTablesSql = getTableMetaSql(dbtype, schemasTableName);
 				Record tableInfo = Db.use(dataSouceName).findFirst(queryTablesSql);
 				Map<String, Object> tableMap = new HashMap<String, Object>();
-				System.out.println(tableName);
+				System.out.println(schemasTableName);
 				if (tableInfo.get("REMARKS")==null||tableInfo.get("REMARKS").equals("")) {
-					throw new Exception(tableName+"---还没有设置备注");
+					throw new Exception(schemasTableName+"---还没有设置备注");
 				}
 				tableMap.put("tableRemarks", tableInfo.get("REMARKS"));
-				tableMap.put("tableName", tableName.toLowerCase().split("\\.")[1]);
+				tableMap.put("tableName", singleTableName.toLowerCase());
 				tableMap.put("fieldList", fiedList);
 				mapList.add(tableMap);
 			}
@@ -468,5 +448,42 @@ public class EntityGennerate {
 		}
 		System.out.println("--------------生成vo的前端字段定义--------------------end");
 	}
+	
+	private static String getTableMetaSql(DBType dbType,String tableName)
+	{
+		String queryTablesSql = "";
+		String scheamasWhere = "";
+		String singleTableName = "";
+
+		if (dbtype==DBType.db2) {
+			String tableWhere = "";
+			if (tableName!=null&&!tableName.equals("")) {
+				if (tableName.contains(".")) {
+					scheamasWhere = " AND CREATOR='"+tableName.split("\\.")[0]+"'";
+					singleTableName = tableName.split("\\.")[1];
+				}else {
+					singleTableName = tableName;
+				}
+				tableWhere+=" and NAME='"+singleTableName+"'";
+			}
+			queryTablesSql = "select name as table_name,creator as schemas,remarks as remarks from sysibm.systables where 1=1 and  type='T' "+tableWhere+" "+scheamasWhere+"  ORDER BY table_name ASC";
+		}else if(dbtype==DBType.mysql) {
+			String tableWhere = "";
+			if (tableName!=null&&!tableName.equals("")) {
+				if (tableName.contains(".")) {
+					scheamasWhere = " AND table_schema='"+tableName.split("\\.")[0]+"'";
+					singleTableName = tableName.split("\\.")[1];
+				}else {
+					singleTableName = tableName;
+				}
+				tableWhere+=" and table_name='"+singleTableName+"'";
+			}
+			queryTablesSql = "SELECT table_name,table_schema as `schemas`,table_comment as remarks FROM information_schema.TABLES where 1=1  "+tableWhere+" "+scheamasWhere+" ORDER BY table_name ASC";
+		}else {
+			System.out.println("未知的数据库类型");
+		}
+		return queryTablesSql;
+	}
+
 
 }
