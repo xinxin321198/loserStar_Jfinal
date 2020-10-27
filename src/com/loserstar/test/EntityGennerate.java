@@ -27,7 +27,6 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.dialect.AnsiSqlDialect;
-import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
 import com.jfinal.plugin.activerecord.dialect.OracleDialect;
 import com.jfinal.plugin.activerecord.dialect.SqlServerDialect;
 import com.jfinal.plugin.activerecord.generator.Generator;
@@ -171,6 +170,8 @@ public class EntityGennerate {
 		// 配置是否生成备注( 此版本貌似没有)
 //		generator.setGenerateRemarks(true);
 	
+		generator.setModelTemplate("/codeGenTemplate/model_template.jf");
+		generator.setBaseModelTemplate("/codeGenTemplate/base_model_template.jf");
 		// 生成
 		generator.generate();
 	}
@@ -484,6 +485,5 @@ public class EntityGennerate {
 		}
 		return queryTablesSql;
 	}
-
 
 }

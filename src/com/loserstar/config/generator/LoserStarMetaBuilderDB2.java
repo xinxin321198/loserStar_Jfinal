@@ -31,6 +31,8 @@ import com.jfinal.plugin.activerecord.generator.TableMeta;
  */
 public class LoserStarMetaBuilderDB2 extends MetaBuilder {
 
+	protected boolean generateRemarks = true;//是否生成备注，3.4这种老版本的jfinal是不支持生成字段备注的，只能自己扩展
+	
 	/**
 	 * @param dataSource
 	 */
@@ -119,7 +121,21 @@ public class LoserStarMetaBuilderDB2 extends MetaBuilder {
 		tableMeta.primaryKey = primaryKey;
 		rs.close();
 	}
-	@Override
+	
+	
+	/**
+	 * 文档参考：
+	 * http://dev.mysql.com/doc/connector-j/en/connector-j-reference-type-conversions.html
+	 * 
+	 * JDBC 与时间有关类型转换规则，mysql 类型到 java 类型如下对应关系：
+	 * DATE				java.sql.Date
+	 * DATETIME			java.sql.Timestamp
+	 * TIMESTAMP[(M)]	java.sql.Timestamp
+	 * TIME				java.sql.Time
+	 * 
+	 * 对数据库的 DATE、DATETIME、TIMESTAMP、TIME 四种类型注入 new java.util.Date()对象保存到库以后可以达到“秒精度”
+	 * 为了便捷性，getter、setter 方法中对上述四种字段类型采用 java.util.Date，可通过定制 TypeMapping 改变此映射规则
+	 */
 	protected void buildColumnMetas(TableMeta tableMeta) throws SQLException {
 		String sql = dialect.forTableBuilderDoBuild(tableMeta.name);
 		Statement stm = conn.createStatement();
@@ -129,7 +145,8 @@ public class LoserStarMetaBuilderDB2 extends MetaBuilder {
 		
 		
 		Map<String, ColumnMeta> columnMetaMap = new HashMap<String, ColumnMeta>();
-		if (true) {
+		
+		if (generateRemarks) {
 			ResultSet colMetaRs = null;
 			try {
 				if(tableMeta.name.contains(".")){
@@ -138,8 +155,6 @@ public class LoserStarMetaBuilderDB2 extends MetaBuilder {
 				else{
 					colMetaRs = dbMeta.getColumns(conn.getCatalog(), null, tableMeta.name, null);
 				}
-				
-				
 				while (colMetaRs.next()) {
 					ColumnMeta columnMeta = new ColumnMeta();
 					columnMeta.name = colMetaRs.getString("COLUMN_NAME");
@@ -156,11 +171,78 @@ public class LoserStarMetaBuilderDB2 extends MetaBuilder {
 		}
 		
 		
+		for (int i=1; i<=columnCount; i++) {
+			ColumnMeta cm = new ColumnMeta();
+			cm.name = rsmd.getColumnName(i).toLowerCase();//lxx:字段转为小写(否则会导致从实体里get字段获取不要值，查数据时数据库返回的是小写字段，这里生成的实体时候读出来的字段元数据是大写字段);;
+			String typeStr = null;
+			if (dialect.isKeepByteAndShort()) {
+				int type = rsmd.getColumnType(i);
+				if (type == Types.TINYINT) {
+					typeStr = "java.lang.Byte";
+				} else if (type == Types.SMALLINT) {
+					typeStr = "java.lang.Short";
+				}
+			}
+			
+			if (typeStr == null) {
+				String colClassName = rsmd.getColumnClassName(i);
+				typeStr = typeMapping.getType(colClassName);
+			}
+			
+			if (typeStr == null) {
+				int type = rsmd.getColumnType(i);
+				if (type == Types.BINARY || type == Types.VARBINARY || type == Types.LONGVARBINARY || type == Types.BLOB) {
+					typeStr = "byte[]";
+				} else if (type == Types.CLOB || type == Types.NCLOB) {
+					typeStr = "java.lang.String";
+				}
+				// 支持 oracle 的 TIMESTAMP、DATE 字段类型，其中 Types.DATE 值并不会出现
+				// 保留对 Types.DATE 的判断，一是为了逻辑上的正确性、完备性，二是其它类型的数据库可能用得着
+				else if (type == Types.TIMESTAMP || type == Types.DATE) {
+					typeStr = "java.util.Date";
+				}
+				// 支持 PostgreSql 的 jsonb json
+				else if (type == Types.OTHER) {
+					typeStr = "java.lang.Object";
+				} else {
+					typeStr = "java.lang.String";
+				}
+			}
+			
+//			typeStr = handleJavaType(typeStr, rsmd, i);
+			
+			cm.javaType = typeStr;
+			
+			// 构造字段对应的属性名 attrName
+			cm.attrName = buildAttrName(cm.name);
+			
+			// 备注字段赋值
+			//lxx:这里要用大写字段名去匹配，否则匹配不对应字段的备注
+			if (generateRemarks && columnMetaMap.containsKey(cm.name.toUpperCase())) {
+				cm.remarks = columnMetaMap.get(cm.name.toUpperCase()).remarks;
+			}else if(columnMetaMap.containsKey(cm.name.toLowerCase())) {
+				cm.remarks = columnMetaMap.get(cm.name.toLowerCase()).remarks;
+			}
+			
+			tableMeta.columnMetas.add(cm);
+		}
+		
+		rs.close();
+		stm.close();
+	}
+	
+	
+	protected void buildColumnMetas2(TableMeta tableMeta) throws SQLException {
+		String sql = dialect.forTableBuilderDoBuild(tableMeta.name);
+		
+		Statement stm = conn.createStatement();
+		ResultSet rs = stm.executeQuery(sql);
+		ResultSetMetaData rsmd = rs.getMetaData();
 		
 		for (int i=1; i<=rsmd.getColumnCount(); i++) {
 			ColumnMeta cm = new ColumnMeta();
 			cm.name = rsmd.getColumnName(i).toLowerCase();//字段转为小写
-			
+			cm.remarks=rsmd.getColumnLabel(i);
 			String typeStr = null;
 			if (dialect.isKeepByteAndShort()) {
 				int type = rsmd.getColumnType(i);
@@ -199,12 +281,7 @@ public class LoserStarMetaBuilderDB2 extends MetaBuilder {
 			
 			// 构造字段对应的属性名 attrName
 			cm.attrName = buildAttrName(cm.name);
-			//lxx:这里要用大写字段名去匹配，否则匹配不对应字段的备注
-			if (columnMetaMap.containsKey(cm.name.toUpperCase())) {
-				cm.remarks = columnMetaMap.get(cm.name.toUpperCase()).remarks;
-			}else if(columnMetaMap.containsKey(cm.name.toLowerCase())) {
-				cm.remarks = columnMetaMap.get(cm.name.toLowerCase()).remarks;
-			}
+			
 			tableMeta.columnMetas.add(cm);
 		}
 		

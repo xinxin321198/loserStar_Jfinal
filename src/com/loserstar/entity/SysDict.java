@@ -8,9 +8,9 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class SysDict extends BaseSysDict<SysDict> implements Serializable{
-	public static final String TABLE_NAME = "loserStar.sys_dict";
+	public static final String TABLE_NAME = "loserstar.sys_dict";
 	public static final String PRIMARY_KEY = "dict_id";
-	public static final String SOFT_DEL_FIELD= "DEL";
+	public static final String SOFT_DEL_FIELD= "";
 	
 	public static final SysDict dao = new SysDict().dao();
 }

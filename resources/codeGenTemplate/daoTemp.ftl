@@ -12,7 +12,7 @@ import com.loserstar.utils.db.jfinal.base.imp.BaseService;
 public class ${className} extends BaseService {
 	public static final String TABLE_NAME = "${schemas}.${tableName}";
 	public static final String PRIMARY_KEY = "${primaryKey}";
-	public static final String SOFT_DEL_FIELD= "DEL";
+	public static final String SOFT_DEL_FIELD= "";
 	@Override
 	protected String getTableName() {
 		// TODO Auto-generated method stub

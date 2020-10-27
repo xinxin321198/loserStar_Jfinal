@@ -8,9 +8,9 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class DaAccount extends BaseDaAccount<DaAccount> implements Serializable{
-	public static final String TABLE_NAME = "loserStar.da_account";
+	public static final String TABLE_NAME = "loserstar.da_account";
 	public static final String PRIMARY_KEY = "id";
-	public static final String SOFT_DEL_FIELD= "DEL";
+	public static final String SOFT_DEL_FIELD= "";
 	
 	public static final DaAccount dao = new DaAccount().dao();
 }
