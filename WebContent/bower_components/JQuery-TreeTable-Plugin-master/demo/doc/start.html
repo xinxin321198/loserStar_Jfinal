@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Treetable Plugin Get Started</title>
+    <link rel="shortcut icon" href="" />
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+    <script src="../js/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Treetable Plugin</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Treetable Plugin</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="../index.html">Home</a></li>
+                <li class="active"><a href="start.html">Get Started</a></li>
+                <li><a href="api.html">API</a></li>
+                <li><a href="https://git.oschina.net/harris992/JQuery-TreeTable-Plugin" target="_blank">Contact</a></li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+<BR><BR>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-xs-12" role="main">
+            <div class="page-header">
+                <h1>Treetable Plugin Get Started
+                    <small></small>
+                </h1>
+            </div>
+            <p class="h4">基于JQuery的表格树插件，按 <code>data-id</code>和<code>data-pid</code>计算布局，在表格中展现树型结构。</p>
+            <p class="h4">插件包含初始化选项，监听事件和常用方法。</p>
+            <p class="h4">内置样式使用bootstrap3</p>
+            <div class="page-header">
+                <h1>Download
+                    <small>下载</small>
+                </h1>
+            </div>
+
+            <code>
+
+js/bootstrap-treetable.js
+            </code>
+            <div class="page-header">
+                <h1>Import
+                    <small>script标签引入</small>
+                </h1>
+            </div>
+
+
+            <pre>
+
+&lt;script src="js/bootstrap-treetable.js"&gt;&lt;/script&gt;
+            </pre><div class="page-header">
+                <h1>initialized
+                    <small>初始化</small>
+                </h1>
+            </div>
+
+
+            <pre>
+
+var treetable = $('#treetable').BootstrapTreeTable({
+    expandlevel: 1,
+    expandAll: false,
+    collapseAll: false,
+    maxResult: ''
+})
+            </pre>
+
+        </div>
+    </div>
+</div>
+</div>
+<footer>
+    <div class="container">
+        <hr>
+        <br>
+
+        <p class="pull-right"><a href="#">Back to top</a></p>
+
+        <p class="text-center">
+            &copy;2016 huanglin992@163.com
+        </p>
+        <br>
+    </div>
+</footer>
+
+
+<script src="../js/jquery-1.11.3.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+
+<script>
+
+</script>
+</body>
+</html>
+
+

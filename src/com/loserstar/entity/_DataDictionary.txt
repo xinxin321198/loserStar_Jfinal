@@ -1,0 +1,38 @@
+Table: loserStar.sys_dict
+------------------+---------------+------+-----+---------+---------
+ Field            | Type          | Null | Key | Default | Remarks 
+------------------+---------------+------+-----+---------+---------
+ dict_id          | VARCHAR(100)  | NO   | PRI |         | 主键      
+ dict_value       | VARCHAR(100)  | YES  |     |         | 值       
+ dict_name        | VARCHAR(100)  | YES  |     |         | 名称      
+ dict_type        | VARCHAR(100)  | YES  |     |         | 类型      
+ dict_remarks     | VARCHAR(100)  | YES  |     |         | 备注      
+ dict_c_name      | VARCHAR(100)  | YES  |     |         | java后端使用的常量名称
+ dict_css_style   | VARCHAR(100)  | YES  |     |         | 前端附加的样式 
+ dict_sort        | INT(10)       | YES  |     | 0       | 排序码     
+ del              | VARCHAR(10)   | NO   |     | 0       | 删除标志    
+ create_time      | TIMESTAMP(19) | YES  |     |         | 创建时间    
+ create_user_code | VARCHAR(50)   | YES  |     |         | 创建人编号   
+ create_user_name | VARCHAR(50)   | YES  |     |         | 创建人姓名   
+ update_time      | TIMESTAMP(19) | YES  |     |         | 更新时间    
+ update_user_code | VARCHAR(50)   | YES  |     |         | 更新人编号   
+ update_user_name | VARCHAR(50)   | YES  |     |         | 更新人姓名   
+------------------+---------------+------+-----+---------+---------
+
+Table: loserStar.sys_user
+------------------+---------------+------+-----+---------+---------
+ Field            | Type          | Null | Key | Default | Remarks 
+------------------+---------------+------+-----+---------+---------
+ id               | VARCHAR(50)   | NO   | PRI |         | 主键id，用作账号名
+ user_name        | VARCHAR(64)   | YES  |     |         | 用户名     
+ password         | VARCHAR(64)   | YES  |     |         | 密码      
+ pwd_err_count    | INT(10)       | NO   |     | 0       | 密码输入错误次数
+ del              | VARCHAR(10)   | NO   |     | 0       | 删除标志    
+ create_time      | TIMESTAMP(19) | YES  |     |         | 创建时间    
+ create_user_code | VARCHAR(50)   | YES  |     |         | 创建人编号   
+ create_user_name | VARCHAR(50)   | YES  |     |         | 创建人姓名   
+ update_time      | TIMESTAMP(19) | YES  |     |         | 更新时间    
+ update_user_code | VARCHAR(50)   | YES  |     |         | 更新人编号   
+ update_user_name | VARCHAR(50)   | YES  |     |         | 更新人姓名   
+------------------+---------------+------+-----+---------+---------
+

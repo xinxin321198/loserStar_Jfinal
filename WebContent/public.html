@@ -1,0 +1,535 @@
+<#if !(jsdt??)>
+  <#--这是js和css等静态文件引用的时间戳变量，如需全部静态资源更新时间戳，则修改此文件的此变量；如果只更新某个页面上的静态资源时间戳，请到该页面上自己定义同名的变量-->
+    <#assign jsdt="202310311">
+</#if>
+<!-- 页面head头标签-begin -->
+<#macro loserStarHeader title="页面标题">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>${title}</title>
+    <!-- 告诉浏览器该页面是自适应布局 -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- jQuery 3 -->
+    <script src="../bower_components/jquery/dist/jquery.min.js?dt=${jsdt}"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="../bower_components/jquery-ui/jquery-ui.min.js?dt=${jsdt}"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="../bower_components/jquery-knob/dist/jquery.knob.min.js?dt=${jsdt}"></script>
+    <!-- Slimscroll -->
+    <script src="../bower_components/jquery-slimscroll/jquery.slimscroll.min.js?dt=${jsdt}"></script>
+
+    <!-- Bootstrap 3.3.7 -->
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js?dt=${jsdt}"></script>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css?dt=${jsdt}">
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js?dt=${jsdt}"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css?dt=${jsdt}">
+
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css?dt=${jsdt}">
+
+
+
+    <!-- Morris chart -->
+    <script src="../bower_components/raphael/raphael.min.js?dt=${jsdt}"></script>
+    <script src="../bower_components/morris.js/morris.min.js?dt=${jsdt}"></script>
+    <link rel="stylesheet" href="../bower_components/morris.js/morris.css?dt=${jsdt}">
+
+    <!-- jvectormap -->
+    <script src="../plugins/jvectormap/jquery-jvectormap-1.2.2.min.js?dt=${jsdt}"></script>
+    <script src="../plugins/jvectormap/jquery-jvectormap-world-mill-en.js?dt=${jsdt}"></script>
+    <link rel="stylesheet" href="../bower_components/jvectormap/jquery-jvectormap.css?dt=${jsdt}">
+
+    <!-- Date Picker -->
+    <!-- date rangepicker -->
+    <script src="../bower_components/moment/min/moment.min.js?dt=${jsdt}"></script>
+    <script src="../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js?dt=${jsdt}"></script>
+    <link rel="stylesheet"
+      href="../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css?dt=${jsdt}">
+
+    <!-- Daterange picker -->
+    <script src="../bower_components/bootstrap-daterangepicker/daterangepicker.js?dt=${jsdt}"></script>
+    <link rel="stylesheet" href="../bower_components/bootstrap-daterangepicker/daterangepicker.css?dt=${jsdt}">
+
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css?dt=${jsdt}">
+
+    <!-- Sparkline -->
+    <script src="../bower_components/jquery-sparkline/dist/jquery.sparkline.min.js?dt=${jsdt}"></script>
+
+    <!-- FastClick -->
+    <script src="../bower_components/fastclick/lib/fastclick.js?dt=${jsdt}"></script>
+
+    <!-- iCheck -->
+    <script src="../plugins/iCheck/icheck.min.js?dt=${jsdt}"></script>
+    <link rel="stylesheet" href="../plugins/iCheck/square/blue.css?dt=${jsdt}">
+
+    <!-- Bootstrap Color Picker -->
+    <!-- bootstrap color picker -->
+    <script src="../bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+    <link rel="stylesheet" href="../bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="../bower_components/select2/dist/css/select2.min.css">
+    <!-- Select2 -->
+    <script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
+
+    <!-- DataTables 自己替换过新版本，使用全功能版本-->
+    <script src="../bower_components/DataTables-1.13.6/js/datatables.min.all.js?dt=${jsdt}"></script>
+    <link rel="stylesheet" href="../bower_components/DataTables-1.13.6/css/datatables.min.all.css?dt=${jsdt}">
+    <!-- 国际化文件 -->
+    <script src="../bower_components/DataTables-1.13.6/i18n/datatablesCfg.js?dt=${jsdt}"></script>
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="../css/googleFront.css?dt=${jsdt}">
+
+    <!-- AdminLTE App -->
+    <script src="../dist/js/adminlte.js?dt=${jsdt}"></script>
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css?dt=${jsdt}">
+    <!-- AdminLTE 皮肤。
+                  从 css/skins 目录下选择一个皮肤，以减少负载，而不是下载所有皮肤。 -->
+    <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css?dt=${jsdt}">
+    <!-- <link rel="stylesheet" href="../dist/css/skins/skin-blue.min.css"> -->
+
+
+    <!-- sweetalert组件 -->
+    <script src="../bower_components/sweetalert/sweet-alert.min.js?dt=${jsdt}"></script>
+    <link rel="stylesheet" href="../bower_components/sweetalert/sweet-alert.css?dt=${jsdt}">
+
+    <!-- 百度webuploader-0.1.5上传组件 -->
+    <link rel="stylesheet" href="../bower_components/webuploader-0.1.5/webuploader.css?dt=${jsdt}">
+    <script src="../bower_components/webuploader-0.1.5/webuploader.html5only.min.js?dt=${jsdt}"></script>
+
+    <!-- bootstrap-table-1.22.1 -->
+    <!-- bootstrap-table-treegrid -->
+    <script src="../bower_components/bootstrap-table-1.22.1/dist/bootstrap-table.min.js?dt=${jsdt}"></script>
+    <script src="../bower_components/bootstrap-table-1.22.1/dist/bootstrap-table-locale-all.min.js?dt=${jsdt}"></script>
+    <link rel="stylesheet" href="../bower_components/bootstrap-table-1.22.1/dist/bootstrap-table.min.css?dt=${jsdt}">
+    <script
+      src="../bower_components/bootstrap-table-1.22.1/dist/extensions/treegrid/bootstrap-table-treegrid.min.js?dt=${jsdt}"></script>
+
+    <!-- jQuery treetable https://plugins.jquery.com/treetable-->
+    <script src="../bower_components/jquery-treetable-3.2.0/jquery.treetable.js?dt=${jsdt}"></script>
+    <link rel="stylesheet" href="../bower_components/jquery-treetable-3.2.0/css/jquery.treetable.css?dt=${jsdt}">
+    <link rel="stylesheet"
+      href="../bower_components/jquery-treetable-3.2.0/css/jquery.treetable.theme.default.css?dt=${jsdt}">
+
+    <!-- 基于JQuery的表格树插件,国人开发 https://gitee.com/harris992/JQuery-TreeTable-Plugin -->
+    <script src="../bower_components/JQuery-TreeTable-Plugin-master/src/bootstrap-treetable.js?dt=${jsdt}"></script>
+
+
+    <!-- AdminLTE for demo purposes -->
+    <script src="../dist/js/demo.js?dt=${jsdt}"></script>
+    <!-- loserStar自己封装的一些东西 -->
+    <script src="../js/ajaxUtils.js?dt=${jsdt}"></script>
+    <script src="../js/loserStarJsUtils.js?dt=${jsdt}"></script>
+    <script src="../js/loserStarBoostrapUtils.js?dt=${jsdt}"></script>
+    <script src="../js/loserStarSweetAlertUtils.js?dt=${jsdt}"></script>
+    <script src="../js/loserStarFileUploadBootstrapWindow_WebUploader1.2.js?dt=${jsdt}"></script>
+    <script src="../js/loserStarTreeDataSelectBootstrapWindow1.0.js?dt=${jsdt}"></script>
+    <script src="../js/loserStarDataSelectBootstrapWindow1.1.js?dt=${jsdt}"></script>
+
+    <script src="../js/dict/dict.js?dt=${jsdt}"></script>
+
+
+    <script>
+    </script>
+    <style>
+      /* datatables的工具栏样式 */
+      .toolbar {
+        float: left;
+      }
+    </style>
+    <#nested>
+  </head>
+</#macro>
+<!-- 页面head头标签-end -->
+
+<!--底部版权信息--begin-->
+<#macro loserStarFooter title="页面标题">
+  <nav class="navbar" style="margin-bottom: 5px;min-height:0px">
+    <div class="container">
+      <div class="pull-right hidden-xs">
+        <b>Version</b> 2.4.18
+      </div>
+      <strong>Copyright © 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
+      reserved.
+    </div>
+    </div>
+  </nav>
+</#macro>
+<!--底部版权信息--end-->
+
+
+<#macro loserStarBody title="主标题" title2="副标题">
+
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+      <header class="main-header">
+        <!-- Logo -->
+        <a href="../index/index.do" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini"><b>后台管理</b></span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><b>后台管理</b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">切换导航</span>
+          </a>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <!-- User Account: style can be found in dropdown.less -->
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="../weiAppMedia/downIcon.do?file=hongta_log.png" class="user-image" alt="用户图像">
+                  <span class="hidden-xs">${user.user_name}</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">
+                    <img src="../weiAppMedia/downIcon.do?file=hongta_log.png" class="img-circle" alt="用户图像">
+                    <p>
+                      用户相关信息
+                      <small>账号：${user.id}</small>
+                      <small>用户名${user.user_name}</small>
+                      <small>密码：${user.password}</small>
+                      <small>密码错误次数：${user.pwd_err_count}</small>
+                      <small>创建时间：${user.create_time}</small>
+                    </p>
+                  </li>
+                  <!-- Menu Body -->
+                  <li class="user-body">
+                    <div class="row">
+                      <div class="col-xs-4 text-center">
+                        <a href="#">链接1</a>
+                      </div>
+                      <div class="col-xs-4 text-center">
+                        <a href="#">链接2</a>
+                      </div>
+                      <div class="col-xs-4 text-center">
+                        <a href="#">链接3</a>
+                      </div>
+                    </div>
+                    <!-- /.row -->
+                  </li>
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <div class="pull-left">
+                      <a href="#" class="btn btn-default btn-flat">资料</a>
+                    </div>
+                    <div class="pull-right">
+                      <a href="../login/loginOut.do" class="btn btn-default btn-flat">退出</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <!-- Control Sidebar Toggle Button -->
+              <li>
+                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+
+      <!-- 左侧菜单 -->
+      <!-- Left side column. contains the logo and sidebar -->
+      <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- Sidebar user panel -->
+          <div class="user-panel">
+            <div class="pull-left image">
+              <img src="../weiAppMedia/downIcon.do?file=hongta_log.png" class="img-circle" alt="用户图像">
+            </div>
+            <div class="pull-left info">
+              <p>${currentUser.user_name}</p>
+              <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+            </div>
+          </div>
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu" data-widget="tree" data-accordion="false">
+            <li class="header">主导航</li>
+            <li class="<#if actionKey?contains('index.do')>active</#if>">
+              <a href="../index/index.do">
+                <i class="fa fa-bank"></i> <span>首页</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+            <li class="active treeview ">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>系统配置</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu menu-open">
+                <li class="<#if actionKey?contains('/sysDict/')>active</#if>"><a
+                    href="../sysDict/listPage.do"><i class="fa fa-circle-o"></i>数据字典</a></li>
+                <li class="<#if actionKey?contains('/sysUser/')>active</#if>"><a
+                    href="../sysUser/listPage.do"><i class="fa fa-circle-o"></i>用户管理</a></li>
+              </ul>
+            </li>
+            <li class="treeview ">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span>菜单</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li class=""><a
+                    href="#"><i class="fa fa-circle-o"></i>菜单一</a></li>
+                <li class=""><a
+                    href="#"><i class="fa fa-circle-o"></i>菜单二</a></li>
+              </ul>
+            </li>
+            <li class="header">菜单分隔</li>
+              <li class="treeview menu-open">
+                <a href="#">
+                  <i class="fa fa-dashboard"></i> <span></span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li class="<#if actionKey?contains('/hthyBatch/')>active</#if>"><a
+                      href="#"><i class="fa fa-circle-o"></i>菜单1</a>
+                  </li>
+                  <li class="<#if actionKey?contains('/hthyBatchIndexContent/')>active</#if>"><a
+                      href="#"><i
+                        class="fa fa-circle-o"></i>菜单2</a></li>
+                </ul>
+              </li>
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (页眉) -->
+        <section class="content-header">
+          <h1>
+            ${title}
+            <small>${title2}</small>
+          </h1>
+          <!-- <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+          <li class="active">仪表盘</li>
+        </ol> -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <#nested>
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark" style="display: none;">
+        <!-- Create the tabs -->
+        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+          <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+          <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <!-- Home tab content -->
+          <div class="tab-pane" id="control-sidebar-home-tab">
+            <h3 class="control-sidebar-heading">近期活动</h3>
+            <ul class="control-sidebar-menu">
+              <li>
+                <a href="javascript:void(0)">
+                  <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+                  <div class="menu-info">
+                    <h4 class="control-sidebar-subheading">Langdon's 生日</h4>
+
+                    <p>23岁生日，在4月24日</p>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <i class="menu-icon fa fa-user bg-yellow"></i>
+
+                  <div class="menu-info">
+                    <h4 class="control-sidebar-subheading">Frodo 更新了个人资料</h4>
+
+                    <p>新电话 +1(800)555-1234</p>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+
+                  <div class="menu-info">
+                    <h4 class="control-sidebar-subheading">Nora 加入邮件列表</h4>
+
+                    <p>nora@example.com</p>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <i class="menu-icon fa fa-file-code-o bg-green"></i>
+
+                  <div class="menu-info">
+                    <h4 class="control-sidebar-subheading">254 计划任务执行</h4>
+
+                    <p>执行时间5秒</p>
+                  </div>
+                </a>
+              </li>
+            </ul>
+            <!-- /.control-sidebar-menu -->
+
+            <h3 class="control-sidebar-heading">任务进度</h3>
+            <ul class="control-sidebar-menu">
+              <li>
+                <a href="javascript:void(0)">
+                  <h4 class="control-sidebar-subheading">
+                    自定义模板设计
+                    <span class="label label-danger pull-right">70%</span>
+                  </h4>
+
+                  <div class="progress progress-xxs">
+                    <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <h4 class="control-sidebar-subheading">
+                    更新简历
+                    <span class="label label-success pull-right">95%</span>
+                  </h4>
+
+                  <div class="progress progress-xxs">
+                    <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <h4 class="control-sidebar-subheading">
+                    Laravel 综合
+                    <span class="label label-warning pull-right">50%</span>
+                  </h4>
+
+                  <div class="progress progress-xxs">
+                    <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <h4 class="control-sidebar-subheading">
+                    后端框架
+                    <span class="label label-primary pull-right">68%</span>
+                  </h4>
+
+                  <div class="progress progress-xxs">
+                    <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+            <!-- /.control-sidebar-menu -->
+
+          </div>
+          <!-- /.tab-pane -->
+          <!-- 统计标签内容 -->
+          <div class="tab-pane" id="control-sidebar-stats-tab">统计标签内容</div>
+          <!-- /.tab-pane -->
+          <!-- Settings tab content -->
+          <div class="tab-pane" id="control-sidebar-settings-tab">
+            <form method="post">
+              <h3 class="control-sidebar-heading">常规设置</h3>
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  报告面板使用
+                  <input type="checkbox" class="pull-right" checked>
+                </label>
+
+                <p>
+                  有关此常规设置选项信息
+                </p>
+              </div>
+              <!-- /.form-group -->
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  允许邮件重定向
+                  <input type="checkbox" class="pull-right" checked>
+                </label>
+
+                <p>
+                  其他选项是可用的
+                </p>
+              </div>
+              <!-- /.form-group -->
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  在帖子中显示作者姓名
+                  <input type="checkbox" class="pull-right" checked>
+                </label>
+
+                <p>
+                  允许用户在博客帖子中显示自己的名字
+                </p>
+              </div>
+              <!-- /.form-group -->
+
+              <h3 class="control-sidebar-heading">聊天设置</h3>
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  显示我在线
+                  <input type="checkbox" class="pull-right" checked>
+                </label>
+              </div>
+              <!-- /.form-group -->
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  关闭通知
+                  <input type="checkbox" class="pull-right">
+                </label>
+              </div>
+              <!-- /.form-group -->
+
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                  删除聊天记录
+                  <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+                </label>
+              </div>
+              <!-- /.form-group -->
+            </form>
+          </div>
+          <!-- /.tab-pane -->
+        </div>
+      </aside>
+      <!-- /.control-sidebar -->
+      <!-- 添加侧边栏的背景。
+       这个 div必须放在 control-sidebar 之后 -->
+      <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+  </body>
+</#macro>

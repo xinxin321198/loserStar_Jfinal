@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Treetable Plugin API</title>
+    <link rel="shortcut icon" href="" />
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+    <script src="../js/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .pagination {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Treetable Plugin</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Treetable Plugin</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="start.html">Get Started</a></li>
+                <li class="active"><a href="#">API</a></li>
+                <li><a href="https://git.oschina.net/harris992/JQuery-TreeTable-Plugin" target="_blank">Contact</a></li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+<BR><BR>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-xs-12" role="main">
+            <div class="page-header">
+                <h1>Treetable API
+                    <small>使用说明</small>
+                </h1>
+            </div>
+            <p class="h4">基于JQuery的表格树插件，按 <code>data-id</code>和<code>data-pid</code>计算布局，在表格中展现树型结构。</p>
+
+            <div class="page-header">
+                <h1>Core options
+                    <small>选项</small>
+                </h1>
+            </div>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>levelSpacing</td>
+                    <td>integer</td>
+                    <td>20</td>
+                    <td>级次间距 px</td>
+                </tr>
+                <tr>
+                    <td>column</td>
+                    <td>integer</td>
+                    <td>0</td>
+                    <td>指定排序列号</td>
+                </tr>
+                <tr>
+                    <td>expandlevel</td>
+                    <td>integer</td>
+                    <td>0</td>
+                    <td>默认展开级次</td>
+                </tr>
+                <tr>
+                    <td>expandAll</td>
+                    <td>boolean</td>
+                    <td>false</td>
+                    <td>是否全部展开</td>
+                </tr>
+                <tr>
+                    <td>collapseAll</td>
+                    <td>boolean</td>
+                    <td>false</td>
+                    <td>是否全部关闭</td>
+                </tr>
+                <tr>
+                    <td>expendedIcon</td>
+                    <td>string</td>
+                    <td>'&lt;span class="glyphicon glyphicon-minus"&gt;&lt;/span&gt;'</td>
+                    <td>节点展开图标</td>
+                </tr>
+                <tr>
+                    <td>collapsedIcon</td>
+                    <td>string</td>
+                    <td>'&lt;span class="glyphicon glyphicon-plus"&gt;&lt;/span&gt;'</td>
+                    <td>节点关闭图标</td>
+                </tr>
+                <tr>
+                    <td>leafIcon</td>
+                    <td>string</td>
+                    <td>'&lt;span class="glyphicon glyphicon-leaf"&gt;&lt;/span&gt;'</td>
+                    <td>节点展开图标</td>
+                </tr>
+                <tr>
+                    <td>maxResult</td>
+                    <td>integer</td>
+                    <td>20</td>
+                    <td>搜索最大结果集，超过将停止返回结果</td>
+                </tr>
+                <tr>
+                    <td>matchClass</td>
+                    <td>string</td>
+                    <td>'text-danger'</td>
+                    <td>查询匹配节点class</td>
+                </tr>
+                <tr>
+                    <td>choseClass</td>
+                    <td>string</td>
+                    <td>'bg-info'</td>
+                    <td>定位匹配节点class</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <pre>
+
+var treetable = $('#treetable').BootstrapTreeTable({
+    expandlevel: 1,
+    expandAll: false,
+    collapseAll: false,
+    maxResult: ''
+})
+            </pre>
+            <div class="page-header">
+                <h1>Events
+                    <small>事件</small>
+                </h1>
+            </div>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Event Type</th>
+                    <th>Description</th>
+                    <th>Return Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>show.bs.treetable</td>
+                    <td>展开节点时触发事件</td>
+                    <td><code>Event e</code>,<code>Object node</code></td>
+                </tr>
+                <tr>
+                    <td>shown.bs.treetable</td>
+                    <td>展开节点后触发事件</td>
+                    <td><code>Event e</code>,<code>Object node</code></td>
+                </tr>
+                <tr>
+                    <td>hide.bs.treetable</td>
+                    <td>关闭节点时触发事件</td>
+                    <td><code>Event e</code>,<code>Object node</code></td>
+                </tr>
+                <tr>
+                    <td>hidden.bs.treetable</td>
+                    <td>关闭节点后触发事件</td>
+                    <td><code>Event e</code>,<code>Object node</code></td>
+                </tr>
+                <tr>
+                    <td>initialized.bs.treetable</td>
+                    <td>初始化插件完成后触发事件</td>
+                    <td><code>Event e</code></td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <pre>
+
+$('#treetable').BootstrapTreeTable().on("show.bs.treetable", function (e, node) {
+    //console.log('show', node);
+})
+
+$('#treetable').BootstrapTreeTable().on("shown.bs.treetable", function (e, node) {
+    //console.log('shown', node);
+})
+
+$('#treetable').BootstrapTreeTable().on("hide.bs.treetable", function (e, node) {
+    //console.log('hide', node);
+})
+
+$('#treetable').BootstrapTreeTable().on("hidden.bs.treetable", function (e, node) {
+    //console.log('hidden', node);
+})
+
+$('#initialized').BootstrapTreeTable().on("hidden.bs.treetable", function (e) {
+    //console.log('initialized', this);
+})
+            </pre>
+            <div class="page-header">
+                <h1>Methods
+                    <small>方法</small>
+                </h1>
+            </div>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Parameters</th>
+                    <th>Return Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>searchNodeName</td>
+                    <td>查询节点，返回结果数</td>
+                    <td><code>string</code>查询字符</td>
+                    <td><code>string</code></td>
+                </tr>
+                <tr>
+                    <td>searchNodeId</td>
+                    <td>根据节点<code>data-id</code>查询，并高亮显示</td>
+                    <td><code>string</code>data-id</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>removeById</td>
+                    <td>根据节点<code>data-id</code>删除节点</td>
+                    <td><code>string</code>data-id</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>removeByNode</td>
+                    <td>根据节点<code>Object</code>删除节点</td>
+                    <td><code>Object</code>node</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>expendLevel</td>
+                    <td>展开全部指定级次</td>
+                    <td><code>integer</code>level</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>expendAll</td>
+                    <td>展开全部节点</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>collapseAll</td>
+                    <td>关闭全部节点</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>destroy</td>
+                    <td>注销插件</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>reset</td>
+                    <td>重置插件</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <pre>
+
+$('#treetable').BootstrapTreeTable('searchNodeName', '计算机');
+$('#treetable').BootstrapTreeTable('searchNodeId', '337A2575C9404167AFE020D8C27D1C45');
+$('#treetable').BootstrapTreeTable('removeById', '337A2575C9404167AFE020D8C27D1C45');
+
+var node = $(this).parents('tr');
+$('#treetable').BootstrapTreeTable('removeByNode', node);
+
+$('#treetable').BootstrapTreeTable('removeById', '337A2575C9404167AFE020D8C27D1C45');
+$('#treetable').BootstrapTreeTable('expendLevel','2');
+$('#treetable').BootstrapTreeTable('expendAll');
+$('#treetable').BootstrapTreeTable('collapseAll');
+$('#treetable').BootstrapTreeTable('destroy');
+$('#treetable').BootstrapTreeTable('reset');
+            </pre>
+
+            <div class="page-header">
+                <h1>Properties
+                    <small>属性</small>
+                </h1>
+            </div>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Return Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>getMaxLevel</td>
+                    <td>获取层级数</td>
+                    <td><code>integer</code></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <pre>
+
+$('#treetable').BootstrapTreeTable('getMaxLevel');
+            </pre>
+        </div>
+    </div>
+</div>
+</div>
+<footer>
+    <div class="container">
+        <hr>
+        <br>
+
+        <p class="pull-right"><a href="#">Back to top</a></p>
+
+        <p class="text-center">
+            &copy;2016 huanglin992@163.com
+        </p>
+        <br>
+    </div>
+</footer>
+
+
+<script src="../js/jquery-1.11.3.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+
+<script>
+
+</script>
+</body>
+</html>
+
+

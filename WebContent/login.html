@@ -1,0 +1,84 @@
+<#setting classic_compatible=true />
+<#include "public.html" />
+<!DOCTYPE html>
+<html>
+<@loserStarHeader title="后台登录">
+  <script>
+    $(function () {
+      $('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' /* optional */
+      });
+    });
+    var refreshCheckCode = function () {
+      $("#loginCheckCodeImg").attr("src", "getLoginCheckCodeImg.do?dt=" + new Date().getTime());
+    }
+  </script>
+</@loserStarHeader>
+
+<body class="hold-transition login-page layout-top-nav">
+  <div class="wrapper">
+    <div class="login-box">
+      <div class="login-logo">
+        <b>XXX</b>XXX
+      </div>
+      <!-- /.login-logo -->
+      <div class="login-box-body">
+        <p class="login-box-msg">输入账号密码进行登录</p>
+        <form action="login.do" method="post">
+          <div class="form-group has-feedback">
+            <input id="userid" name="userid" type="text" class="form-control" placeholder="用户名" value="15087010221">
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+            <input id="password" name="password" type="password" class="form-control" placeholder="密码" value="123">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <img id="loginCheckCodeImg" src="getLoginCheckCodeImg.do" alt="验证码" onclick="refreshCheckCode()">
+          <div class="form-group has-feedback">
+            <input id="check_code" name="check_code" type="text" class="form-control" placeholder="验证码">
+            <span class="glyphicon glyphicon-barcode form-control-feedback"></span>
+          </div>
+          <div class="row">
+            <div class="col-xs-8">
+              <div class="checkbox icheck">
+                <label>
+                  <input type="checkbox"> 记住我
+                </label>
+              </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-xs-4">
+              <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
+            </div>
+            <!-- /.col -->
+          </div>
+          <#if error??>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <h4><i class="icon fa fa-ban"></i> 错误！</h4>
+                  ${error}
+                </div>
+              </div>
+              <!-- /.col -->
+            </div>
+          </#if>
+        </form>
+        <!-- /.social-auth-links -->
+        <!--  <a href="#">我忘记了密码</a><br>  -->
+        <a href="../../AdminLTE-2.4.18/" target="_blank">本地开发示例2.4.18</a><br>
+        <a href="../../AdminLTE_CN-2.4.18/" target="_blank">本地中文示例2.4.18</a><br>
+        <a href="https://3vshej.cn/AdminLTE/" target="_blank">在线中文示例</a><br>
+        <a href="https://3vshej.cn/AdminLTE/AdminLTE-2.3.11/documentation/index.html" target="_blank">在线中文文档</a><br>
+      </div>
+      <!-- /.login-box-body -->
+    </div>
+    <!-- /.login-box -->
+  </div>
+  <!-- /.wrapper -->
+</body>
+<@loserStarFooter />
+</html>

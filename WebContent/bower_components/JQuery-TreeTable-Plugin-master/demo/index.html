@@ -1,0 +1,2262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Treetable Plugin</title>
+    <link rel="shortcut icon" href="" />
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .pagination {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Treetable Plugin</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Treetable Plugin</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html">Home</a></li>
+                <li><a href="doc/start.html">Get Started</a></li>
+                <li><a href="doc/api.html">API</a></li>
+                <li><a href="https://git.oschina.net/harris992/JQuery-TreeTable-Plugin" target="_blank">Contact</a></li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+<BR><BR>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-xs-12" role="main">
+            <div class="page-header">
+                <h1>Treetable Demo
+                    <small>Treetable 演示</small>
+                </h1>
+            </div>
+            <div class="panel panel-default">
+
+                <div class="panel-body form-horizontal">
+
+                    <div class="form-group">
+                        <!--<label class="col-xs-2 control-label">-->
+                        <!--目录名称：-->
+                        <!--</label>-->
+
+                        <div class="col-xs-4" data-toggle="popover" data-trigger="focus" data-content="请输入20位有效字符">
+                            <div class="input-group ">
+                                <input type="text" id="serachvalue" class="form-control" placeholder="请输入查询条件">
+			                                          <span class="input-group-btn">
+			                                            <button class="btn btn-default form-control" type="button"
+                                                                id="serach">查询
+                                                        </button>
+			                                          </span>
+                            </div>
+                        </div>
+
+
+                        <div class="col-xs-8 text-right">
+
+                            <!--<button type="button" class="btn btn-primary" id="dodel">删除ById-->
+                            <!--</button>-->
+                            <button type="button" class="btn btn-primary" id="destroy">注销
+                            </button>
+                            <button type="button" class="btn btn-primary" id="reset">初始化
+                            </button>
+                            <button type="button" class="btn btn-primary" id="expendAll">全部展开
+                            </button>
+                            <button type="button" class="btn btn-primary" id="collapseAll">全部关闭
+                            </button>
+                        </div>
+                    </div>
+
+                    <nav class="pull-right">
+                        <ul class="pagination">
+
+                        </ul>
+                    </nav>
+
+                    <table class="table table-hover table-condensed " id="treetable">
+                        <thead class="bg-default">
+                        <tr>
+                            <th>
+                                目录名称
+                            </th>
+                            <th style="width:100px">
+                                是否有效
+                            </th>
+                            <th data-column-id="item_type" data-sortable="false"  style="width:150px">
+                                关联目录
+                            </th>
+                            <th data-column-id="auditstatedesc"  style="width:100px">
+                                操作
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr data-id="scml" data-pid="">
+                            <td> 商城目录</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+                        <tr data-id="CCE51A20825D478B9D3621ED52D67785" data-pid="scml">
+                            <td>A 货物</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="BA0903EC358847599B63BBCE001B3A74" data-pid="CCE51A20825D478B9D3621ED52D67785">
+                            <td>A02 通用设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="7984F2B58C044F3599A56F7BF5CECC01" data-pid="BA0903EC358847599B63BBCE001B3A74">
+                            <td>A0201 计算机设备及软件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="BD5E9DAC5E3C4FED83BF5E5FA03C4442" data-pid="7984F2B58C044F3599A56F7BF5CECC01">
+                            <td>A020101 计算机设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="9F80250B500142C9A4763E15B52FE65F" data-pid="BD5E9DAC5E3C4FED83BF5E5FA03C4442">
+                            <td>A02010101 巨/大/中型计算机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="337A2575C9404167AFE020D8C27D1C45" data-pid="9F80250B500142C9A4763E15B52FE65F">
+                            <td>A0201010101 巨型计算机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="B319F0F2E3444A6A8A7E2763C77F4316" data-pid="9F80250B500142C9A4763E15B52FE65F">
+                            <td>A0201010102 大型计算机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="F0D89B0F9CA244C28887AD9584CD74C3" data-pid="9F80250B500142C9A4763E15B52FE65F">
+                            <td>A0201010103 中型计算机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="A2621E1F28BE49A5A9A664CAC13DA96F" data-pid="BD5E9DAC5E3C4FED83BF5E5FA03C4442">
+                            <td>A02010102 小型计算机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="3E1E94745AE348C58A56666998BDAEFE" data-pid="BD5E9DAC5E3C4FED83BF5E5FA03C4442">
+                            <td>A02010103 服务器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="01C73576A4E34134A65271CDF3BE4DAA" data-pid="BD5E9DAC5E3C4FED83BF5E5FA03C4442">
+                            <td>A02010104 台式计算机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="BCEFC550946E479EBF9DE48A5E43A598" data-pid="BD5E9DAC5E3C4FED83BF5E5FA03C4442">
+                            <td>A02010105 便携式计算机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="864D1B0A27F04CB6B6E2AC71D97C60F7" data-pid="BD5E9DAC5E3C4FED83BF5E5FA03C4442">
+                            <td>A02010106 掌上电脑</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="5C32D432922D4E52B87A17ADB8A8925B" data-pid="BD5E9DAC5E3C4FED83BF5E5FA03C4442">
+                            <td>A02010107 平板式微型计算机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="E69F4326DFD34B408D40D8F0B2E53697" data-pid="BD5E9DAC5E3C4FED83BF5E5FA03C4442">
+                            <td>A02010199 其他计算机设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="AAB59FA243A24D0B9300D585B878DCAE" data-pid="7984F2B58C044F3599A56F7BF5CECC01">
+                            <td>A020102 计算机网络设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="E9F64DD31ED649058847206750990CCD" data-pid="AAB59FA243A24D0B9300D585B878DCAE">
+                            <td>A02010201 路由器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="F7DFF5DCFECD4FEB905CC8CA44B67225" data-pid="AAB59FA243A24D0B9300D585B878DCAE">
+                            <td>A02010202 交换设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="A42CE9493F1B4776BA75D33AC2354F3E" data-pid="F7DFF5DCFECD4FEB905CC8CA44B67225">
+                            <td>A0201020201 以太网交换机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="45D9B74BCD394619AD8CDADF14972D4F" data-pid="F7DFF5DCFECD4FEB905CC8CA44B67225">
+                            <td>A0201020299 其他交换设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="8DD2D08DC7D54A6FB5B602CE24EF0660" data-pid="AAB59FA243A24D0B9300D585B878DCAE">
+                            <td>A02010203 集线器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="0DF54B9C6BD34F769C8EBBAC09590D63" data-pid="AAB59FA243A24D0B9300D585B878DCAE">
+                            <td>A02010204 光端机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="6C3EB7C9412E4A25B0DD749429C89FDE" data-pid="AAB59FA243A24D0B9300D585B878DCAE">
+                            <td>A02010205 终端接入设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="07967377BD8342F6AFDBC490B9049612" data-pid="AAB59FA243A24D0B9300D585B878DCAE">
+                            <td>A02010206 网络控制设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="D0B4B55376504FFD976B83F830E16E6D" data-pid="07967377BD8342F6AFDBC490B9049612">
+                            <td>A0201020601 通信(控制)处理机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="84049833FD82404CA190AF116F69CDF2" data-pid="07967377BD8342F6AFDBC490B9049612">
+                            <td>A0201020602 通信控制器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="1C32A1A55AA6474CA6C65D9E81C88847" data-pid="07967377BD8342F6AFDBC490B9049612">
+                            <td>A0201020603 集中器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="366CE9F9815B45C28E590305481EC1B2" data-pid="07967377BD8342F6AFDBC490B9049612">
+                            <td>A0201020604 终端控制器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="D2441D313890495ABC104B7C6DD59E0F" data-pid="07967377BD8342F6AFDBC490B9049612">
+                            <td>A0201020605 集群控制器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="4C871C5D55C4492984D762C734655191" data-pid="07967377BD8342F6AFDBC490B9049612">
+                            <td>A0201020606 多站询问单位</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="D1026873AA984AACA25945237981C597" data-pid="07967377BD8342F6AFDBC490B9049612">
+                            <td>A0201020699 其他网络控制设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="1C9705FD989A412F80992DAA9ECE4D05" data-pid="AAB59FA243A24D0B9300D585B878DCAE">
+                            <td>A02010207 网络接口和适配器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="1C4995C9B3FC481D8BD940B39BECF739" data-pid="1C9705FD989A412F80992DAA9ECE4D05">
+                            <td>A0201020701 网络接口</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="A3561BC8729049579D3339E3FE0BC530" data-pid="1C9705FD989A412F80992DAA9ECE4D05">
+                            <td>A0201020702 通信适配器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="A99C77B17EC44D53B84FB5477A29C4DB" data-pid="1C9705FD989A412F80992DAA9ECE4D05">
+                            <td>A0201020703 接口适配器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="2E02F4CD82724D57BBD16CF5E87E09CD" data-pid="1C9705FD989A412F80992DAA9ECE4D05">
+                            <td>A0201020704 光纤转换器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="0AE4D856F21C43C78C72ABADA3F945D8" data-pid="1C9705FD989A412F80992DAA9ECE4D05">
+                            <td>A0201020799 其他网络接口和适配器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="75355BC761BD48E5A9F1E8A215BC49D9" data-pid="AAB59FA243A24D0B9300D585B878DCAE">
+                            <td>A02010208 网络收发设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="312FEC5705BB47C78380077EA5445589" data-pid="75355BC761BD48E5A9F1E8A215BC49D9">
+                            <td>A0201020801 网络收发器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="EC4CC6962D8D4A158FF6F18E40101650" data-pid="75355BC761BD48E5A9F1E8A215BC49D9">
+                            <td>A0201020802 网络转发器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="75B34D89217847A99561DBD6A4C777C1" data-pid="75355BC761BD48E5A9F1E8A215BC49D9">
+                            <td>A0201020803 网络分配器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="58D2D330E3E943B28FDBA82856F109FE" data-pid="75355BC761BD48E5A9F1E8A215BC49D9">
+                            <td>A0201020899 其他网络收发设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="8C2E7DB93D5940B0AF6F6F89F5102406" data-pid="AAB59FA243A24D0B9300D585B878DCAE">
+                            <td>A02010209 网络连接设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="3DFEA0D0FA194FB9930CAEE6A9E64877" data-pid="8C2E7DB93D5940B0AF6F6F89F5102406">
+                            <td>A0201020901 网关</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="F1B69A018AE847D1B32EA66A0D5629B3" data-pid="8C2E7DB93D5940B0AF6F6F89F5102406">
+                            <td>A0201020902 网桥</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="796B6569E094439D9F75D83CC6FA6A6D" data-pid="8C2E7DB93D5940B0AF6F6F89F5102406">
+                            <td>A0201020999 其他网络连接设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="ACEB94C216CA469ABB5FD4C6E62B3EAA" data-pid="AAB59FA243A24D0B9300D585B878DCAE">
+                            <td>A02010210 网络检测设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="0A7496C80A5F4B919DB4143CAB1DC50A" data-pid="ACEB94C216CA469ABB5FD4C6E62B3EAA">
+                            <td>A0201021001 协议分析器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="3DF67FB5843C473F9719291813E8E03A" data-pid="ACEB94C216CA469ABB5FD4C6E62B3EAA">
+                            <td>A0201021002 协议测试设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="1555F30F9AAF4602AD9BFF6A8DC55479" data-pid="ACEB94C216CA469ABB5FD4C6E62B3EAA">
+                            <td>A0201021003 差错检测设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="720158CD11F5409C8E67C03C0606115D" data-pid="ACEB94C216CA469ABB5FD4C6E62B3EAA">
+                            <td>A0201021099 其他网络检测设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="FBF2261E449447C1891757A71B851E12" data-pid="AAB59FA243A24D0B9300D585B878DCAE">
+                            <td>A02010211 负载均衡设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="154443E3699A41DCABB79C27987B8C83" data-pid="AAB59FA243A24D0B9300D585B878DCAE">
+                            <td>A02010299 其他网络设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="C89A26FEE3FA4E75832B9FA7468056CF" data-pid="7984F2B58C044F3599A56F7BF5CECC01">
+                            <td>A020103 信息安全设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="B22ED321372F451A9EF2C0CC71AD3050" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010301 防火墙</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="A135E925E37A47EDA5F8EAB935E6970D" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010302 入侵检测设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="8F16BC34E10E4A8B879FED5AC7977433" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010303 入侵防御设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="71634F9A6AA24237BC8E44A2E5F84C11" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010304 漏洞扫描设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="E3C08269AF564B7DA67281C68E72B70E" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010305 容灾备份设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="6877EA71C0D54BE8A107EBEAB49853F6" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010306 网络隔离设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="11248377150443E299EC37C2B5B6EF08" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010307 安全审计设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="68311C4F4B82429E9EB14545DA7B6424" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010308 安全路由器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="01C7911E104844DFB28459E79D3EA2C2" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010309 计算机终端安全设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="AB686C8016904971A207573682CA78B5" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010310 网闸</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="1F0D64B978FC4B8C91E8B201ACB95D6B" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010311 网上行为管理设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="215BD647D82B468C99B0AE7A11A2C8B3" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010312 密码产品</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="424C1244122E4D3595A8A18B11AFE545" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010313 虚拟专用网（VPN）设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="02B974F2746440F4ADC2623E8148E438" data-pid="C89A26FEE3FA4E75832B9FA7468056CF">
+                            <td>A02010399 其他安全设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="0CF7517A5F1649C7B07A75DA9800F520" data-pid="7984F2B58C044F3599A56F7BF5CECC01">
+                            <td>A020104 终端设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="A17D17010FCE45F085FD1B3F580764DF" data-pid="0CF7517A5F1649C7B07A75DA9800F520">
+                            <td>A02010401 触摸式终端设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="398D3134D68C4F68B12D6C13D1E63780" data-pid="0CF7517A5F1649C7B07A75DA9800F520">
+                            <td>A02010402 终端机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="8EFBBEFA2FAB41FBAC70BE3D054AD501" data-pid="0CF7517A5F1649C7B07A75DA9800F520">
+                            <td>A02010499 其他终端设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="7EA2BB2C33D04B91A7851D26460EB779" data-pid="7984F2B58C044F3599A56F7BF5CECC01">
+                            <td>A020105 存储设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="A22939C82FF8420793011AEA57E00960" data-pid="7EA2BB2C33D04B91A7851D26460EB779">
+                            <td>A02010501 磁盘机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="B5600DA6950D4780A65C44994C246BF4" data-pid="7EA2BB2C33D04B91A7851D26460EB779">
+                            <td>A02010502 磁盘阵列</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="DD3E27B4E2D34338BE2A31A0CAA44EF5" data-pid="7EA2BB2C33D04B91A7851D26460EB779">
+                            <td>A02010503 存储用光纤交换机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="CDD5DB7AEF314C9288F97E0D9BFB04CB" data-pid="7EA2BB2C33D04B91A7851D26460EB779">
+                            <td>A02010504 光盘库</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="021F9B834E2E4F10B03A369DEE90F1B7" data-pid="7EA2BB2C33D04B91A7851D26460EB779">
+                            <td>A02010505 磁带机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="59E613E70C7C485A811AE56D42202FEC" data-pid="7EA2BB2C33D04B91A7851D26460EB779">
+                            <td>A02010506 磁带库</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="87BBFC8A1F4C416593B770FC31C01A88" data-pid="7EA2BB2C33D04B91A7851D26460EB779">
+                            <td>A02010507 网络存储设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="AC767CD06C464C69BF50E79F1F3CB9AB" data-pid="7EA2BB2C33D04B91A7851D26460EB779">
+                            <td>A02010508 移动存储设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="117B8897434E40FAB706D48CF530427E" data-pid="7EA2BB2C33D04B91A7851D26460EB779">
+                            <td>A02010599 其他存储设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="5C58094242C749FABE1A277D127B7D98" data-pid="7984F2B58C044F3599A56F7BF5CECC01">
+                            <td>A020106 输入输出设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="7854CC6A67224B1584DCECB955595B76" data-pid="5C58094242C749FABE1A277D127B7D98">
+                            <td>A02010601 打印设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="00F73073B8DE433B816BD4D3204B2363" data-pid="7854CC6A67224B1584DCECB955595B76">
+                            <td>A0201060101 喷墨打印机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="3061CEE598F24067AAF4FE549E389933" data-pid="7854CC6A67224B1584DCECB955595B76">
+                            <td>A0201060102 激光打印机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="48FA4483BBC448B796BD3F904AFF1F29" data-pid="7854CC6A67224B1584DCECB955595B76">
+                            <td>A0201060103 热式打印机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="EDE7242CAC4C4799A70A537997CC3C98" data-pid="7854CC6A67224B1584DCECB955595B76">
+                            <td>A0201060104 针式打印机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="B2A316A78C54424985ECE998A8585A01" data-pid="7854CC6A67224B1584DCECB955595B76">
+                            <td>A0201060199 其他打印设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="B024D8A2DC334CFD862F5B06B1062B48" data-pid="5C58094242C749FABE1A277D127B7D98">
+                            <td>A02010602 计算机绘图设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="653BEDA7F9014CBCBFAD41011B194B46" data-pid="5C58094242C749FABE1A277D127B7D98">
+                            <td>A02010603 计算机光电设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="05114721F6BD4205A9AF45E58C2D1FB4" data-pid="5C58094242C749FABE1A277D127B7D98">
+                            <td>A02010604 显示设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="3073793BDC8D46BABCBD16EF4E146E56" data-pid="05114721F6BD4205A9AF45E58C2D1FB4">
+                            <td>A0201060401 液晶显示器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="F46C856FA99F46078B91E43254E1A92D" data-pid="05114721F6BD4205A9AF45E58C2D1FB4">
+                            <td>A0201060402 阴极射线管显示器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="3CF948155DAD4DF8B181F33D2D2C9AD0" data-pid="05114721F6BD4205A9AF45E58C2D1FB4">
+                            <td>A0201060403 等离子显示器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="70802C7FF49D4E33B8EF08D35C77D904" data-pid="05114721F6BD4205A9AF45E58C2D1FB4">
+                            <td>A0201060499 其他显示器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="6F92D491C9A64351B12169B2D99F7965" data-pid="5C58094242C749FABE1A277D127B7D98">
+                            <td>A02010605 KVM设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="C20D63DEEE46499EAFAE9FE785055CF8" data-pid="5C58094242C749FABE1A277D127B7D98">
+                            <td>A02010606 综合输入设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="ABB8EB5BDFB046258519E84A7188DE44" data-pid="5C58094242C749FABE1A277D127B7D98">
+                            <td>A02010607 一般输入设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="9CCBC75488F34CD7B60D5485360E9F30" data-pid="ABB8EB5BDFB046258519E84A7188DE44">
+                            <td>A0201060701 键盘</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="99D82BE958414431B380E20AB714A8C5" data-pid="ABB8EB5BDFB046258519E84A7188DE44">
+                            <td>A0201060702 鼠标器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="8505F8A733F94DFD923AE85866882E72" data-pid="ABB8EB5BDFB046258519E84A7188DE44">
+                            <td>A0201060703 控制杆</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="132D3E3D9AE5423D83F7764BFD9BF4FB" data-pid="ABB8EB5BDFB046258519E84A7188DE44">
+                            <td>A0201060799 其他一般输入设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="D31F0391D5EC4B2AB915BB5CC4F4D83B" data-pid="5C58094242C749FABE1A277D127B7D98">
+                            <td>A02010608 识别输入设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="24686664EC2A442C873945EAFD0C0B03" data-pid="D31F0391D5EC4B2AB915BB5CC4F4D83B">
+                            <td>A0201060801 刷卡机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="4CE8697D92D0406D8C537C4A7038A0AD" data-pid="D31F0391D5EC4B2AB915BB5CC4F4D83B">
+                            <td>A0201060802 POS机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="AD1D9ABF4B6E46BFBD8D7C3BC15965A2" data-pid="D31F0391D5EC4B2AB915BB5CC4F4D83B">
+                            <td>A0201060803 纸带输入机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="9E8DFFA579FC42399A9BD3A4A2B1D586" data-pid="D31F0391D5EC4B2AB915BB5CC4F4D83B">
+                            <td>A0201060804 磁卡读写器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="4F055CCDB55B4BA2BA0B1A9B3E51A5AD" data-pid="D31F0391D5EC4B2AB915BB5CC4F4D83B">
+                            <td>A0201060805 集成电路(IC)卡读写器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="E68A0C5C4BB34BE680D8EF3B36269951" data-pid="D31F0391D5EC4B2AB915BB5CC4F4D83B">
+                            <td>A0201060806 非接触式智能卡读写机</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="290AD4B7C87E40F4B2225CDB25D66769" data-pid="D31F0391D5EC4B2AB915BB5CC4F4D83B">
+                            <td>A0201060807 触摸屏</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="B5DA4B3189224C59A78B94733EC9390A" data-pid="D31F0391D5EC4B2AB915BB5CC4F4D83B">
+                            <td>A0201060899 其他识别输入设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="89CD129D499848CC88534EBA7D00292E" data-pid="5C58094242C749FABE1A277D127B7D98">
+                            <td>A02010609 图形图像输入设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="3B9EB4DF84C444FC879A355DAA848C08" data-pid="89CD129D499848CC88534EBA7D00292E">
+                            <td>A0201060901 扫描仪</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="5CEAD6D3FDE34640B32B617317C4E4BE" data-pid="89CD129D499848CC88534EBA7D00292E">
+                            <td>A0201060902 图形板</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="9FCF789371EC455C8F669C77E390B5B0" data-pid="89CD129D499848CC88534EBA7D00292E">
+                            <td>A0201060903 光笔</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="BBC1303655194B6C83A0F70F14864186" data-pid="89CD129D499848CC88534EBA7D00292E">
+                            <td>A0201060904 坐标数字化仪</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="F61469071F8E40BCABD00BD6195CAD20" data-pid="89CD129D499848CC88534EBA7D00292E">
+                            <td>A0201060999 其他图形图像输入设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="85AA91C0E20141A7814F37EEE94CF12D" data-pid="5C58094242C749FABE1A277D127B7D98">
+                            <td>A02010610 语音输入设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="88655565EC3643EA9B6B8AC33B270AAD" data-pid="5C58094242C749FABE1A277D127B7D98">
+                            <td>A02010611 手写式输入设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="9C58713FCD614E8A9AEB2149020280FB" data-pid="5C58094242C749FABE1A277D127B7D98">
+                            <td>A02010612 数据录入设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="38F00B8B101B4D1C98523AC27A623679" data-pid="9C58713FCD614E8A9AEB2149020280FB">
+                            <td>A0201061201 数据采集器</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="C8A1221E145145CEA3C037A8CAFF0BAA" data-pid="9C58713FCD614E8A9AEB2149020280FB">
+                            <td>A0201061299 其他数据录入设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="8127D3AF83D047C7BCCA6B7FBAB7E246" data-pid="5C58094242C749FABE1A277D127B7D98">
+                            <td>A02010699 其他输入输出设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="A7CDECC2C90241BF8874440E31DB5FB4" data-pid="7984F2B58C044F3599A56F7BF5CECC01">
+                            <td>A020107 机房辅助设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="205713009074407FB4F6091E222112C1" data-pid="A7CDECC2C90241BF8874440E31DB5FB4">
+                            <td>A02010701 机柜</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="6CB121452FA8497B81CEA5E137430965" data-pid="A7CDECC2C90241BF8874440E31DB5FB4">
+                            <td>A02010702 机房环境监控设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="7C1F6DFA58B84C21A113D8F49CCA8827" data-pid="A7CDECC2C90241BF8874440E31DB5FB4">
+                            <td>A02010799 其他机房辅助设备</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="27A28E804FD041A9ADA52B0025F877B9" data-pid="7984F2B58C044F3599A56F7BF5CECC01">
+                            <td>A020108 计算机软件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="155F548BD7BB452EAF679682EBEB1EA7" data-pid="27A28E804FD041A9ADA52B0025F877B9">
+                            <td>A02010801 基础软件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="44E944D39AD14A918DC459B2BC63B17D" data-pid="155F548BD7BB452EAF679682EBEB1EA7">
+                            <td>A0201080101 操作系统</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="0EEAE1DEAECF4E9EA308FE8056DE2AFD" data-pid="155F548BD7BB452EAF679682EBEB1EA7">
+                            <td>A0201080102 数据库管理系统</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="E2702170000D43FA96DA39188CE5F1E6" data-pid="155F548BD7BB452EAF679682EBEB1EA7">
+                            <td>A0201080103 中间件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="9FB8C17946CA441C9EE482F44DDF2449" data-pid="155F548BD7BB452EAF679682EBEB1EA7">
+                            <td>A0201080104 办公套件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="9EFF54EBDAAC4F438DC681BCE8A0A0FF" data-pid="155F548BD7BB452EAF679682EBEB1EA7">
+                            <td>A0201080199 其他基础软件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="412CF36268CA4FB88F54E8757CACDA40" data-pid="27A28E804FD041A9ADA52B0025F877B9">
+                            <td>A02010802 支撑软件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="C9601D67D2A84D7DA6C2D005ED14AF23" data-pid="27A28E804FD041A9ADA52B0025F877B9">
+                            <td>A02010803 应用软件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="46B7311ECF374AA290A7247CCF17E9C6" data-pid="C9601D67D2A84D7DA6C2D005ED14AF23">
+                            <td>A0201080301 通用应用软件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="60C95FA14D304AC5A08BC8CD8AB569A5" data-pid="C9601D67D2A84D7DA6C2D005ED14AF23">
+                            <td>A0201080302 行业应用软件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="9653AECD886C40CFA9AD26AE019209C8" data-pid="27A28E804FD041A9ADA52B0025F877B9">
+                            <td>A02010804 嵌入式软件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="D5A3AEABB42644028501B908D670DF5C" data-pid="27A28E804FD041A9ADA52B0025F877B9">
+                            <td>A02010805 信息安全软件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="3B170E63388D42878F6939EB4EE7C182" data-pid="27A28E804FD041A9ADA52B0025F877B9">
+                            <td>A02010899 其他计算机软件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="72385D45A8B142E7BD04ECECB3C2C0CE" data-pid="7984F2B58C044F3599A56F7BF5CECC01">
+                            <td>A020109 计算机设备零部件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="813D49C7EA78478E860F31F6B3C6583B" data-pid="7984F2B58C044F3599A56F7BF5CECC01">
+                            <td>A020199 其他计算机设备及软件</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="B63F5CC560294B318C4C9DCC073707E8" data-pid="scml">
+                            <td>C 服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="72D8E3515BB949718863F649E2AF8211" data-pid="B63F5CC560294B318C4C9DCC073707E8">
+                            <td>C15 金融服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="44C19B99237B4B86A24EDA60EECC866B" data-pid="72D8E3515BB949718863F649E2AF8211">
+                            <td>C1501 银行服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="B1C08C3DED1246FDA6D23B1CBAA58524" data-pid="44C19B99237B4B86A24EDA60EECC866B">
+                            <td>C150101 银行代理服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="F54608C34C5149D393143357EA4201B5" data-pid="44C19B99237B4B86A24EDA60EECC866B">
+                            <td>C150199 其他银行服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="9B11A2FF5DE944B197929A4F5077472F" data-pid="72D8E3515BB949718863F649E2AF8211">
+                            <td>C1502 信用担保服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="6C4E76712E4448AE8B62304F08E65A4E" data-pid="72D8E3515BB949718863F649E2AF8211">
+                            <td>C1503 证券服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="148C125A050C427FA4D2A1F2F71F5048" data-pid="72D8E3515BB949718863F649E2AF8211">
+                            <td>C1504 保险服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="47AD2F55D90B410CAF10C9B475721A36" data-pid="148C125A050C427FA4D2A1F2F71F5048">
+                            <td>C150401 人寿保险服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="5D95A54F801B455D8D195FF780D37053" data-pid="148C125A050C427FA4D2A1F2F71F5048">
+                            <td>C150402 财产保险服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="25C9782F2FAF47A2980719FC336A6EC3" data-pid="5D95A54F801B455D8D195FF780D37053">
+                            <td>C15040201 机动车保险服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="22398AC88FEA41AFB55028A934372DCE" data-pid="5D95A54F801B455D8D195FF780D37053">
+                            <td>C15040202 运输保险服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="E9ADE4CAE7844C6CA86037364725DC98" data-pid="5D95A54F801B455D8D195FF780D37053">
+                            <td>C15040299 其他财产保险服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="CCDA882A19C8468A921D9870A99C31CD" data-pid="148C125A050C427FA4D2A1F2F71F5048">
+                            <td>C150403 再保险服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="767B0A7143804CD79926242E7269DD26" data-pid="148C125A050C427FA4D2A1F2F71F5048">
+                            <td>C150404 保险辅助服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="FC7AF46842CD4BC7BDF92B524EFCEF7B" data-pid="148C125A050C427FA4D2A1F2F71F5048">
+                            <td>C150499 其他保险服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr data-id="CB99888DB1F24F6894CD0EF8FCA62973" data-pid="72D8E3515BB949718863F649E2AF8211">
+                            <td>C1599 其他金融服务</td>
+                            <td class="text-center">
+
+
+                                是
+
+                            </td>
+                            <td class="text-center">--</td>
+                            <td class="text-center"><a href="#" class="doedit">编辑</a> <a href="#" class="dodel">删除</a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+<footer>
+    <div class="container">
+        <hr>
+        <br>
+
+        <p class="pull-right"><a href="#">Back to top</a></p>
+
+        <p class="text-center">
+            &copy;2016 huanglin992@163.com
+        </p>
+        <br>
+    </div>
+</footer>
+
+
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-treetable.js"></script>
+<script src="js/index.js"></script>
+
+<script>
+
+</script>
+</body>
+</html>
+
+
