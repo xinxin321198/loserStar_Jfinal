@@ -1,0 +1,2 @@
+# loserStar_Jfinal
+一个简单的基于jfinal基础开发框架
