@@ -17,6 +17,7 @@ public class _MappingKit {
 	
 	public static void mapping(ActiveRecordPlugin arp) {
 		arp.addMapping("loserStar.sys_dict", "dict_id", SysDict.class);
+		arp.addMapping("loserStar.sys_file", "id", SysFile.class);
 		arp.addMapping("loserStar.sys_user", "id", SysUser.class);
 	}
 }

@@ -1,15 +1,9 @@
-var loserStarFileWindow;
 
 $(function () {
     //初始化下拉框数据
     //var selectOptionHtml = loserStarBoostrapUtils.getSelectHtml(dict.字典类型, true, "value", "name");
     //$("#select的id").html(selectOptionHtml);
     initData();//初始化主数据
-
-    //初始化附件上传
-    initFileWindow();
-
-    initFileData();
 });
 
 /**
@@ -22,11 +16,12 @@ function initData() {
         initControl();//初始化控件
     } else {
         $("#form_title2").text("修改");
-        sysUserAction.getById(id, function (data, msg, result) {
+        sysFileAction.getById(id, function (data, msg, result) {
             $("#id").val(data.id);
-            $("#user_name").val(data.user_name);
-            $("#password").val(data.password);
-            $("#pwd_err_count").val(data.pwd_err_count);
+            $("#name").val(data.name);
+            $("#path").val(data.path);
+            $("#upload_time").val(data.upload_time);
+            $("#sort").val(data.sort);
             $("#del").val(data.del);
             $("#create_time").val(data.create_time);
             $("#create_user_code").val(data.create_user_code);
@@ -34,6 +29,9 @@ function initData() {
             $("#update_time").val(data.update_time);
             $("#update_user_code").val(data.update_user_code);
             $("#update_user_name").val(data.update_user_name);
+            $("#suffix").val(data.suffix);
+            $("#from_id").val(data.from_id);
+            $("#from_table").val(data.from_table);
             initControl();//初始化控件
 
             //select控件赋值
@@ -57,44 +55,5 @@ function initControl(){
     //初始化高级下拉框select2:https://select2.github.io/
     $('.select2').select2({
         placeholder: '请选择'
-    });
-}
-
-/**
- * 初始化附件上传组件
- */
-function initFileWindow() {
-    //添加附件上传window
-    var fileOpt = {
-        flagId: "loserStar",
-        // fileTypeList: [],
-        uploadFinishedCallback: function () {
-            initFileData();
-        }
-    }
-    loserStarFileWindow = new loserStarFileUploadBootstrapWindow_WebUploader(fileOpt);
-}
-
-/**
- * 初始化附件记录
- */
-function initFileData(){
-    var param = {};
-    param.from_id = $("#id").val();
-    param.from_table = "loserstar.sys_user";
-    sysFileAction.getListData(param, function (data, msg, result){
-        var text = "";
-        for(var i=0;i<data.length;i++){
-            var tmp = data[i];
-            $("#fileList").show();
-            text += "<li href=\"#\" class=\"list-group-item list-group-item-default\"";
-            text += "                                                        target=\"_self\">";
-            text += "                                                        <a type=\"button\" class=\"btn btn-link\" href=\"../sysFile/downFile.do?id=" + tmp.id+"\">下载</a>";
-            text += "                                                        <a type=\"button\" class=\"btn btn-link\" href=\"javascript:formPageEvent.delFile('"+tmp.id+"')\">删除</a>";
-            text += tmp.name;
-            text += "                                                    </li>";
-        }
-        $("#fileList").html(text);
-
     });
 }

@@ -92,6 +92,7 @@ public class EntityGennerate {
 			// 这里的代码要不按数据库显示顺序排序，调整一次太费力了
 			"loserstar.sys_dict",
 			"loserstar.sys_user",
+			"loserstar.sys_file",
 			};
 
 	/**

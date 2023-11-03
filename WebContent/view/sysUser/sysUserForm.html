@@ -9,6 +9,7 @@
     <script src="../view/sysUser/js/sysUserAction.js"></script>
     <script src="../view/sysUser/js/sysUserForm.js"></script>
     <script src="../view/sysUser/js/sysUserFormEvent.js"></script>
+    <script src="../view/sysFile/js/sysFileAction.js"></script>
     <!--此部分代码放在head中引入该表的相关js--end-->
     <!-- 这里放生成的引入的js--end -->
     <script>
@@ -41,7 +42,8 @@
                                         <div class="form-group">
                                             <label for="id" class="col-sm-2 control-label">主键id，用户账号：</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="id" value="${id}" <#if id??>disabled</#if>>
+                                                <input type="text" class="form-control" id="id" value="${id}" <#if
+                                                    id??>disabled</#if>>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -62,6 +64,23 @@
                                                 <input type="number" class="form-control" id="pwd_err_count" value="">
                                             </div>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="cgName" class="col-sm-2 control-label">附件：</label>
+                                            <div class="col-sm-10">
+                                                <button id="fileUploadBtn" type="button"
+                                                    class="btn btn-primary <#if id==null||id==''||op_type='view'>disabled</#if>"
+                                                    onclick="loserStarFileWindow.open('uploadFile.do?id=${id}');">上传附件</button>
+                                                <ul id="fileList" class="list-group" style="display: none;">
+                                                    <li href="#" class="list-group-item list-group-item-default"
+                                                        target="_self">
+                                                        <a type="button" class="btn btn-link" href="">下载</a>
+                                                        <a type="button" class="btn btn-link" href="">删除</a>1
+                                                    </li>
+                                                    <!-- style="pointer-events: auto;cursor: pointer;opacity: 1;" -->
+                                                </ul>
+                                            </div>
+                                        </div>
                                         <!--下拉-->
                                         <!--
                                         <select id="" class="form-control select2" style="width: 100%;">
@@ -79,12 +98,14 @@
                                             </label>
                                         </div>
                                         -->
-                                        </fieldset>
+                                    </fieldset>
                                 </form>
                             </div>
                             <div class="panel-footer">
-                                <button type="button" class="btn btn-primary" <#if op_type="view">style="display:none"</#if> onclick="formPageEvent.save();">保存</button>
-                                <button type="button" class="btn btn-primary" onclick="window.location.href='listPage.do';">返回</button>
+                                <button type="button" class="btn btn-primary" <#if op_type="view">style="display:none"
+                                    </#if> onclick="formPageEvent.save();">保存</button>
+                                <button type="button" class="btn btn-primary"
+                                    onclick="window.location.href='listPage.do';">返回</button>
                             </div>
                         </div>
                     </div>
@@ -101,7 +122,3 @@
 <@loserStarFooter />
 
 </html>
-
-
-
-

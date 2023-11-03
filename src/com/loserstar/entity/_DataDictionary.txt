@@ -19,6 +19,27 @@ Table: loserStar.sys_dict
  update_user_name | VARCHAR(50)   | YES  |     |         | 更新人姓名   
 ------------------+---------------+------+-----+---------+---------
 
+Table: loserStar.sys_file
+------------------+---------------+------+-----+---------+---------
+ Field            | Type          | Null | Key | Default | Remarks 
+------------------+---------------+------+-----+---------+---------
+ id               | VARCHAR(100)  | NO   | PRI |         | 主键id    
+ name             | VARCHAR(100)  | YES  |     |         | 名称      
+ path             | VARCHAR(1000) | YES  |     |         | 文件存储路径  
+ upload_time      | TIMESTAMP(19) | YES  |     |         | 上传日期    
+ sort             | BIGINT(19)    | YES  |     |         | 排序      
+ del              | VARCHAR(50)   | NO   |     | 0       | 软删除字段   
+ create_time      | TIMESTAMP(19) | YES  |     |         | 创建时间    
+ create_user_code | VARCHAR(50)   | YES  |     |         | 创建人编号   
+ create_user_name | VARCHAR(50)   | YES  |     |         | 创建人姓名   
+ update_time      | TIMESTAMP(19) | YES  |     |         | 更新时间    
+ update_user_code | VARCHAR(50)   | YES  |     |         | 更新人编号   
+ update_user_name | VARCHAR(50)   | YES  |     |         | 更新人姓名   
+ suffix           | VARCHAR(100)  | YES  |     |         | 文件后缀    
+ from_id          | VARCHAR(100)  | YES  |     |         | 附件所属记录id
+ from_table       | VARCHAR(100)  | YES  |     |         | 附件所属记录的表
+------------------+---------------+------+-----+---------+---------
+
 Table: loserStar.sys_user
 ------------------+---------------+------+-----+---------+---------
  Field            | Type          | Null | Key | Default | Remarks 

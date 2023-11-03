@@ -23,9 +23,9 @@ public class GlobalHandler extends Handler {
 			target = target.substring(0, target.length() - 3);  
 		}
 		
-		//这里要注意：iv-user是单点使用的。userid获取到值就设到seesion里，这种方式在有独立登录的工程非常危险
+		//这里要注意：iv-user是单点使用的；userid获取到值就设到seesion里。这两种这种方式在有独立登录的工程都非常危险，可通过修改请求头或者增加参数直接登入进系统
 		if(StrKit.notBlank(request.getHeader("iv-user"))) {
-			request.getSession().setAttribute("userid", request.getHeader("iv-user"));
+//			request.getSession().setAttribute("userid", request.getHeader("iv-user"));
 		}else if(StrKit.notBlank(request.getParameter("userid"))){
 //			request.getSession().setAttribute("userid", request.getParameter("userid"));
 		}

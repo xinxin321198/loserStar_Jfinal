@@ -44,6 +44,36 @@ INSERT INTO `sys_dict` (`dict_id`, `dict_value`, `dict_name`, `dict_type`, `dict
 /*!40000 ALTER TABLE `sys_dict` ENABLE KEYS */;
 
 
+-- 导出  表 loserstar.sys_file 结构
+CREATE TABLE IF NOT EXISTS `sys_file` (
+  `id` varchar(100) NOT NULL COMMENT '主键id',
+  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '名称',
+  `path` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件存储路径',
+  `upload_time` timestamp NULL DEFAULT NULL COMMENT '上传日期',
+  `sort` bigint DEFAULT NULL COMMENT '排序',
+  `del` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '软删除字段',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `create_user_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人编号',
+  `create_user_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `update_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `update_user_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人编号',
+  `update_user_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `suffix` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件后缀',
+  `from_id` varchar(100) DEFAULT NULL COMMENT '附件所属记录id',
+  `from_table` varchar(100) DEFAULT NULL COMMENT '附件所属记录的表',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='附件';
+
+-- 正在导出表  loserstar.sys_file 的数据：~0 rows (大约)
+DELETE FROM `sys_file`;
+/*!40000 ALTER TABLE `sys_file` DISABLE KEYS */;
+INSERT INTO `sys_file` (`id`, `name`, `path`, `upload_time`, `sort`, `del`, `create_time`, `create_user_code`, `create_user_name`, `update_time`, `update_user_code`, `update_user_name`, `suffix`, `from_id`, `from_table`) VALUES
+	('103c8632ad421000', 'C10941_B150M_PLUS_UM_WEB.pdf', '/disk1/loserStar_Jfinal/loserstar.sys_user/15087010221/15087010221.pdf', '2023-11-03 11:13:38', 1698981217974, '1', '2023-11-03 11:13:38', '15087010221', NULL, NULL, NULL, NULL, '.pdf', '15087010221', 'loserstar.sys_user'),
+	('103c875a2f821000', '2022年108玉溪品牌文化节活动策划、执行项目执行变更申请紧急会签表单.pdf', '/disk1/loserStar_Jfinal/loserstar.sys_user/15087010221/15087010221.pdf', '2023-11-03 11:18:41', 1698981520575, '0', '2023-11-03 11:18:41', '15087010221', NULL, NULL, NULL, NULL, '.pdf', '15087010221', 'loserstar.sys_user'),
+	('103c87641a021000', '2022å_¡æ_©ç½_æ_°é_«.pdf', '/disk1/loserStar_Jfinal/loserstar.sys_user/15087010221/15087010221.pdf', '2023-11-03 11:18:51', 1698981530728, '0', '2023-11-03 11:18:51', '15087010221', NULL, NULL, NULL, NULL, '.pdf', '15087010221', 'loserstar.sys_user');
+/*!40000 ALTER TABLE `sys_file` ENABLE KEYS */;
+
+
 -- 导出  表 loserstar.sys_user 结构
 CREATE TABLE IF NOT EXISTS `sys_user` (
   `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '主键id，用作账号名',

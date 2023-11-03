@@ -1,0 +1,179 @@
+<!-- 页面框架代码 -->
+<#setting classic_compatible=true />
+<#include "public.html" />
+<!DOCTYPE html>
+<html>
+<@loserStarHeader title="附件">
+    <!-- 这里放生成的引入的js--begin -->
+    <!--此部分代码放在head中引入该表的相关js--begin-->
+    <script src="../view/sysFile/js/sysFileAction.js"></script>
+    <script src="../view/sysFile/js/sysFileForm.js"></script>
+    <script src="../view/sysFile/js/sysFileFormEvent.js"></script>
+    <!--此部分代码放在head中引入该表的相关js--end-->
+    <!-- 这里放生成的引入的js--end -->
+    <script>
+        //这里写自定义的js代码
+
+    </script>
+</@loserStarHeader>
+
+<@loserStarBody title="附件" title2="附件">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">附件</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <!-- 这里放生成的html代码 -->
+                    <!-- 本段代码为代码生成器根据表[sys_file]结构自动生成的bootstrap的表单html，犯懒时候从这里粘过去用----begin-->
+                    <h1><small></small></h1>
+                    <div class="container-fluid">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4>附件
+                                </h4>
+                            </div>
+                            <div class="panel-body">
+                                <form class="form-horizontal">
+                                    <fieldset <#if op_type="view">disabled</#if>>
+                                        <div class="form-group">
+                                            <label for="id" class="col-sm-2 control-label">主键id：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="id" value="${id}" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name" class="col-sm-2 control-label">名称：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="name" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="path" class="col-sm-2 control-label">文件存储路径：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="path" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="upload_time" class="col-sm-2 control-label">上传日期：</label>
+                                            <div class="col-sm-10">
+                                                <!-- <input type="time" class="form-control" id="begin_time" value="">可输入时分-->
+                                                <!-- <input type="time" step="2" class="form-control" id="begin_time" value="">可输入时分秒-->
+                                                <input type="date" class="form-control" id="upload_time" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sort" class="col-sm-2 control-label">排序：</label>
+                                            <div class="col-sm-10">
+                                                <input type="number" class="form-control" id="sort" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="del" class="col-sm-2 control-label">软删除字段：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="del" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="create_time" class="col-sm-2 control-label">创建时间：</label>
+                                            <div class="col-sm-10">
+                                                <!-- <input type="time" class="form-control" id="begin_time" value="">可输入时分-->
+                                                <!-- <input type="time" step="2" class="form-control" id="begin_time" value="">可输入时分秒-->
+                                                <input type="date" class="form-control" id="create_time" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="create_user_code" class="col-sm-2 control-label">创建人编号：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="create_user_code" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="create_user_name" class="col-sm-2 control-label">创建人姓名：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="create_user_name" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="update_time" class="col-sm-2 control-label">更新时间：</label>
+                                            <div class="col-sm-10">
+                                                <!-- <input type="time" class="form-control" id="begin_time" value="">可输入时分-->
+                                                <!-- <input type="time" step="2" class="form-control" id="begin_time" value="">可输入时分秒-->
+                                                <input type="date" class="form-control" id="update_time" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="update_user_code" class="col-sm-2 control-label">更新人编号：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="update_user_code" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="update_user_name" class="col-sm-2 control-label">更新人姓名：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="update_user_name" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="suffix" class="col-sm-2 control-label">文件后缀：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="suffix" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="from_id" class="col-sm-2 control-label">附件所属记录id：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="from_id" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="from_table" class="col-sm-2 control-label">附件所属记录的表：</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="from_table" value="">
+                                            </div>
+                                        </div>
+                                        <!--下拉-->
+                                        <!--
+                                        <select id="" class="form-control select2" style="width: 100%;">
+                                        </select>
+                                        -->
+
+                                        <!--单选-->
+                                        <!--
+                                        <div class="radio col-sm-12">
+                                            <label class="radio-inline">
+                                                <input type="radio" name="a1" id="" value="1"> 满足
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="a1" id="" value="1"> 不满足
+                                            </label>
+                                        </div>
+                                        -->
+                                        </fieldset>
+                                </form>
+                            </div>
+                            <div class="panel-footer">
+                                <button type="button" class="btn btn-primary" <#if op_type="view">style="display:none"</#if> onclick="formPageEvent.save();">保存</button>
+                                <button type="button" class="btn btn-primary" onclick="window.location.href='listPage.do';">返回</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 本段代码为代码生成器根据表[sys_file]结构自动生成的bootstrap的表单html，犯懒时候从这里粘过去用----end-->
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+</@loserStarBody>
+
+<@loserStarFooter />
+
+</html>
+
+
+
+

@@ -45,3 +45,22 @@ formPageEvent.save = function () {
         loserStarSweetAlertUtils.alertError(msg, "", function () { });
     });
 }
+
+
+/**
+ * 更新del字段
+ * @param {*} del 
+ */
+formPageEvent.delFile = function (id) {
+    var title = "是否删除" + id;
+    loserStarSweetAlertUtils.confirm(title, "", function () {
+        sysFileAction.delById(id, function (data, msg, result) {
+            loserStarSweetAlertUtils.alertSuccess(msg, "", function () {
+                initFileData();
+            });
+        }, function (data, msg, result) {
+            loserStarSweetAlertUtils.alertError(msg, "", function () {
+            });
+        });
+    });
+}
