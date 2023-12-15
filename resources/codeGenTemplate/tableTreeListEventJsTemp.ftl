@@ -73,8 +73,8 @@ listPageEvent.queryList = function () {
 
 
 /**
- * 初始化datatables，该方法得放在渲染html的dom数据之前，否则刷新数据会有问题
- * 具体配置参考 http://datatables.club/reference/option/
+ * 初始化树形表格，该方法得放在渲染html的dom数据之前，否则刷新数据会有问题
+ * 使用的jquery的一个插件 https://plugins.jquery.com/treetable  https://github.com/ludo/jquery-treetable
  */
 function initTreeTables() {
     table = $("#${tableName}_table").treetable({

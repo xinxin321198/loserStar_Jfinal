@@ -112,7 +112,7 @@
     <script
       src="../bower_components/bootstrap-table-1.22.1/dist/extensions/treegrid/bootstrap-table-treegrid.min.js?dt=${jsdt}"></script>
 
-    <!-- jQuery treetable https://plugins.jquery.com/treetable-->
+    <!-- jQuery treetable https://plugins.jquery.com/treetable  https://github.com/ludo/jquery-treetable-->
     <script src="../bower_components/jquery-treetable-3.2.0/jquery.treetable.js?dt=${jsdt}"></script>
     <link rel="stylesheet" href="../bower_components/jquery-treetable-3.2.0/css/jquery.treetable.css?dt=${jsdt}">
     <link rel="stylesheet"
@@ -272,10 +272,10 @@
                 </span>
               </a>
               <ul class="treeview-menu menu-open">
-                <li class="<#if actionKey?contains('/sysDict/')>active</#if>"><a
-                    href="../sysDict/listPage.do"><i class="fa fa-circle-o"></i>数据字典</a></li>
-                <li class="<#if actionKey?contains('/sysUser/')>active</#if>"><a
-                    href="../sysUser/listPage.do"><i class="fa fa-circle-o"></i>用户管理</a></li>
+                <li class="<#if actionKey?contains('/sysDict/')>active</#if>"><a href="../sysDict/listPage.do"><i
+                      class="fa fa-circle-o"></i>数据字典</a></li>
+                <li class="<#if actionKey?contains('/sysUser/')>active</#if>"><a href="../sysUser/listPage.do"><i
+                      class="fa fa-circle-o"></i>用户管理</a></li>
               </ul>
             </li>
             <li class="treeview ">
@@ -286,29 +286,26 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li class=""><a
-                    href="#"><i class="fa fa-circle-o"></i>菜单一</a></li>
-                <li class=""><a
-                    href="#"><i class="fa fa-circle-o"></i>菜单二</a></li>
+                <li class=""><a href="#"><i class="fa fa-circle-o"></i>菜单一</a></li>
+                <li class=""><a href="#"><i class="fa fa-circle-o"></i>菜单二</a></li>
               </ul>
             </li>
             <li class="header">菜单分隔</li>
-              <li class="treeview menu-open">
-                <a href="#">
-                  <i class="fa fa-dashboard"></i> <span></span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li class="<#if actionKey?contains('/hthyBatch/')>active</#if>"><a
-                      href="#"><i class="fa fa-circle-o"></i>菜单1</a>
-                  </li>
-                  <li class="<#if actionKey?contains('/hthyBatchIndexContent/')>active</#if>"><a
-                      href="#"><i
-                        class="fa fa-circle-o"></i>菜单2</a></li>
-                </ul>
-              </li>
+            <li class="treeview menu-open">
+              <a href="#">
+                <i class="fa fa-dashboard"></i> <span></span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li class="<#if actionKey?contains('/hthyBatch/')>active</#if>"><a href="#"><i
+                      class="fa fa-circle-o"></i>菜单1</a>
+                </li>
+                <li class="<#if actionKey?contains('/hthyBatchIndexContent/')>active</#if>"><a href="#"><i
+                      class="fa fa-circle-o"></i>菜单2</a></li>
+              </ul>
+            </li>
           </ul>
         </section>
         <!-- /.sidebar -->
