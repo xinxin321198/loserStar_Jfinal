@@ -167,7 +167,7 @@ public class EntityGennerate {
 		/**
 		 * 字段信息
 		 */
-		private List<GenCodeFiledVo> fieldList = new ArrayList<>();
+		private List<GenCodeFiledVo> fieldList = new ArrayList<GenCodeFiledVo>();
 		
 		public String getListBtnStyle() {
 			return listBtnStyle;
@@ -851,7 +851,7 @@ public class EntityGennerate {
 	 * @throws Exception 
 	 */
 	private static List<GenCodeTableVo> getGenCodeTableVo(DataSource dataSource,String dataSouceName,String[] tableNames) throws Exception {
-		List<GenCodeTableVo> list = new ArrayList<>();
+		List<GenCodeTableVo> list = new ArrayList<GenCodeTableVo>();
 		Connection conn = dataSource.getConnection();
 		for (String tableName1 : tableNames) {
 			GenCodeTableVo data = new GenCodeTableVo();
