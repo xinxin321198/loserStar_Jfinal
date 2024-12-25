@@ -1,5 +1,7 @@
 /**
  * 基于bootstrap3的模态对话框封装的简单查询数据和选择数据的弹出窗口，使用原型链的方式封装
+ * 1.1 增加了模态框里面得body高度设置，body里放着table
+ * 1.2 取消了1.1得设置，body直接不设置高度了，把整个模态框设置高度和滚动条
  * 
 用法：
     //构建查询条件配置项
@@ -66,7 +68,6 @@ loserStarDataSelectBootstrapWindow.prototype = {
         this.querSelectDataPrimaryKey = opt.querSelectDataPrimaryKey;//指定唯一标识字段
         // this.clickRowAddCallback = opt.clickRowAddCallback;//点击每一行数据的添加按钮时候触发的回调方法，会传入数据的主键id
         this.operationBtnOpt = opt.operationBtnOpt ? opt.operationBtnOpt : [];//操作列的按钮配置
-        this.modalBodyHeight = opt.modalBodyHeight ? opt.modalBodyHeight : "400px";//模态框的body的高度样式 （里面放着table），值为字符串，默认是：450px
         //执行一些初始化的方法
         this.createElement();//初始化时候就执行一次渲染html
     },
@@ -76,7 +77,7 @@ loserStarDataSelectBootstrapWindow.prototype = {
         var text = "";
         text += "<!-- loserStarDataSelectBootstrapWindow--begin -->";
         text += "        <div id=\"" + self.flagId + "_dataSelectWindow\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\">";
-        text += "            <div class=\"modal-dialog modal-lg\" role=\"document\">";
+        text += "            <div class=\"modal-dialog modal-lg\" role=\"document\" style=\"overflow-y: auto;max-height: 95%;\">";
         text += "                <div class=\"modal-content\">";
         text += "                    <div class=\"modal-header\">";
         text += "                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span";
@@ -107,7 +108,7 @@ loserStarDataSelectBootstrapWindow.prototype = {
 
         text += "                        <button id=\"" + self.flagId + "_queryBtn\" type=\"button\" class=\"btn btn-success\">搜索</button>";
         text += "                    </div>";
-        text += "                    <div class=\"modal-body\"  style=\"height:" + self.modalBodyHeight +"; overflow: auto;\">";
+        text += "                    <div class=\"modal-body\">";
         text += "                        <table id=\"" + self.flagId + "_dataTable\" class=\"table table-bordered table-condensed\">";
         text += "                            <thead>";
         text += "                                <tr>";

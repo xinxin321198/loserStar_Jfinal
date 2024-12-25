@@ -1,8 +1,4 @@
 /**
- * version :1.2
- * https://fex-team.github.io/webuploader/
- * https://github.com/fex-team/webuploader
- * http://fex.baidu.com/webuploader/
  * 基于bootstrap3的模态对话框和百度上传组件集成的上传附件组件(此组件不依赖于flash，可在最新chrome中禁止flash时使用)，使用原型链的方式封装
  * 
  * 基本用法，引入该js文件和依赖的loserStarSweetAlertUtils.js，以及相关的bootstrap3的js
@@ -16,19 +12,9 @@
 		url:"uploadFile.do",
 		//附件类型集合（如果该参数有值，则该组件则可拥有一个附件类型选择的下拉框，并且上传的url会自动添加上file_type参数）
 		fileTypeList:[{name:"公共文件",value:"common"},{name:"其它文件",value:"other"}],
-		//上传成功时候的回调,注意多文件上传时，每个文件上传成功都会触发一次（两个参数，file 文件信息, response 服务器响应信息）
-		uploadSuccessCallback:uploadSuccessCallback,
-		//上传时候校验的回调,可在此弹出一些相关的错误提示（此方法接收两个参数（object 文件一些相关信息, ret 服务端返回的数据），且必须有返回值，返回false则会触发uploadError事件,代表不能继续上传；返回true，则继续执行上传；不传入该方法，则默认返回true）
-		uploadAcceptCallback:uploadAcceptCallback,
 		//上传完成后的回调方法，一般用于刷新界面之类的
 		uploadFinishedCallback:uploadFinishedCallback,
-		title:'标题',
-		//允许上传的文件后缀，不配置该项则所有类型可上传
-		suffix:["jpg","png"],
-		//是否创建缩略图
-		isMakeThumb:true,
-		//选完文件是否自动上传
-		autoUpload:false,
+		title:'标题'
 	}
 	2.传入配置对象，生成附件上传组件的对象
 	loserStarFileWindow = new loserStarFileUploadBootstrapWindow_WebUploader(fileOpt);
@@ -52,13 +38,8 @@ loserStarFileUploadBootstrapWindow_WebUploader.prototype = {
 		this.maxSize = opt.maxSize ? opt.maxSize : 209715200;//最大允许上传的大小（单位bit）
 		this.fileTypeList = opt.fileTypeList;//附件类型
 		this.url = opt.url;//默认上传的url
-		this.uploadSuccessCallback = opt.uploadSuccessCallback;//上传成功时候的回调（两个参数，file 文件信息, response 服务器响应信息）
-		this.uploadAcceptCallback = opt.uploadAcceptCallback;//上传时候校验的回调（此方法接收两个参数（object 文件一些相关信息, ret 服务端返回的数据），且必须有返回值，返回false则会触发uploadError事件,代表不能继续上传；返回true，则继续执行上传；不传入该方法，则默认返回true）
-		this.uploadFinishedCallback = opt.uploadFinishedCallback;//上传完成的回调
-		this.title = opt.title?opt.title:"";//标题
-		this.suffix = opt.suffix ? opt.suffix : [];//可上传的后缀
-		this.isMakeThumb = opt.isMakeThumb ? opt.isMakeThumb : true;//是否创建缩略图,默认创建
-		this.autoUpload = opt.autoUpload ? opt.autoUpload : false;//选完图片是否自动上传
+		this.uploadFinishedCallback = opt.uploadFinishedCallback;
+		this.title = opt.title;//标题
 		//执行一些初始化的方法
 		this.createElement();//初始化时候就执行一次渲染html
 	},
@@ -128,9 +109,8 @@ loserStarFileUploadBootstrapWindow_WebUploader.prototype = {
 				console.log("---------------初始化loserStarFileUploadBootstrapWindow_WebUploader---------------------");
 				// 初始化Web Uploader
 				self.uploader = WebUploader.create({
-					dnd: $("#" + self.flagId + "_FileWindow"),
 					// 选完文件后，是否自动上传。
-					auto: self.autoUpload,
+					auto: false,
 					// 选择文件的按钮。可选。
 					// 内部根据当前运行是创建，可能是input元素，也可能是flash.
 					pick: "#" + self.flagId + "_Picker",
@@ -138,38 +118,16 @@ loserStarFileUploadBootstrapWindow_WebUploader.prototype = {
 					duplicate: true,
 					server: url ? url : self.url
 				});
-				//阻止此事件可以拒绝某些类型的文件拖入进来。目前只有 chrome 提供这样的 API，且只能通过 mime-type 验证。
-				self.uploader.on("dndAccept", function (items) {
-					console.log('阻止此事件可以拒绝某些类型的文件拖入进来');
-				});
-				//当文件被加入队列之前触发，此事件的handler返回值为false，则此文件不会被添加进入队列。
-				self.uploader.on("beforeFileQueued", function (file) {
-					console.log('当文件被加入队列之前触发');
-					if (self.suffix != undefined && self.suffix != null && self.suffix.length > 0) {
-						//需要检查文件后缀
-						var isOk = false;
-						self.suffix.find((value, index, arr) => {
-							if (value == file.ext) {
-								isOk = true;
-							}
-						});
-						if (!isOk) {
-							loserStarSweetAlertUtils.alertError("上传的文件不支持" + file.ext + "格式");
-							return false;
-						}
-					}
+				// 当有文件添加进来的时候
+				self.uploader.on('fileQueued', function (file) {
 					if (self.maxSize) {
 						if (file.size > self.maxSize) {
 							var mb = (file.size / 1024 / 1024).toFixed(2);
 							var maxMb = (self.maxSize / 1024 / 1024).toFixed(2);
-							loserStarSweetAlertUtils.alertError("上传的文件不能大于" + maxMb + "MB，您选择的文件有" + mb + "MB");
-							return false;
+							loserStarSweetAlertUtils.alertError("上传文件不能大于" + maxMb + "MB，您选择的文件有" + mb + "MB");
+							return;
 						}
 					}
-				});
-				// 当文件被加入队列以后触发。
-				self.uploader.on('fileQueued', function (file) {
-					console.log('当文件被加入队列以后触发。');
 					var text = "";
 					text += "                       <li id=\"" + self.flagId + "_" + file.id + "_FileListLi\" class=\"list-group-item\">";
 					text += "                            <button id=\"" + self.flagId + "_" + file.id + "_FileListRemBtn\" type=\"button\" class=\"btn btn-danger\" file_id=\"" + file.id + "\">移除</button>";
@@ -181,7 +139,6 @@ loserStarFileUploadBootstrapWindow_WebUploader.prototype = {
 						text += "                            <span id=\"" + self.flagId + "_" + file.id + "_FileType\" class=\"label label-default\" value=\"" + selectedFileTypeValue + "\">" + selectedFileTypeName + "</span>";
 					}
 					text += "                            <span>" + file.name + "</span>";
-					text += "							 <img id=\"" + self.flagId + "_" + file.id + "Thumb\" />";
 					text += "                            <div id=\"" + self.flagId + "_" + file.id + "_FileListProgress\" class=\"progress\">";
 					text += "                                <div id=\"" + self.flagId + "_" + file.id + "_FileListProgressSub\" class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" aria-valuenow=\"45\"";
 					text += "                                    aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%\">";
@@ -190,20 +147,6 @@ loserStarFileUploadBootstrapWindow_WebUploader.prototype = {
 					text += "                            </div>";
 					text += "                        </li>";
 					$("#" + self.flagId + "_FileListUl").append(text);
-
-					if (self.isMakeThumb) {
-						// 创建缩略图
-						// 如果为非图片文件，可以不用调用此方法。
-						// thumbnailWidth x thumbnailHeight 为 100 x 100
-						self.uploader.makeThumb(file, function (error, src) {
-							if (error) {
-								$("#" + self.flagId + "_" + file.id + "Thumb").replaceWith('<span>不能预览</span>');
-								return;
-							}
-
-							$("#" + self.flagId + "_" + file.id + "Thumb").attr('src', src);
-						}, 100, 100);
-					}
 
 					//每个文件加入队列之后，绑定移除队列的按钮事件
 					$("#" + self.flagId + "_" + file.id + "_FileListRemBtn").on("click", function () {
@@ -219,33 +162,8 @@ loserStarFileUploadBootstrapWindow_WebUploader.prototype = {
 						self.uploader.upload(file_id);//开始上传
 					});
 				});
-				//当一批文件添加进队列以后触发。
-				self.uploader.on("filesQueued", function (file) {
-					console.log('当一批文件添加进队列以后触发。');
-				});
-				//当文件被移除队列后触发。
-				self.uploader.on("filesQueued", function (file) {
-					console.log('当文件被移除队列后触发。');
-				});
-				//当 uploader 被重置的时候触发。
-				self.uploader.on("reset", function () {
-					console.log('当 uploader 被重置的时候触发。');
-				});
-				//当开始上传流程时触发。
-				self.uploader.on("startUpload", function () {
-					console.log('当开始上传流程时触发。');
-				});
-				//全部上传完成
-				self.uploader.on('uploadFinished', function () {
-					console.log('全部上传完成');
-					$("#" + self.flagId + "_UploadAllBtn").attr("disabled", false);//恢复全部上传按钮禁用状态
-					if (self.uploadFinishedCallback) {
-						self.uploadFinishedCallback();
-					}
-				});
 				//某个文件开始上传前触发，一个文件只会触发一次。
 				self.uploader.on('uploadStart', function (file) {
-					console.log("某个文件开始上传前触发，一个文件只会触发一次。");
 					var btnSelf = this;
 					var file_id = $(btnSelf).attr("file_id");//取出文件id
 					if (self.fileTypeList != undefined && self.fileTypeList != null && self.fileTypeList.length > 0) {
@@ -255,58 +173,39 @@ loserStarFileUploadBootstrapWindow_WebUploader.prototype = {
 						}
 					}
 				});
-				//当某个文件的分块在发送前触发，主要用来询问是否要添加附带参数，大文件在开起分片上传的前提下此事件可能会触发多次。
-				self.uploader.on("uploadBeforeSend", function (object, data, headers) {
-					console.log("当某个文件的分块在发送前触发，主要用来询问是否要添加附带参数");
-				});
-				//当某个文件上传到服务端响应后，会派送此事件来询问服务端响应是否有效。如果此事件handler返回值为false, 则此文件将派送server类型的uploadError事件。
-				self.uploader.on("uploadAccept", function (object, ret) {
-					console.log("当某个文件上传到服务端响应后，会派送此事件来询问服务端响应是否有效。");
-					if (self.uploadAcceptCallback) {
-						return self.uploadAcceptCallback(object, ret);
-					} else {
-						return true;
-					}
-				});
-				//上传过程中触发，携带上传进度。
+				//上传进度
 				self.uploader.on('uploadProgress', function (file, percentage) {
-					console.log("上传过程中触发，携带上传进度。");
 					$("#" + self.flagId + "_" + file.id + "_FileListUploadBtn").attr("disabled", true);//上传时禁用上传按钮
 					$("#" + self.flagId + "_UploadAllBtn").attr("disabled", true);//上传时禁用全部上传按钮
 					var percentage_2 = (percentage * 100).toFixed(2);
 					$("#" + self.flagId + "_" + file.id + "_FileListProgressSub").css("width", percentage_2 + "%");//设置进度条百分比
 					$("#" + self.flagId + "_" + file.id + "_FileListProgressSubSpan").text(percentage_2 + "%");//设定上传进度百分比文字显示
 				});
-				//当文件上传出错时触发。
-				self.uploader.on('uploadError', function (file, reason) {
-					console.log("当文件上传出错时触发。");
+				//上传成功
+				self.uploader.on('uploadSuccess', function (file) {
+					console.log('上传成功');
+					$("#" + self.flagId + "_" + file.id + "_FileListProgressSub").addClass("progress-bar-success");//把进度条设为绿色
+					setTimeout(function () { $("#" + self.flagId + "_" + file.id + "_FileListLi").remove(); }, 2000);//延迟一段时间后移除该文件的li
+
+				});
+				//上传出错
+				self.uploader.on('uploadError', function (file) {
+					console.log("上传出错");
 					$("#" + self.flagId + "_" + file.id + "_FileListUploadBtn").attr("disabled", false);//上传出错时恢复禁用状态
 					$("#" + self.flagId + "_UploadAllBtn").attr("disabled", true);//上传出错时恢复全部上传按钮禁用状态
 					$("#" + self.flagId + "_" + file.id + "_FileListProgressSub").addClass("progress-bar-danger");//把进度条设为红色
 					$("#" + self.flagId + "_" + file.id + "_FileListProgressSubSpan").text("上传出错");
 				});
-				//当文件上传成功时触发。
-				self.uploader.on('uploadSuccess', function (file, response) {
-					console.log('当文件上传成功时触发。');
-					$("#" + self.flagId + "_" + file.id + "_FileListProgressSub").addClass("progress-bar-success");//把进度条设为绿色
-					setTimeout(function () { $("#" + self.flagId + "_" + file.id + "_FileListLi").remove(); }, 2000);//延迟一段时间后移除该文件的li
-					if (self.uploadSuccessCallback) {
-						self.uploadSuccessCallback(file, response);
-					}
-
-				});
-				//不管成功或者失败，文件上传完成时触发。
+				//上传完成
 				self.uploader.on('uploadComplete', function (file) {
-					console.log('不管成功或者失败，文件上传完成时触发。');
 				});
-				/**
-					当validate不通过时，会以派送错误事件的形式通知调用者。通过upload.on('error', handler)可以捕获到此类错误，目前有以下错误会在特定的情况下派送错来。
-					Q_EXCEED_NUM_LIMIT 在设置了fileNumLimit且尝试给uploader添加的文件数量超出这个值时派送。
-					Q_EXCEED_SIZE_LIMIT 在设置了Q_EXCEED_SIZE_LIMIT且尝试给uploader添加的文件总大小超出这个值时派送。
-					Q_TYPE_DENIED 当文件类型不满足时触发。。
-				 */
-				self.uploader.on("type", function (type) {
-					console.log('当validate不通过时，会以派送错误事件的形式通知调用者');
+				//全部上传完成
+				self.uploader.on('uploadFinished', function (file) {
+					console.log('全部上传完成');
+					$("#" + self.flagId + "_UploadAllBtn").attr("disabled", false);//恢复全部上传按钮禁用状态
+					if (self.uploadFinishedCallback) {
+						self.uploadFinishedCallback();
+					}
 				});
 			}
 		});

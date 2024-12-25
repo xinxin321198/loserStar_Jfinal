@@ -1,5 +1,11 @@
+
 /**
- * 基于 www.sweetalert.cn 的提示框方法
+ * loserStar 基于 www.sweetalert.cn 的提示框方法
+ * https://sweetalert.js.org/
+ * version:20231024
+ * author：loserStar
+ * github:https://github.com/xinxin321198/loserStarJsUtils
+ * emial:362527240@qq.com
  */
 var loserStarSweetAlertUtils = {};
 
@@ -68,8 +74,7 @@ loserStarSweetAlertUtils.confirm = function(title,content,okCallback,cancelCallb
  * @param {*} okCallback 确定后的回调函数
  * @param {*} cancelCallback 取消时的回调函数（点击框外即取消）
  */
-loserStarSweetAlertUtils.prompt = function(title, content, placeholder, okCallback,
-		cancelCallback) {
+loserStarSweetAlertUtils.prompt = function (title, content, placeholder, okCallback, cancelCallback) {
 	swal({
 		title : title,
 		text : content,
@@ -83,11 +88,16 @@ loserStarSweetAlertUtils.prompt = function(title, content, placeholder, okCallba
 			}
 		},
 	}).then(function(will) {
-		if (okCallback) {
-			okCallback(will);
+		if(null != will){
+			if (okCallback) {
+				okCallback(will);
+			}
+		}else{
+			if(cancelCallback){
+				cancelCallback();
+			}
 		}
 	});
-	;
 }
 
 /**

@@ -1,5 +1,5 @@
 /**
- * version :1.2
+ * version :1.3
  * https://fex-team.github.io/webuploader/
  * https://github.com/fex-team/webuploader
  * http://fex.baidu.com/webuploader/
@@ -29,6 +29,20 @@
 		isMakeThumb:true,
 		//选完文件是否自动上传
 		autoUpload:false,
+		//是否开启拖拽上传Drag And Drop，默认开启
+		dnd:true,
+		//是否开启粘贴上传，默认开启
+		paste:true,
+		//上传按钮的名称，默认为上传附件
+		btnName:"选择文件",
+		//是否允许选择多个文件，默认为多个文件
+		multiple:true,
+		// [默认值：'file'] 设置文件上传域的name。
+		fileVal:"file",
+		//请求方式，默认POST，还可以设置GET，GET时候formData参数就无效了
+		method:"POST",
+		//上传成功后是否自动关闭窗口，默认为false。当然也可以使用uploadSuccessCallback这个回调方法里自己去写关闭
+		autoClose:false,
 	}
 	2.传入配置对象，生成附件上传组件的对象
 	loserStarFileWindow = new loserStarFileUploadBootstrapWindow_WebUploader(fileOpt);
@@ -51,14 +65,22 @@ loserStarFileUploadBootstrapWindow_WebUploader.prototype = {
 		this.flagId = opt.flagId;//自定义标识id（所有生成的元素的id都会以此开头，以防html节点互相污染）
 		this.maxSize = opt.maxSize ? opt.maxSize : 209715200;//最大允许上传的大小（单位bit）
 		this.fileTypeList = opt.fileTypeList;//附件类型
+		this.fileTypeListRemarks = opt.fileTypeListRemarks ? opt.fileTypeListRemarks :"指定附件类型并选择文件进行上传";//附件类型的说明
 		this.url = opt.url;//默认上传的url
 		this.uploadSuccessCallback = opt.uploadSuccessCallback;//上传成功时候的回调（两个参数，file 文件信息, response 服务器响应信息）
 		this.uploadAcceptCallback = opt.uploadAcceptCallback;//上传时候校验的回调（此方法接收两个参数（object 文件一些相关信息, ret 服务端返回的数据），且必须有返回值，返回false则会触发uploadError事件,代表不能继续上传；返回true，则继续执行上传；不传入该方法，则默认返回true）
 		this.uploadFinishedCallback = opt.uploadFinishedCallback;//上传完成的回调
-		this.title = opt.title?opt.title:"";//标题
+		this.title = opt.title ? opt.title : "";//标题
 		this.suffix = opt.suffix ? opt.suffix : [];//可上传的后缀
 		this.isMakeThumb = opt.isMakeThumb ? opt.isMakeThumb : true;//是否创建缩略图,默认创建
-		this.autoUpload = opt.autoUpload ? opt.autoUpload : false;//选完图片是否自动上传
+		this.autoUpload = opt.autoUpload ? opt.autoUpload : false;//选完图片是否自动上传，默认关闭
+		this.dnd = opt.dnd ? opt.dnd : true;//是否开启拖拽上传Drag And Drop，默认开启
+		this.paste = opt.paste ? opt.paste : true;//是否开启粘贴上传，默认开启
+		this.btnName = opt.btnName ? opt.btnName : "选择文件";//上传按钮的名称，默认为上传附件
+		this.multiple = opt.multiple ? opt.multiple : true;//是否允许选择多个文件，默认为多个文件
+		this.fileVal = opt.fileVal ? opt.fileVal : "file";// [默认值：'file'] 设置文件上传域的name。
+		this.method = opt.method ? opt.method : "POST";//请求方式，默认POST，还可以设置GET，GET时候formData参数就无效了
+		this.autoClose = opt.autoClose ? opt.autoClose : false;//上传成功后是否自动关闭窗口，默认为false。当然也可以使用uploadSuccessCallback这个回调方法里自己去写关闭
 		//执行一些初始化的方法
 		this.createElement();//初始化时候就执行一次渲染html
 	},
@@ -75,7 +97,7 @@ loserStarFileUploadBootstrapWindow_WebUploader.prototype = {
 		text += "                                aria-hidden=\"true\">&times;</span></button>";
 		text += "                        <h3 class=\"modal-title\">" + self.title + "</h3>";
 		if (self.fileTypeList != undefined && self.fileTypeList != null && self.fileTypeList.length > 0) {
-			text += "                        <h4 class=\"modal-title\">指定附件类型并选择文件进行上传</h4>";
+			text += "                        <h4 class=\"modal-title\">"+self.fileTypeListRemarks+"</h4>";
 			text += "                        <div class=\"form-group\">";
 			text += "                            <label for=\"" + self.flagId + "_FileType\" class=\"col-sm-3 control-label\">附件分类：</label>";
 			text += "                            <div class=\"col-sm-9\">";
@@ -114,8 +136,12 @@ loserStarFileUploadBootstrapWindow_WebUploader.prototype = {
 			self.uploader.upload();//开始上传所有
 		});
 	},
-	//打开窗口
-	open: function (url) {
+	/**
+	 * 打开上传窗口
+	 * @param {*} url 上传的url 
+	 * @param {*} formData 附带的数据（请求方式为GET时候无效）
+	 */
+	open: function (url, formData) {
 		var self = this;
 		$("#" + self.flagId + "_FileWindow").modal({
 			keyboard: false,
@@ -128,15 +154,32 @@ loserStarFileUploadBootstrapWindow_WebUploader.prototype = {
 				console.log("---------------初始化loserStarFileUploadBootstrapWindow_WebUploader---------------------");
 				// 初始化Web Uploader
 				self.uploader = WebUploader.create({
-					dnd: $("#" + self.flagId + "_FileWindow"),
+					//{Selector} [可选] [默认值：undefined] 指定Drag And Drop拖拽的容器，如果不指定，则不启动。
+					dnd: self.dnd ? $("#" + self.flagId + "_FileWindow") : undefined,
+					//{Selector} [可选] [默认值：false] 是否禁掉整个页面的拖拽功能，如果不禁用，图片拖进来的时候会默认被浏览器打开。
+					disableGlobalDnd: false,
+					//{Selector} [可选] [默认值：undefined] 指定监听paste事件的容器，如果不指定，不启用此功能。此功能为通过粘贴来添加截屏的图片。建议设置为document.body.
+					paste: self.paste ? document.body : undefined,
 					// 选完文件后，是否自动上传。
 					auto: self.autoUpload,
 					// 选择文件的按钮。可选。
 					// 内部根据当前运行是创建，可能是input元素，也可能是flash.
-					pick: "#" + self.flagId + "_Picker",
+					// pick: "#" + self.flagId + "_Picker",
+					pick: {
+						id: "#" + self.flagId + "_Picker",
+						innerHTML: self.btnName,
+						multiple: self.multiple,
+					},
 					//可重复上传
 					duplicate: true,
-					server: url ? url : self.url
+					// 服务器端的文件接收地址。
+					server: url ? url : self.url,
+					// 上传文件时，是否附带参数
+					formData: formData,
+					// 文件上传域的名称，默认为file
+					fileVal: self.fileVal,
+					//请求方式 GET和POST,GET时候formData参数无效
+					method: self.method
 				});
 				//阻止此事件可以拒绝某些类型的文件拖入进来。目前只有 chrome 提供这样的 API，且只能通过 mime-type 验证。
 				self.uploader.on("dndAccept", function (items) {
@@ -289,7 +332,14 @@ loserStarFileUploadBootstrapWindow_WebUploader.prototype = {
 				self.uploader.on('uploadSuccess', function (file, response) {
 					console.log('当文件上传成功时触发。');
 					$("#" + self.flagId + "_" + file.id + "_FileListProgressSub").addClass("progress-bar-success");//把进度条设为绿色
-					setTimeout(function () { $("#" + self.flagId + "_" + file.id + "_FileListLi").remove(); }, 2000);//延迟一段时间后移除该文件的li
+					setTimeout(function () { 
+						//延迟一段时间后移除该文件的li
+						$("#" + self.flagId + "_" + file.id + "_FileListLi").remove();
+						//延迟一段时间后关闭上传窗口
+						if (self.autoClose){
+							self.close();//关闭窗口
+						}
+					}, 2000);
 					if (self.uploadSuccessCallback) {
 						self.uploadSuccessCallback(file, response);
 					}

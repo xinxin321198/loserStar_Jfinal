@@ -1,5 +1,5 @@
 /**
- * version:20230922
+ * version:20240204
  * author：loserStar
  * github:https://github.com/xinxin321198/loserStarJsUtils
  * emial:362527240@qq.com
@@ -25,10 +25,10 @@ loserStarBoostrapUtils.loading = function (title, content) {
         text += "    <div class=\"modal-dialog modal-sm\" role=\"document\">";
         text += "        <div class=\"modal-content\">";
         text += "            <div class=\"modal-header\">";
-        text += "                <h4 class=\"modal-title\" id=\"myModalLabel\">提示</h4>";
+        text += "                <h4 class=\"modal-title\" id=\"myModalLabel\">" + title +"</h4>";
         text += "            </div>";
         text += "            <div class=\"modal-body\">";
-        text += "                处理中，请勿关闭页面...";
+        text += "                "+title;
         text += "            </div>";
         text += "        </div>";
         text += "    </div>";
@@ -100,18 +100,18 @@ loserStarBoostrapUtils.getProgressHtml = function (scale, pointCount) {
  * 生成下拉列表的html（已知完美兼容select2）
  * @param {*} objList array 可选的值数组合集，通过keyFieldName和valueFieldname指定使用数组中的那些字段
  * @param {*} isEmpty bool 是否添加一个空元素
- * @param {*} valueFieldname stirng 用作从objList中取值时的字段名，用作option的选项名称
- * @param {*} keyFieldName stirng 用作从objList中取值时的字段名，用作option的value
+ * @param {*} textFieldName stirng 用作从objList中取值时的key，获取到的值将作为option的选项名称
+ * @param {*} valueFieldName stirng 用作从objList中取值时的key，获取到的值将作为option的值
  * @returns 
  */
-loserStarBoostrapUtils.getSelectHtml = function (objList, isEmpty, valueFieldName, keyFieldName) {
+loserStarBoostrapUtils.getSelectHtml = function (objList, isEmpty, textFieldName, valueFieldName) {
     var text = "";
     if (isEmpty != undefined && isEmpty != null && (typeof isEmpty) == "boolean" && isEmpty) {
         text += "<option value=\"\"></option>";
     }
     for (var i = 0; i < objList.length; i++) {
         var tmp = objList[i];
-        text += "<option value=\"" + tmp[valueFieldName] + "\">" + tmp[keyFieldName] + "</option>";
+        text += "<option value=\"" + tmp[valueFieldName] + "\">" + tmp[textFieldName] + "</option>";
     }
     return text;
 }
@@ -136,4 +136,37 @@ loserStarBoostrapUtils.getRadioHtml = function (objList, groupId, valueFieldName
         text += "                                                        </div>";
     }
     return text;
+}
+
+/**
+ * 基于bootstrap的modal的弹窗消息，里面放了一个textarea，方便复制消息内容
+ * @param {*} title 
+ * @param {*} msg 
+ */
+loserStarBoostrapUtils.alertMsg = function(title,msg){
+    var text = "";
+    text += "<div class=\"modal fade\" id=\"loserStarAlertMsgModal\" tabindex=\"-1\" role=\"dialog\">";
+    text += "            <div class=\"modal-dialog\" role=\"document\">";
+    text += "                <div class=\"modal-content\">";
+    text += "                    <div class=\"modal-header\">";
+    text += "                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span";
+    text += "                                aria-hidden=\"true\">&times;</span></button>";
+    text += "                        <h4 class=\"modal-title\">" + title +"</h4>";
+    text += "                    </div>";
+    text += "                    <div class=\"modal-body\">";
+    text += "                        <label for=\"loserStarAlertMsgTextArea\">消息</label>";
+    text += "                        <textarea id=\"loserStarAlertMsgTextArea\" cols=\"40\" rows=\"20\"  class=\"form-control\">";
+    text += msg;
+    text += "                        </textarea>";
+    text += "                    </div>";
+    text += "                    <div class=\"modal-footer\">";
+    text += "                        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">关闭</button>";
+    text += "                    </div>";
+    text += "                </div>";
+    text += "            </div>";
+    text += "        </div>";
+    if ($("#loserStarAlertMsgModal")[0] == undefined || $("#loserStarAlertMsgModal")[0] == null) {
+        $("body").append(text);
+    }
+    $("#loserStarAlertMsgModal").modal({ backdrop: 'static' });
 }

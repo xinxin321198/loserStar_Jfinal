@@ -1,0 +1,142 @@
+/**
+ * 1.1版，调整初始化上传组件的顺序，不再等window弹出才初始化，否则tempFileWindow里没有上传组件对象，增加一个把文件添加到队列之前触发的一个校验方法
+ * 1.2版，弹出window的位置为x轴是屏幕宽度的1/3处的坐标，y轴为屏幕高度的1/3处坐标
+ * 1.3版，弹出window改为isModal
+ * 上传excel文件(基于jqwidgets的window和Web Uploader上传组件，此组件不依赖于flash，可在最新chrome中禁止flash时使用)
+ * @param windowId 打开上传文件窗口的容器id
+ * @param fileListSelector 窗口内上传的文件列表的list容器的css选择器
+ * @param pickBtnSelector 文件选择按钮的容器的css选择器
+ * @param uploadBtnSelector 开始上传按钮的容器的css选择器
+ * @param url 默认的上传的处理地址（如果需上传时候才传入，可通过调用fileUploadWindow_uploader_obj.options.server改变url，或参看初始化之后的对象里的open或setUploadUrl方法）
+ * @param callBack 上传的完成的回调函数
+ * @param checkDataCallBack 把文件添加到上传队列前检测数据合法性的回调函数（可以前置的处理一些东西,该方法接收即将添加到队列的文件对象）
+ * @returns 返回一个储存基本信息的对象，里面有个open(String)方法可以打开这个窗口，还可以指定一个新的url替换掉初始化的那个，setUploadUrl(newUrl)是改变url的方法
+ * 
+ * 
+ * <div id="uploadWindow_gt06" style="display:none">
+            <div>
+            	<span>上传附件</span>
+            </div>
+            <div id="uploader_gt06" class="wu-example">
+                <div>待上传文件列表</div>
+			    <div id="thelist_gt06" class="uploader-list"></div>
+			    <div class="btns">
+			        <div id="picker_gt06">选择文件</div>
+			        <button id="ctlBtn_gt06" class="btn btn-success" style="color: #fff;background-color: #31b0d5;border-color: #269abc;">开始上传</button>
+			    </div>
+			</div>
+    </div>
+ */
+var FileUploadWindow_WebUploader={};//当做包名进行数据隔离，防止变量名污染
+FileUploadWindow_WebUploader.initFileUploadWindow= function (windowId,fileListSelector,pickBtnSelector,uploadBtnSelector,url,okCallBack,errorCallBack,checkDataCallBack) {
+	var tempWindow = {};
+	tempWindow.windowId = windowId;//上传组件所在的窗口组件的windowId
+	tempWindow.fileListSelector = fileListSelector;//文件列表选择器
+	tempWindow.pickBtnSelector = pickBtnSelector;//文件选择按钮css选择器
+	tempWindow.uploadBtnSelector = uploadBtnSelector;//开始上传按钮的css选择器
+	tempWindow.url = url;//默认的url
+	//添加打开方法
+	tempWindow.open = function (newUrl){
+		var tempFileWindow = this;
+		if(tempFileWindow.fileUploadWindow_uploader_obj&&newUrl){
+			tempFileWindow.fileUploadWindow_uploader_obj.options.server = newUrl;
+		}
+		$("#"+tempFileWindow.windowId).jqxWindow('open');
+	}
+	//添加设置url的方法
+	tempWindow.setUploadUrl = function(newUrl){
+		var tempFileWindow = this;
+		if(tempFileWindow.fileUploadWindow_uploader_obj){
+			tempFileWindow.fileUploadWindow_uploader_obj.options.server = newUrl;
+		}
+	}
+	
+	var uploadWindow = $("#"+windowId);
+	var offset = uploadWindow.offset();
+	uploadWindow.jqxWindow({
+		autoOpen: false,
+		draggable: true,
+		resizable: true,
+		showCollapseButton: false,
+		minHeight: 200,
+		minWidth: 200,
+		height: 500,
+		width: 500,
+		isModal: true,
+		position: { x: loserStarJsUtils.getWinWidth()/3, y: loserStarJsUtils.getWinHeight()/3 },
+		initContent: function() {
+		}
+	});
+	
+	var fileUploadWindow_uploader_obj = WebUploader.create({
+		// swf文件路径
+		//        swf: BASE_URL + '/js/Uploader.swf',
+		
+		// 文件接收服务端。
+		server: url,
+		
+		// 选择文件的按钮。可选。
+		// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+		pick: pickBtnSelector,
+		
+		// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+		resize: false
+	});
+	
+	//当文件被加入队列之前触发，此事件的handler返回值为false，则此文件不会被添加进入队列。
+	fileUploadWindow_uploader_obj.on( 'beforeFileQueued', function(file) {
+		if(checkDataCallBack!=undefined){
+			var flag = checkDataCallBack(file);
+			return flag;
+		}
+	});
+	// 当有文件被添加进队列的时候
+	fileUploadWindow_uploader_obj.on( 'fileQueued', function( file ) {
+		//生成相关的一些html
+		$(fileListSelector).append( '<div id="' +windowId+'_'+ file.id + '" class="bg-info">' +
+				'<span id="'+ windowId+'_'+file.id+'_span" class="text-warning" style="color: #8a6d3b;">等待上传...</span>' +
+				'<label id="'+ windowId+'_'+file.id+'_label" class="info"  style="margin-left: 10px;">' + file.name + '</label>' +
+				'<button id="'+windowId+'_'+file.id+'_delBtn" class=" btn-warning btn-xs" style="margin-left:10px;color: #fff;background-color: #f0ad4e;border-color: #eea236;" file_id="'+file.id+'">移除</button>'+
+		'</div>' );
+		//在移除文件的按钮的对象上绑定一个该按钮所属的上传组件对象的属性
+		document.getElementById(windowId+"_"+file.id+"_delBtn").uploadObj = this;
+		
+		//绑定移除文件的事件
+		$("#"+windowId+"_"+file.id+"_delBtn").click(function(){
+			var self = this;//获取按钮对象自己
+			var file_id = $(self).attr("file_id");//取出文件id
+			self.uploadObj.removeFile(file_id,true);//根据按钮上绑定的上传组件，再根据文件的id，从组件列表中移除文件
+			$( '#'+windowId+'_'+file_id).remove();//移除文件的html
+		})
+	});
+	//绑定开始上传的按钮事件
+	$(uploadBtnSelector).on( 'click', function() {
+		fileUploadWindow_uploader_obj.upload();
+	});
+	
+	//当文件上传成功时触发。
+	fileUploadWindow_uploader_obj.on( 'uploadSuccess', function( file ,data) {
+	    $( '#'+windowId+'_'+file.id ).find('#'+windowId+'_'+file.id+'_span').text('已上传').removeClass("text-warning").addClass("text-success");
+	    if(okCallBack!=undefined){okCallBack(data);}
+	    fileUploadWindow_uploader_obj.removeFile( file,true );
+	    $( '#'+windowId+'_'+file.id).remove();
+	});
+
+	//当文件上传出错时触发。
+	fileUploadWindow_uploader_obj.on( 'uploadError', function( file ) {
+	    $( '#'+windowId+'_'+file.id ).find('#'+windowId+'_'+file.id+'_span').text('上传出错');
+	    if(errorCallBack!=undefined){errorCallBack();}
+	    fileUploadWindow_uploader_obj.removeFile( file ,true);
+	    $( '#'+windowId+'_'+file.id).remove();
+	});
+	
+	fileUploadWindow_uploader_obj.on('uploadFinished', function () {
+	    //清空队列
+		fileUploadWindow_uploader_obj.reset();
+		//关闭窗口
+		$("#"+windowId).jqxWindow('close');
+	});
+	//把构建好的对象保存到总的对象里
+	tempWindow.fileUploadWindow_uploader_obj = fileUploadWindow_uploader_obj;
+	return tempWindow;
+}

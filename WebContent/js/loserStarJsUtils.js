@@ -6,6 +6,7 @@
  * 新增了浏览器的版本检测
  * 新增了获取浏览器窗口宽高的方法
  * 20230922 selectedOption里最后触发一下change方法，以便兼容第三方插件，比如select2
+ * 20241204 不适用const，提高浏览器兼容性
  */
 var loserStarJsUtils = {};
 
@@ -47,13 +48,14 @@ loserStarJsUtils.IEVersion = function () {
  * @returns
  */
 loserStarJsUtils.BorwserVersion = function () {
-  var isIE = IEVersion();
+  var isIE = loserStarJsUtils.IEVersion();
   if (isIE == -1) {//非IE
     var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串  
     var isOpera = userAgent.indexOf("Opera") > -1; //判断是否Opera浏览器  
     var isFF = userAgent.indexOf("Firefox") > -1; //判断是否Firefox浏览器  
     var isSafari = userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") == -1; //判断是否Safari浏览器  
-    var isChrome = userAgent.indexOf("Chrome") > -1 && userAgent.indexOf("Safari") > -1; //判断Chrome浏览器  
+    var isChrome = userAgent.indexOf("Chrome") > -1 && userAgent.indexOf("Safari") > -1; //判断Chrome浏览器
+    var isEdge = userAgent.indexOf("Edg") > -1 || userAgent.indexOf("Edge") > -1; // 判断是否Edge浏览器
     if (isFF) { return "FF"; }
     if (isOpera) { return "Opera"; }
     if (isSafari) { return "Safari"; }
@@ -908,4 +910,134 @@ loserStarJsUtils.emty = function (obj) {
 loserStarJsUtils.backPage = function () {
   window.location.replace(document.referrer);
   // history.go(-1); location.reload();
+}
+
+
+/**
+ * 验证身份证号的正确性
+ */
+loserStarJsUtils.validateIdCard = function(idCard) {
+  // 正则表达式匹配身份证号格式
+  var regex = /(^\d{15}$)|(^\d{17}(\d|X)$)/i;
+  if (!regex.test(idCard)) {
+    return false; // 格式不正确，直接返回false
+  }
+
+  // 检查身份证号最后一位校验码
+  if (idCard.length === 18) {
+    var numArr = idCard.split("");
+    var factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+    var checkCode = ["1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"];
+    var sum = 0;
+    for (var i = 0; i < 17; i++) {
+      sum += parseInt(numArr[i]) * factor[i];
+    }
+    var mod = sum % 11;
+    if (numArr[17].toUpperCase() !== checkCode[mod]) {
+      return false; // 校验码不匹配，直接返回false
+    }
+  }
+
+  return true; // 身份证号格式正确
+}
+
+/**
+ * 通过身份证号计算出出生年月
+ */
+loserStarJsUtils.parseIdCardToBirthday = function (idCard) {
+  var birthday;
+  if (idCard.length === 15) {
+    var year = "19" + idCard.substring(6, 8);
+    var month = idCard.substring(8, 10);
+    var day = idCard.substring(10, 12);
+    birthday = year + "-" + month + "-" + day;
+  } else if (idCard.length === 18) {
+    var year = idCard.substring(6, 10);
+    var month = idCard.substring(10, 12);
+    var day = idCard.substring(12, 14);
+    birthday = year + "-" + month + "-" + day;
+  }
+  return birthday;
+}
+
+/**
+ * 通过身份证号计算出性别
+ */
+loserStarJsUtils.parseIdCardToSex = function (idCard) {
+  var sexCode;
+  if (idCard.length === 15) {
+    sexCode = idCard.substring(14, 15);
+  } else if (idCard.length === 18) {
+    sexCode = idCard.substring(16, 17);
+  }
+  return parseInt(sexCode) % 2 === 1 ? "男" : "女";
+}
+
+/**
+ * 根据身份证号和一个当前日期计算出当前年龄
+ * @param {*} idCard 身份证号
+ * @param {*} date 当前日期
+ */
+loserStarJsUtils.parseIdCardToAage = function (idCard, now) {
+  var birthdayDate = new Date(loserStarJsUtils.parseIdCardToBirthday(idCard));
+  var age = now.getFullYear() - birthdayDate.getFullYear();
+  var monthDiff = now.getMonth() - birthdayDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < birthdayDate.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+/**
+ * 验证手机号码格式是否有效
+ * @param {string} phone - 手机号码
+ * @returns {boolean} - 如果有效则返回true，否则返回false
+ */
+loserStarJsUtils.validatePhoneNumber = function (phone) {
+  var regex = /^1[3456789]\d{9}$/; // 中国大陆手机号码格式
+  return regex.test(phone);
+}
+
+/**
+ * 校验email格式
+ * @param {*} email 
+ * @returns 正确返回true，错误返回false
+ */
+loserStarJsUtils.validateEmail = function(email) {
+  var regex = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
+  return regex.test(email);
+}
+
+
+/**
+ * 移除输入框中的空格
+ * 
+ * @param {Event} event - 事件对象
+ */
+loserStarJsUtils.removeSpaces = function(event) {
+  var input = event.target;
+  input.value = input.value.replace(/\s/g, '');
+}
+
+/**
+ * form下载
+ * @param url
+ * @param params
+ */
+loserStarJsUtils.downloadFile = function (url, params) {
+  var form = document.createElement('form');
+  form.id = new Date().getTime();
+  form.action = url
+  form.method = 'post'
+  form.style.display = 'none'
+  form.target = '_blank'
+  for (var key in params) {
+    if (params.hasOwnProperty(key)) {
+      var input = document.createElement('input')
+      input.name = key
+      input.value = params[key]?params[key]:''
+      form.appendChild(input) }
+  }
+  document.body.appendChild(form);
+  form.submit()
 }

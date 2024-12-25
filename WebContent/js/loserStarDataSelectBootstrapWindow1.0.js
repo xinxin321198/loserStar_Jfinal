@@ -66,7 +66,6 @@ loserStarDataSelectBootstrapWindow.prototype = {
         this.querSelectDataPrimaryKey = opt.querSelectDataPrimaryKey;//指定唯一标识字段
         // this.clickRowAddCallback = opt.clickRowAddCallback;//点击每一行数据的添加按钮时候触发的回调方法，会传入数据的主键id
         this.operationBtnOpt = opt.operationBtnOpt ? opt.operationBtnOpt : [];//操作列的按钮配置
-        this.modalBodyHeight = opt.modalBodyHeight ? opt.modalBodyHeight : "400px";//模态框的body的高度样式 （里面放着table），值为字符串，默认是：450px
         //执行一些初始化的方法
         this.createElement();//初始化时候就执行一次渲染html
     },
@@ -107,7 +106,7 @@ loserStarDataSelectBootstrapWindow.prototype = {
 
         text += "                        <button id=\"" + self.flagId + "_queryBtn\" type=\"button\" class=\"btn btn-success\">搜索</button>";
         text += "                    </div>";
-        text += "                    <div class=\"modal-body\"  style=\"height:" + self.modalBodyHeight +"; overflow: auto;\">";
+        text += "                    <div class=\"modal-body\"  style=\"height: 500px; overflow: auto;\">";
         text += "                        <table id=\"" + self.flagId + "_dataTable\" class=\"table table-bordered table-condensed\">";
         text += "                            <thead>";
         text += "                                <tr>";
