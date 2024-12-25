@@ -1,5 +1,5 @@
 # loserStar-Jfinal
-## 一个简单jfinal基础开发框架
+## 一个简单jfinal基础开发框架，基于jdk1.6，以获得最大兼容性（需要部署到较老的服务器上且jdk无法升级的情况下）
 * ## 此项目是为了方便临时需要开发一些小功能时候可以很快捷的直接拿来用，其实就是jfinal的框架，但是增强了一些东西（此项目就是一个普通的基于eclipse的动态web工程，因为使用maven对新手来说有一定门槛，所以并没有使用构建工具）
 * ## 增强了controller的使用，借鉴了springMVC使用注解来标注controller的方式，不必再去jfinalConfig里面配置router，用多了springMVC，这种每个controller请求地址都要去配置的方式总感觉怪怪的
 * ## 增强了DB record的使用，参考自己的工具库[loserStarUtils](https://github.com/xinxin321198/loserStarUtils)的DB部分的使用，仅仅是自己的使用习惯，并不妨碍你直接使用jfinal原始的查询方式
@@ -14,6 +14,7 @@
     ### AdminLTE_CN-2.4.18.zip中文版的demo
     ### AdminLTE-2.4.18.zip原版的demo
     #### 解压后就是常规的web工程，可丢在Tomcat的webapp目录下即可本地访问
+    #### \WebContent\bower_components\目录下存在jqwidgets5，此js框架请勿商用，如需商用请移除
 
 * # 开发规范
     ## 前端：
@@ -22,6 +23,10 @@
 
     ### 2.前端公共样式库：
     #### 统一放在/ynzyZp/WebContent/css/ynzyZpCus.css文件中，如一些公共的特殊样式。如果仅某个功能页面相关的样式就放入页面相关的路径
+    * 按钮仿苍穹样式：
+    ```
+     <button class="btn btn-ynzyZp "type="button">苍穹按钮</button>
+    ```
 
     ### 3.皮肤：
     #### 自定义了一个皮肤主题，/ynzyZp/WebContent/css/ynzyZpSkin.css，正常来说皮肤也属于一个公共样式库，但是皮肤不夹杂布局相关的css，文件内的css仅定义颜色和效果等，尽量夹杂和布局相关的属性。修改和增加样式需参照规范来，必须在加在.skin-ynzy样式下（更换皮肤主题在body上修改class即可）

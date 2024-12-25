@@ -105,9 +105,9 @@ public class TestController extends BaseController {
 		VResult result= new VResult();
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("systemInfo", System.getProperties());
-			map.put("projectProperties", PropKit.getProp().getProperties());
-			map.put("contextPath", getRequest().getContextPath());
+//			map.put("systemInfo", System.getProperties());
+//			map.put("projectProperties", PropKit.getProp().getProperties());
+//			map.put("contextPath", getRequest().getContextPath());
 			result.ok("成功");
 			result.setData(map);
 		} catch (Exception e) {
